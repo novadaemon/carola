@@ -63,10 +63,14 @@
  </div>
    <div class="container bs-docs-container" id="contenido">
 <?php
-include 'config.php';
-include 'include\general.php';
-$coneccion=mysql_connect($server,$user,$password);
-$db=mysql_select_db("ftpindexer");
+include 'config.php';//Inclusion del archivo de configuracion que contiene los datos de coneccion al server
+include 'include\general.php';//inclusion del archivo de funciones basicas a la bd
+$coneccion=mysql_connect($server,$user,$password);//inicializa la coneccion
+$db=mysql_select_db("ftpindexer");//selecciona la bd
+
+//todo Por hacer: hay que crear un campo para almecenar el nombre de la bd en el archivo config.php para evitar tener que actualizarlo en todos los archivos
+
+
 if($_GET)
 {
 if($_GET["searchedtext"]=='')

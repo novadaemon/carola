@@ -10,7 +10,7 @@
 			setcookie("pass", $_POST['pass'], time()+3600); //Cookie que contiene la contrasenha
 			header("Location: ftp.php");//Redirecciona a esta misma pagina para que se cargue utilizando las cookies enviadas
 			
-			//Por hacer: Hay que implementar un mejor sistema de autentificacion porque este esta de palo
+			//todo Por hacer: Hay que implementar un mejor sistema de autentificacion porque este esta de palo
 			//y las cookies se guardan en texto plano, seria bueno enviar un id de sesion
 			// y garantizar el acceso por IP para aumentar la seguridad.
 		}	
@@ -509,7 +509,7 @@ $.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus',},
 					Descripcion
 				</label>
 				<div class="col-sm-8">
-					<input id="descripcion" class="form-control" type="text" placeholder="Descripcion del FTP que desea agregar"></input>
+					<input id="descripcion" class="form-control" type="text" placeholder="Descripcion del FTP que desea agregar">
 				</div>
 			</div>
 			<div class="form-group">
@@ -517,10 +517,10 @@ $.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus',},
 					Direccion
 				</label>
 				<div class="col-sm-4">
-					<input id="dirip" class="form-control" type="text" placeholder="Direccion IP"></input>
+					<input id="dirip" class="form-control" type="text" placeholder="Direccion IP">
 				</div>
 				<div class="col-sm-4">
-					<div class="checkbox"><label><input type="checkbox" id="activeforindexing"></input>Activo para busquedas </label></div>
+					<div class="checkbox"><label><input type="checkbox" id="activeforindexing">Activo para busquedas </label></div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -528,13 +528,13 @@ $.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus',},
 					Usuario
 				</label>
 				<div class="col-sm-3">
-					<input id="user" class="form-control" type="text" placeholder="Usuario"></input>
+					<input id="user" class="form-control" type="text" placeholder="Usuario">
 				</div>
 				<label class="col-sm-2 control-label" for="pass">
 					Contrasena
 				</label>
 				<div class="col-sm-3">
-					<input id="pass" class="form-control" type="password" placeholder="Contrasena"></input>
+					<input id="pass" class="form-control" type="password" placeholder="Contrasena">
 				</div>
 			</div>
 		</div>
