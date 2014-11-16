@@ -32,7 +32,7 @@
 <link href="css/docs.css" rel="stylesheet">
 <?php
 	//El siguiente codigo intenta conectarse al servidor utilizando los datos de config.php
-	$coneccion=mysql_connect($server,$user) or die //Si no se ha podido emite el siguiente mensaje de error
+	$coneccion=mysql_connect($server,$user,$password) or die //Si no se ha podido emite el siguiente mensaje de error
 	("No se ha podido conectar con el servidor de datos, intente acceder mas tarde y si el problema 
 	persiste contacte un administrador");
 	$db=mysql_select_db("ftpindexer") or die //Intenta conectarse a la BD, si no se puede saca el siguiente error
