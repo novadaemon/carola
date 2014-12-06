@@ -1,12 +1,14 @@
 <?php
 	
+	
 	include 'config.php';//inclusion del archivo de configuracion con los datos de la coneccion a la bd	
 	
 	if($_POST)//si la pagina es cargada usando el metodo POST	
 	{
 		if($_POST['action']=='login')//si se ha remitido la accion login se estableceran las cookies en el cliente con los datos de autenticacion
 		{
-			setcookie("user", $_POST['user'], time()+3600); //Cookie que contiene el nombre de usuario
+			setcookie("user", $_POST['user'], time()+3600); /*Cookie que contiene el nombre de usuario*/
+
 			setcookie("pass", $_POST['pass'], time()+3600); //Cookie que contiene la contrasenha
 			header("Location: ftp.php");//Redirecciona a esta misma pagina para que se cargue utilizando las cookies enviadas
 			

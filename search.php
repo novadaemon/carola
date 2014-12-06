@@ -9,9 +9,10 @@
  <script src="scripts/js/modal.js"></script>
  <script src="scripts/js/bootstrap.js"></script>
  <script src="scripts/js/alert.js"></script>
+  <script src="scripts/js/bootstrap-typeahead.js"></script>
  <div style="position:fixed;top:0px;">	
  <img src="newbeta.png" style="position:absolute;display:block;">
-      <ul class="nav nav-pills" style="margin-left:40px">	  
+      <ul class="nav nav-pills" style="margin-left:40px;">	  
         <li class="dropdown">
           <a id="drop4" role="button" data-toggle="dropdown" href="#">Web Sociales<b class="caret"></b></a>
           <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
@@ -86,47 +87,81 @@ if(strlen($_GET["searchedtext"])<1)
 <img src="media/jpg/logo2.jpg" style="position:relative;left:-10px"><br><br>
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
- <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" style="width:600px"   value="<?php echo($_GET["searchedtext"]); ?>">
+ <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" style="width:600px;"   value="<?php echo($_GET["searchedtext"]); ?>">
+ <input type="text" class="typeahead form-control span4" style="margin: 0 auto;" data-provide="typeahead" data-items="4">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
 </div>
+
+
+<script type="text/javascript">
+// data-source='["Alabama","Alaska","Arizona","Arkansas","California",
+// "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
+// "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+// "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
+// "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
+// "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
+// "West Virginia","Wisconsin","Wyoming"]'
+  var opt= {
+    source: ["Alabama","Alaska","Arizona","Arkansas","California",
+              "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
+              "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+              "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
+              "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
+              "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
+              "West Virginia","Wisconsin","Wyoming"]
+  };
+  $('.typeahead').typeahead(opt)
+</script>
 </form>
+<!-- <div class="pagination">
+  <ul>
+    <li><a href="#">Prev</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">Next</a></li>
+  </ul>
+</div> -->
 <?php
-	//setlocale(LC_ALL, 'es_ES');
-	$ftps=mysql_query("select * from ftps where activo=1");	
-	$ftpscount=mysql_num_rows($ftps);
-	$rescount=0;
-	if($ftpscount==0)
-		echo("Aun no se han creado los indices para ningun ftp. Denle el berro a los Admins");
-	else
-	for($i=0;$i<$ftpscount;$i++)
-	{
-		$ftpsrow=mysql_fetch_array($ftps);
-		$currentftp=$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'];
-		//echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
-		$result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);	
-		$count=mysql_num_rows($result);
-		if($count!=0)
-		{
-			echo("<p><b>".$currentftp."</b></p>");
-			for($j=0;$j<$count;$j++)
-			{
-				$row=mysql_fetch_array($result);
-				$rescount++;
-				echo("<a href='ftp://".$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'].$row['path'].'/'.$row['Nombre']."' target='_blank'>".$row['path'].'/'.$row['Nombre']."</a><br>");
-			}
-		}
-	}
-	echo("<p>Se han encontrado <b>".$rescount."</b> resultados.</p>");
-	
+
+  //setlocale(LC_ALL, 'es_ES');
+  $ftps=mysql_query("select * from ftps where activo=1"); 
+  $ftpscount=mysql_num_rows($ftps);
+  $rescount=0;
+  if($ftpscount==0)
+    echo("Aun no se han creado los indices para ningun ftp. Denle el berro a los Admins");
+  else
+  for($i=0;$i<$ftpscount;$i++)
+  {
+    $ftpsrow=mysql_fetch_array($ftps);
+    $currentftp=$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'];
+    //echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
+    $result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);  
+    $count=mysql_num_rows($result);
+    if($count!=0)
+    {
+      echo("<p><b>".$currentftp."</b></p>");
+      for($j=0;$j<$count;$j++)
+      {
+        $row=mysql_fetch_array($result);
+        $rescount++;
+        echo("<a href='ftp://".$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'].$row['path'].'/'.$row['Nombre']."' target='_blank'>".$row['path'].'/'.$row['Nombre']."</a><br>");
+      }
+    }
+  }
+  echo("<p>Se han encontrado <b>".$rescount."</b> resultados.</p>");
+  
 
 }
 else
 {
 tag:
 ?>
+
  <center>
-<img src="media/jpg/logo.jpg" style="position:relative;left:-10px">
+<img src="media/jpg/logo.jpg" style="position:relative;left:-10px;">
 <br><br>
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
