@@ -69,7 +69,8 @@ include 'include\general.php';//inclusion del archivo de funciones basicas a la 
 $coneccion=mysql_connect($server,$user,$password);//inicializa la coneccion
 $db=mysql_select_db("ftpindexer");//selecciona la bd
 
-//todo Por hacer: hay que crear un campo para almecenar el nombre de la bd en el archivo config.php para evitar tener que actualizarlo en todos los archivos
+//todo Por hacer: hay que crear un campo para almecenar el nombre de la bd en el archivo config.php para evitar 
+//tener que actualizarlo en todos los archivos
 
 
 if($_GET)
@@ -87,32 +88,18 @@ if(strlen($_GET["searchedtext"])<1)
 <img src="media/jpg/logo2.jpg" style="position:relative;left:-10px"><br><br>
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
- <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" style="width:600px;"   value="<?php echo($_GET["searchedtext"]); ?>">
- <input type="text" class="typeahead form-control span4" style="margin: 0 auto;" data-provide="typeahead" data-items="4">
+<!--  <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" 
+ style="width:600px;"   value="<?php /*echo($_GET["searchedtext"]);*/ ?>"> -->
+
+ <input class="typeahead form-control span4" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+ style="margin: 0 auto, width:600px;" data-provide="typeahead" data-items="10" 
+ value="<?php echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
 </div>
 
 
-<script type="text/javascript">
-// data-source='["Alabama","Alaska","Arizona","Arkansas","California",
-// "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
-// "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
-// "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
-// "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
-// "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
-// "West Virginia","Wisconsin","Wyoming"]'
-  var opt= {
-    source: ["Alabama","Alaska","Arizona","Arkansas","California",
-              "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
-              "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
-              "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
-              "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
-              "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
-              "West Virginia","Wisconsin","Wyoming"]
-  };
-  $('.typeahead').typeahead(opt)
-</script>
+
 </form>
 <!-- <div class="pagination">
   <ul>
@@ -165,7 +152,9 @@ tag:
 <br><br>
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
- <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" style="width:600px">
+ <input class="typeahead form-control span4" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+ style="margin: 0 auto, width:600px;" data-provide="typeahead" data-items="10" 
+ value="<?php echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
 </div>
@@ -173,6 +162,69 @@ tag:
 <?php
 }
 ?>
+
+<script type="text/javascript">
+// data-source='["Alabama","Alaska","Arizona","Arkansas","California",
+// "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
+// "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+// "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
+// "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
+// "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
+// "West Virginia","Wisconsin","Wyoming"]'
+  $('.typeahead').keyup(function(){
+    <?php 
+              $searchedtext_prev = ?> $(this).val();  
+    var opt= {
+    // source: ["Alabama","Alaska","Arizona","Arkansas","California",
+    //           "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
+    //           "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+    //           "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
+    //           "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
+    //           "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
+    //           "West Virginia","Wisconsin","Wyoming"]
+    source: [
+              <?php 
+              
+              $ftps=mysql_query("select * from ftps where activo=1"); 
+              $ftpscount=mysql_num_rows($ftps);
+              $rescount=0;
+              if($ftpscount!=0)
+                for($i=0;$i<$ftpscount;$i++)
+                {
+                  $ftpsrow=mysql_fetch_array($ftps);
+                  //$currentftp=$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'];
+                  //echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
+                  $result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($searchedtext_prev),' ','%')."%' and idftp=".$ftpsrow['id']);  
+                  $count=mysql_num_rows($result);
+                  if($count!=0)
+                  {
+                    //echo("<p><b>".$currentftp."</b></p>");
+                    for($j=0;$j<$count;$j++)
+                    {
+                      $row=mysql_fetch_array($result);
+                      $rescount++;
+                      echo("\"".$row['Nombre']."\","); 
+                    }
+                  }
+                }
+              ?>
+              " "
+    ]
+    };
+    $('.typeahead').typeahead(opt);
+  });
+  // var opt= {
+  //   // source: ["Alabama","Alaska","Arizona","Arkansas","California",
+  //   //           "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
+  //   //           "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+  //   //           "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
+  //   //           "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
+  //   //           "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
+  //   //           "West Virginia","Wisconsin","Wyoming"]
+  //   source: [<?php  ?>]
+  // };
+  // $('.typeahead').typeahead(opt);
+</script>
 
 </div>
 <center>
