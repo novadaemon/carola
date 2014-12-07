@@ -171,47 +171,60 @@ tag:
 // "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
 // "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
 // "West Virginia","Wisconsin","Wyoming"]'
-  $('.typeahead').keyup(function(){
-    <?php 
-              $searchedtext_prev = ?> $(this).val();  
-    var opt= {
-    // source: ["Alabama","Alaska","Arizona","Arkansas","California",
-    //           "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
-    //           "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
-    //           "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
-    //           "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
-    //           "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
-    //           "West Virginia","Wisconsin","Wyoming"]
-    source: [
-              <?php 
-              
-              $ftps=mysql_query("select * from ftps where activo=1"); 
-              $ftpscount=mysql_num_rows($ftps);
-              $rescount=0;
-              if($ftpscount!=0)
-                for($i=0;$i<$ftpscount;$i++)
-                {
-                  $ftpsrow=mysql_fetch_array($ftps);
-                  //$currentftp=$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'];
-                  //echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
-                  $result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($searchedtext_prev),' ','%')."%' and idftp=".$ftpsrow['id']);  
-                  $count=mysql_num_rows($result);
-                  if($count!=0)
-                  {
-                    //echo("<p><b>".$currentftp."</b></p>");
-                    for($j=0;$j<$count;$j++)
-                    {
-                      $row=mysql_fetch_array($result);
-                      $rescount++;
-                      echo("\"".$row['Nombre']."\","); 
-                    }
-                  }
-                }
-              ?>
-              " "
-    ]
-    };
-    $('.typeahead').typeahead(opt);
+  var caracteres= 1;
+  $('.typeahead').keydown(function(){
+    if(caracteres++ % 3 == 0){
+    $.ajax(
+    {   
+      url : "autocompletamiento.php",   
+      data : {    
+            text : $('.typeahead').prop('value'),
+      },
+      type : "POST",  
+      dataType : "json",     
+      success : function( json ) 
+            {  
+              console.log("HERE SUCCESS");
+              // if(json.result=="ok")           
+              //   {   
+                  console.log("HERE OK");
+                            
+                  //Alertar("alert-success","Accion finalizada satisfactorimente","Se pudo eliminar correctamente el FTP de la lista de sitios a indizar.");              
+                  
+
+                  // for(var i=0; i<10; i++){
+                  //   if(json[i]){
+                  //     console.log(json[i]);                      
+                  //     opt.source[i]=json[i]; 
+                  //   }
+                  //   else
+                  //     break;
+                  // }
+                  var opt= { source: ["hola","jaja"]
+                  };
+                  console.log("llego");
+                  $('.typeahead').typeahead(opt);                                      
+              //   }
+              // else
+              //   {
+              //     console.log("HERE BAD");
+              //     //Alertar("alert-warning","Error!","No se ha podido eliminar el FTP de la base de datos.<br>El texto del error devuelto es: <br>"+json.error);      
+                 
+              //   }
+            },   
+      error : function( xhr, status ) 
+            {    
+              //Alertar("alert-danger","Error!","No se ha podido completar la accion solicitada. Los datos tecnicos del error son los siguientes:<br>xhr="+xhr+"<br>status="+status);             
+              console.log("HERE 2 error");
+            },   
+      complete : function( xhr, status ) 
+            { 
+              console.log("HERE COMPLETE")         
+            } 
+    });
+      
+       }       
+    
   });
   // var opt= {
   //   // source: ["Alabama","Alaska","Arizona","Arkansas","California",
