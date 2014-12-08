@@ -75,9 +75,10 @@ $db=mysql_select_db("ftpindexer");//selecciona la bd
 
 if($_GET)
 {
-if($_GET["searchedtext"]=='')
+  
+if(isset($_GET["searchedtext"]) && $_GET["searchedtext"]=='')
 goto tag;
-if(strlen($_GET["searchedtext"])<1)
+if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
 {
 	echo('<div class="alert alert-success fade in alert-dismissable"><button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>'.
     '<h4 id="infoalerttitle">Error</h4><p id="infoalerttext">No se admiten cadenas de menos de 3 caracteres para la busqueda.</p></div>');
@@ -91,9 +92,9 @@ if(strlen($_GET["searchedtext"])<1)
 <!--  <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" 
  style="width:600px;"   value="<?php /*echo($_GET["searchedtext"]);*/ ?>"> -->
 
- <input class="typeahead form-control span4" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
- style="margin: 0 auto, width:600px;" data-provide="typeahead" data-items="10" 
- value="<?php echo($_GET["searchedtext"]); ?>">
+ <input class="typeahead form-control span6" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+ style="margin: 0 auto;" data-provide="typeahead" data-items="10" 
+ value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
 </div>
@@ -113,6 +114,7 @@ if(strlen($_GET["searchedtext"])<1)
 </div> -->
 <?php
 
+  if(isset($_GET["searchedtext"])){
   //setlocale(LC_ALL, 'es_ES');
   $ftps=mysql_query("select * from ftps where activo=1"); 
   $ftpscount=mysql_num_rows($ftps);
@@ -139,7 +141,7 @@ if(strlen($_GET["searchedtext"])<1)
     }
   }
   echo("<p>Se han encontrado <b>".$rescount."</b> resultados.</p>");
-  
+  }
 
 }
 else
@@ -152,8 +154,8 @@ tag:
 <br><br>
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
- <input class="typeahead form-control span4" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
- style="margin: 0 auto, width:600px;" data-provide="typeahead" data-items="10" 
+ <input class="typeahead form-control span6" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+ style="margin: 0 auto;" data-provide="typeahead" data-items="10" 
  value="<?php echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
@@ -171,9 +173,16 @@ tag:
 // "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
 // "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
 // "West Virginia","Wisconsin","Wyoming"]'
+  
+
+  var prev_search=[];  
+  var opt= { source: prev_search  };
+  $('.typeahead').typeahead(opt); 
+
   var caracteres= 1;
   $('.typeahead').keydown(function(){
-    if(caracteres++ % 3 == 0){
+    if(caracteres++ % 2 == 0){
+      caracteres=0;
     $.ajax(
     {   
       url : "autocompletamiento.php",   
@@ -190,20 +199,21 @@ tag:
                   console.log("HERE OK");
                             
                   //Alertar("alert-success","Accion finalizada satisfactorimente","Se pudo eliminar correctamente el FTP de la lista de sitios a indizar.");              
-                  
+                  var sourceX= [];
 
-                  // for(var i=0; i<10; i++){
-                  //   if(json[i]){
-                  //     console.log(json[i]);                      
-                  //     opt.source[i]=json[i]; 
-                  //   }
-                  //   else
-                  //     break;
-                  // }
-                  var opt= { source: ["hola","jaja"]
-                  };
-                  console.log("llego");
-                  $('.typeahead').typeahead(opt);                                      
+                  for(var i=0; i<10; i++){
+                    if(json[i]){
+                      console.log(json[i]);                      
+                      prev_search[i]=json[i]; 
+                    }
+                    else
+                      break;
+                  }
+                  // var opt= { source: sourceX
+                  // };
+                  // console.log("llego");
+                  // $('.typeahead').typeahead(opt);  
+                  // $('.typeahead').typeahead();                                     
               //   }
               // else
               //   {
