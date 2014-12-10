@@ -156,7 +156,7 @@ tag:
 <div class="form-group">
  <input class="typeahead form-control span6" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
  style="margin: 0 auto;" data-provide="typeahead" data-items="10" 
- value="<?php echo($_GET["searchedtext"]); ?>">
+ value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
 </div>
