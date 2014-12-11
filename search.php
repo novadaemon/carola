@@ -166,22 +166,30 @@ tag:
 ?>
 
 <script type="text/javascript">
-// data-source='["Alabama","Alaska","Arizona","Arkansas","California",
-// "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
-// "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
-// "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
-// "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
-// "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
-// "West Virginia","Wisconsin","Wyoming"]'
-  
 
-  var prev_search=[];  
-  var opt= { source: prev_search  };
-  $('.typeahead').typeahead(opt); 
 
-  var caracteres= 1;
+  var prev_search=[]; ///> arreglo de las sugerencias, ira cambiando a medida que se escribe en el input y se piden nuevas sugerencias
+  var opt= { source: prev_search  }; ///> opciones que se le pasan al typeahead
+  $('.typeahead').typeahead(opt);  ///> inicializacion del typeahead con las opciones de arriba (las por default)
+
+  var caracteres= 1;///> cantidad de caracteres que el usuario va escribiendo, usado solo para ir haciendo la busqueda cada 2 caracteres escritos
+  var cant=10; ///> cantidad de items (sugerencias) que devuelve la busqueda mientras se va escribiendo codigo
+
+  /*
+  Usado para restringir el numero de elemntos que se muestran a la cantidad de sugerencias de la busqueda
+  Llevado a cabo porque el typeahead de bootstrap no permite cambiar el numero de items que muestra de forma dinamic
+  */
+  $('.typeahead').keyup(function(event) {      
+      cant--; 
+      $('ul.typeahead li:gt('+cant+')').remove();      
+  });
+    
+  /*
+  Se encarga de realizar el proceso de buscar las sugerencias que matchean con lo que se escribe en el input
+  Usa AJAX y solicita en formato json las sugerencias
+  */
   $('.typeahead').keydown(function(){
-    if(caracteres++ % 2 == 0){
+    if(caracteres++ == 2){
       caracteres=0;
     $.ajax(
     {   
@@ -193,38 +201,21 @@ tag:
       dataType : "json",     
       success : function( json ) 
             {  
-              console.log("HERE SUCCESS");
-              // if(json.result=="ok")           
-              //   {   
-                  console.log("HERE OK");
-                            
-                  //Alertar("alert-success","Accion finalizada satisfactorimente","Se pudo eliminar correctamente el FTP de la lista de sitios a indizar.");              
                   var sourceX= [];
 
-                  for(var i=0; i<10; i++){
-                    if(json[i]){
-                      console.log(json[i]);                      
+                  for(var i=0; i<10; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
+                    if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia                                          
                       prev_search[i]=json[i]; 
                     }
                     else
                       break;
                   }
-                  // var opt= { source: sourceX
-                  // };
-                  // console.log("llego");
-                  // $('.typeahead').typeahead(opt);  
-                  // $('.typeahead').typeahead();                                     
-              //   }
-              // else
-              //   {
-              //     console.log("HERE BAD");
-              //     //Alertar("alert-warning","Error!","No se ha podido eliminar el FTP de la base de datos.<br>El texto del error devuelto es: <br>"+json.error);      
-                 
-              //   }
+                  
+                  cant=i; ///> almacena la cantidad real de sugerencias que vienen en el response al pedido asincrono anterior
+                  
             },   
       error : function( xhr, status ) 
             {    
-              //Alertar("alert-danger","Error!","No se ha podido completar la accion solicitada. Los datos tecnicos del error son los siguientes:<br>xhr="+xhr+"<br>status="+status);             
               console.log("HERE 2 error");
             },   
       complete : function( xhr, status ) 
@@ -236,17 +227,6 @@ tag:
        }       
     
   });
-  // var opt= {
-  //   // source: ["Alabama","Alaska","Arizona","Arkansas","California",
-  //   //           "Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana",
-  //   //           "Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
-  //   //           "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
-  //   //           "New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
-  //   //           "South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington",
-  //   //           "West Virginia","Wisconsin","Wyoming"]
-  //   source: [<?php  ?>]
-  // };
-  // $('.typeahead').typeahead(opt);
 </script>
 
 </div>
