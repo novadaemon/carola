@@ -3,6 +3,7 @@
 <meta charset="UTF-8" />
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/docs.css" rel="stylesheet">
+<link href="css/carola_site.css" rel="stylesheet">
 </head>
 <body>
  <script src="scripts/js/jquery.js"></script>
@@ -10,8 +11,8 @@
  <script src="scripts/js/bootstrap.js"></script>
  <script src="scripts/js/alert.js"></script>
   <script src="scripts/js/bootstrap-typeahead.js"></script>
- <div style="position:fixed;top:0px;">	
- <img src="newbeta.png" style="position:absolute;display:block;">
+ <div id="carola-nav" style="position:fixed;top:0px;">	
+ <!-- <img src="newbeta.png" style="position:absolute;display:block;"> -->
       <ul class="nav nav-pills" style="margin-left:40px;">	  
         <li class="dropdown">
           <a id="drop4" role="button" data-toggle="dropdown" href="#">Web Sociales<b class="caret"></b></a>
@@ -85,15 +86,17 @@ if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
 	goto tag;
 }
 ?>
-
-<img src="media/jpg/logo2.jpg" style="position:relative;left:-10px"><br><br>
+<div id="grafiti">
+   CAROLA 
+</div>
+<!-- <img src="media/jpg/logo2.jpg" style="position:relative;left:-10px"><br><br> -->
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
 <!--  <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar" 
  style="width:600px;"   value="<?php /*echo($_GET["searchedtext"]);*/ ?>"> -->
 
- <input class="typeahead form-control span6" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
- style="margin: 0 auto;" data-provide="typeahead" data-items="10" 
+ <input class="typeahead form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+ style="margin: 0 auto; width:480px;" data-provide="typeahead" data-items="10" 
  value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
@@ -131,7 +134,7 @@ if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
     $count=mysql_num_rows($result);
     if($count!=0)
     {
-      echo("<p><b>".$currentftp."</b></p>");
+      echo("<p id=currentftp><b>".$currentftp."</b></p>");
       for($j=0;$j<$count;$j++)
       {
         $row=mysql_fetch_array($result);
@@ -140,7 +143,7 @@ if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
       }
     }
   }
-  echo("<p>Se han encontrado <b>".$rescount."</b> resultados.</p>");
+  echo("<p id=cantresult>Se han encontrado <b>".$rescount."</b> resultados.</p>");
   }
 
 }
@@ -150,12 +153,16 @@ tag:
 ?>
 
  <center>
-<img src="media/jpg/logo.jpg" style="position:relative;left:-10px;">
+ <div id="grafiti">
+   CAROLA 
+</div>
+<div id="subtitle">FTP INDEXER</div>
+<!-- <img src="media/jpg/logo.jpg" style="position:relative;left:-10px;"> -->
 <br><br>
 <form class="form-inline" action="search.php" method="get" style="width:780px">
 <div class="form-group">
- <input class="typeahead form-control span6" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
- style="margin: 0 auto;" data-provide="typeahead" data-items="10" 
+ <input class="typeahead form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+ style="margin: 0 auto; width:480px;" data-provide="typeahead" data-items="10" 
  value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
 </div><div class="form-group">
 &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
@@ -180,7 +187,7 @@ tag:
   Llevado a cabo porque el typeahead de bootstrap no permite cambiar el numero de items que muestra de forma dinamic
   */
   $('.typeahead').keyup(function(event) {      
-      cant--; 
+      
       $('ul.typeahead li:gt('+cant+')').remove();      
   });
     
@@ -211,7 +218,7 @@ tag:
                       break;
                   }
                   
-                  cant=i; ///> almacena la cantidad real de sugerencias que vienen en el response al pedido asincrono anterior
+                  cant=i-1; ///> almacena la cantidad real de sugerencias que vienen en el response al pedido asincrono anterior
                   
             },   
       error : function( xhr, status ) 
@@ -233,7 +240,7 @@ tag:
 <center>
 <footer id="colophon" role="contentinfo">
 <a href="ftp.php" target="_blank"><button type="button" class="btn btn-link">Administrar</button></a><br>
-<img src="remo.png">
+<!-- <img src="remo.png"> -->
 </footer> 
 </body>
 </html>
