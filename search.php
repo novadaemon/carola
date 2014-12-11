@@ -187,8 +187,13 @@ tag:
   Llevado a cabo porque el typeahead de bootstrap no permite cambiar el numero de items que muestra de forma dinamic
   */
   $('.typeahead').keyup(function(event) {      
+      if(cant >= 0)
+        $('ul.typeahead li:gt('+cant+')').remove();
+      else{
+        $('ul.typeahead li').remove();    
+        $('ul.typeahead').addClass('hide');
+      }  
       
-      $('ul.typeahead li:gt('+cant+')').remove();      
   });
     
   /*
@@ -198,6 +203,7 @@ tag:
   $('.typeahead').keydown(function(){
     if(caracteres++ == 2){
       caracteres=0;
+    cant=0;
     $.ajax(
     {   
       url : "autocompletamiento.php",   
@@ -217,7 +223,7 @@ tag:
                     else
                       break;
                   }
-                  
+                  // console.log("i > "+i);
                   cant=i-1; ///> almacena la cantidad real de sugerencias que vienen en el response al pedido asincrono anterior
                   
             },   
@@ -238,7 +244,7 @@ tag:
 
 </div>
 <center>
-<footer id="colophon" role="contentinfo">
+<footer class="footer" id="colophon" role="contentinfo">
 <a href="ftp.php" target="_blank"><button type="button" class="btn btn-link">Administrar</button></a><br>
 <!-- <img src="remo.png"> -->
 </footer> 
