@@ -244,6 +244,13 @@ tag:
 
 </div>
 <center>
+<ul class="pagination">
+  <li class="disabled"><a href="#">&laquo;</a></li>
+  <li class="active"><a href="#">1 <!-- <span class="sr-only">(current)</span> --></a></li>
+  <li class=""><a href="#">2 </a></li>
+  <li class=""><a href="#">3 </a></li>
+  
+</ul>
 <footer class="footer" id="colophon" role="contentinfo">
 <a href="ftp.php" target="_blank"><button type="button" class="btn btn-link">Administrar</button></a><br>
 <!-- <img src="remo.png"> -->
