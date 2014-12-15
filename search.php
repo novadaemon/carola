@@ -174,6 +174,16 @@ tag:
 
 <script type="text/javascript">
 
+  function esCaracterValido(caracter){
+    if(caracter.charCodeAt(0) >= 65 && caracter.charCodeAt(0)<=90)
+        return true;
+    else if(caracter.charCodeAt(0) >= 97 && caracter.charCodeAt(0)<=122)
+        return true;
+    else if(caracter.charCodeAt(0) == 241)  //la ñ
+        return true;
+    else
+        return false;
+  }
 
   var prev_search=[]; ///> arreglo de las sugerencias, ira cambiando a medida que se escribe en el input y se piden nuevas sugerencias
   var opt= { source: prev_search  }; ///> opciones que se le pasan al typeahead
@@ -194,26 +204,46 @@ tag:
         $('ul.typeahead').addClass('hide');
       }  
       
+
   });
     
   /*
   Se encarga de realizar el proceso de buscar las sugerencias que matchean con lo que se escribe en el input
   Usa AJAX y solicita en formato json las sugerencias
   */
+  var removeWords=0;
+  var lastCant=-1;
   $('.typeahead').keydown(function(){
-    if(caracteres++ == 2){
-      caracteres=0;
+
+    var typeaheadValue= $('.typeahead').prop('value');
+    var arrayOfStrings = typeaheadValue.split(' ');
+    console.log("arrayOfStrings => "+arrayOfStrings);
+    var stringToSearch= "";
+    var cantWords= arrayOfStrings.length;
+    for (var i = removeWords; i < cantWords; i++) {
+      if(arrayOfStrings[i].length >= 3 || (arrayOfStrings[i].length==1 && !esCaracterValido(arrayOfStrings[i]))){
+        if(i>removeWords && i<cantWords)
+          stringToSearch+= " ";
+        stringToSearch+=arrayOfStrings[i];
+        
+      }
+    };
+    console.log("stringToSearch => "+stringToSearch);
+
+    if(cantWords%2 == 0){
+    
     cant=0;
     $.ajax(
     {   
       url : "autocompletamiento.php",   
       data : {    
-            text : $('.typeahead').prop('value'),
+            text : stringToSearch,
       },
       type : "POST",  
       dataType : "json",     
       success : function( json ) 
             {  
+                setTimeout(function(){
                   var sourceX= [];
 
                   for(var i=0; i<10; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
@@ -225,6 +255,23 @@ tag:
                   }
                   // console.log("i > "+i);
                   cant=i-1; ///> almacena la cantidad real de sugerencias que vienen en el response al pedido asincrono anterior
+                  if(lastCant!=cant)
+                    lastCant=cant;
+                  else{
+                    if(i<9){
+                    removeWords ++;
+                    }
+                  }
+
+                  
+
+                  if(cant >= 0)
+                    $('ul.typeahead li:gt('+cant+')').remove();
+                  else{
+                    $('ul.typeahead li').remove();    
+                    $('ul.typeahead').addClass('hide');
+                  }
+                },4000);
                   
             },   
       error : function( xhr, status ) 
