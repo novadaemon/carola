@@ -1,9 +1,14 @@
-<html>
+<?php
+if(!(isset($_COOKIE["tema"])))
+    $_COOKIE["tema"]="white";
+?>
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8" />
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/docs.css" rel="stylesheet">
-    <link href="css/carola_site.css" rel="stylesheet">
+    <link href="css/carola_site_<?php echo($_COOKIE["tema"]);?>.css" rel="stylesheet">
 </head>
 <body>
 <script src="scripts/js/jquery.js"></script>
@@ -11,6 +16,7 @@
 <script src="scripts/js/bootstrap.js"></script>
 <script src="scripts/js/alert.js"></script>
 <script src="scripts/js/bootstrap-typeahead.js"></script>
+<script src="scripts/js/mycookie.js"></script>
 <div id="carola-nav" style="position:fixed;top:0px;">
     <!-- <img src="newbeta.png" style="position:absolute;display:block;"> -->
     <ul class="nav nav-pills" style="margin-left:40px;">
@@ -190,11 +196,11 @@ tag:
         $('.typeahead-suggestion').typeahead(opt);  ///> inicializacion del typeahead con las opciones de arriba (las por default)
 
         //  var caracteres= 1;///> cantidad de caracteres que el usuario va escribiendo, usado solo para ir haciendo la busqueda cada 2 caracteres escritos
-        var cant=0; ///> cantidad de items (sugerencias) que devuelve la busqueda mientras se va escribiendo codigo
+        var cant=-1; ///> cantidad de items (sugerencias) que devuelve la busqueda mientras se va escribiendo codigo, -1 por defecto (no muestra ninguna)
         var lastCantWords=0;
         var cantCharBeforeSuggest = 3;
         function restarSuggestions(){
-            cant=0;
+            cant=-1;
             lastCantWords=0;
 
         }
@@ -203,15 +209,22 @@ tag:
          Llevado a cabo porque el typeahead de bootstrap no permite cambiar el numero de items que muestra de forma dinamic
          */
         function resizeSuggestions() {
-            if (cant >= 0)
-                $('ul.typeahead li:gt(' + cant + ')').remove();
+            if (cant >= 0){
+                $('ul.typeahead').removeClass('hide');
+                $('ul.typeahead li').removeClass('hide');
+                $('ul.typeahead li:gt(' + cant + ')').addClass('hide');
+            }
+//                $('ul.typeahead li:gt(' + cant + ')').remove();
             else {
-                $('ul.typeahead li').remove();
+//                $('ul.typeahead li').remove();
+                $('ul.typeahead li').addClass('hide');
                 $('ul.typeahead').addClass('hide');
             }
         }
 
         $('.typeahead-suggestion').keydown(function(event) {
+            resizeSuggestions();
+//            console.log("==================== in KEYDOWN: cant= "+cant);
             var typeaheadValue= $('.typeahead').prop('value');
             if(typeaheadValue.length==0){
                 restarSuggestions();
@@ -220,93 +233,127 @@ tag:
 
         });
         var timeoutTest= 10000;
+
+
         /*
          Se encarga de realizar el proceso de buscar las sugerencias que matchean con lo que se escribe en el input
          Usa AJAX y solicita en formato json las sugerencias
          */
+        var onlyKeyUp=false;
         $('.typeahead-suggestion').keyup(function(){
-            resizeSuggestions();
-            var typeaheadValue= $('.typeahead').prop('value');
+            if(!onlyKeyUp){
+                resizeSuggestions();
 
-            var arrayOfStrings = typeaheadValue.split(' ');
-            console.log("arrayOfStrings => "+arrayOfStrings);
-            var stringToSearch= "";
-            var cantWords= arrayOfStrings.length;
-            var wordsToPeticion = 0;
-            var size = cantWords;
-            for (var i = 0; i <size ; i++) {
-                if(arrayOfStrings[i].length == 0 ){
-                    console.log("elimino");
-                    cantWords--;
-                    continue;
+                var typeaheadValue= $('.typeahead').prop('value');
+
+                var arrayOfStrings = typeaheadValue.split(' ');
+                console.log("arrayOfStrings => "+arrayOfStrings);
+                var stringToSearch= "";
+                var cantWords= arrayOfStrings.length;
+                var wordsToPeticion = 0;
+                var size = cantWords;
+                for (var i = 0; i <size ; i++) {
+                    if(arrayOfStrings[i].length == 0 ){
+                        console.log("elimino");
+                        cantWords--;
+                        continue;
+                    }
+                    else if(arrayOfStrings[i].length >= cantCharBeforeSuggest || (arrayOfStrings[i].length==1 && !esCaracterValido(arrayOfStrings[i]))){
+                        wordsToPeticion++;
+                    }
+                    if(i>0 && i<size)
+                        stringToSearch+= " ";
+                    stringToSearch+=arrayOfStrings[i];
+                };
+
+//            console.log("stringToSearch => "+stringToSearch);
+//            console.log("lastCantWords: "+lastCantWords+" , cantWords: "+cantWords+" , wordsToPeticion: "+wordsToPeticion);
+//            if(cantWords<lastCantWords) //mostrar una busqueda realizada
+//            {
+                var cookieObject = JSON.parse(getCookie(stringToSearch));
+                if(cookieObject){
+                    console.log(">>>>>>>>>>>>>>> cant_elements of a cookieObject: "+cookieObject.cant_elements);
+                    cant= cookieObject.cant_elements;
+//                    resizeSuggestions();
+                    for(var i=0; i<=cant; i++){
+                        prev_search[i]= cookieObject.items[i];
+                    }
+
+                    onlyKeyUp=true;
+                    $('.typeahead-suggestion').keyup();
+                    resizeSuggestions();
+                    onlyKeyUp=false;
                 }
-                else if(arrayOfStrings[i].length >= cantCharBeforeSuggest || (arrayOfStrings[i].length==1 && !esCaracterValido(arrayOfStrings[i]))){
-                    wordsToPeticion++;
-                }
-                if(i>0 && i<size)
-                    stringToSearch+= " ";
-                stringToSearch+=arrayOfStrings[i];
-            };
 
-            console.log("stringToSearch => "+stringToSearch);
-            console.log("lastCantWords: "+lastCantWords+" , cantWords: "+cantWords+" , wordsToPeticion: "+wordsToPeticion);
-            if(stringToSearch.length>0 && wordsToPeticion>lastCantWords){
-                lastCantWords=wordsToPeticion;
-                cant=0;
+//            }
+                else if(stringToSearch.length>0 && wordsToPeticion>lastCantWords){
+                    lastCantWords=wordsToPeticion;
+                    if(cant>=-1){
 
-                var peticionXHR= $.ajax(
-                    {
-                        url : "autocompletamiento.php",
-                        data : {
-                            text : stringToSearch
-                        },
-                        type : "POST",
-                        dataType : "json",
-                        beforeSend: function (xhr)
-                        {
+                        cant=-1;
+
+                        var peticionXHR= $.ajax(
+                            {
+                                url : "autocompletamiento.php",
+                                data : {
+                                    text : stringToSearch
+                                },
+                                type : "POST",
+                                dataType : "json",
+                                beforeSend: function (xhr)
+                                {
 //                            $('.typeahead-suggestion').data('xhr',peticionXHR);
-                            var lastXHR= $('.typeahead-suggestion').data('xhr');
-                            if(lastXHR){
-                                console.log("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>se va a borrar => "+lastXHR);
-                                lastXHR.abort();
-                            }
-                            $('.typeahead-suggestion').data('xhr',peticionXHR);
-                        },
-                        success : function( json )
-                        {
+//                                    var lastXHR= $('.typeahead-suggestion').data('xhr');
+//                                    if(lastXHR){
+//                                        console.log("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>se va a borrar => "+lastXHR);
+//                                        lastXHR.abort();
+//                                    }
+//                                    $('.typeahead-suggestion').data('xhr',$(this));
+                                },
+                                success : function( json )
+                                {
 
-                                var sourceX= [];
+                                    var sourceX= [];
 
-                                for(var i=0; i<10; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
-                                    if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia
-                                        prev_search[i]=json[i];
+                                    for(var i=0; i<10; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
+                                        if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia
+                                            prev_search[i]=json[i];
+                                        }
+                                        else
+                                            break;
                                     }
-                                    else
-                                        break;
-                                }
-                                // console.log("i > "+i);
-                                cant=i-1; ///> almacena la cantidad real de sugerencias que vienen en el response al pedido asincrono anterior
-
-                                $('.typeahead-suggestion').keyup();
+                                    // console.log("i > "+i);
+                                    cant=i-1; ///> almacena la cantidad (usado por conveniencia en cuanto a los indices de los ul) de sugerencias que vienen en el response al pedido asincrono anterior
+                                    if(cant!=-1){
+                                        var prev_result = {
+                                            cant_elements: cant,
+                                            items: prev_search
+                                        };
+                                        setCookie(stringToSearch, JSON.stringify(prev_result));
+                                        onlyKeyUp=true;
+                                        $('.typeahead-suggestion').keyup();
+                                        onlyKeyUp=false;
+                                    }
 //                                resizeSuggestions();
 
-                            //,1000 + (Math.random()*1000)+Math.random()*1357
+                                    //,1000 + (Math.random()*1000)+Math.random()*1357
 
-                        },
-                        error : function( xhr, status )
-                        {
-                            console.log("HERE 2 error");
-                        },
-                        complete : function( xhr, status )
-                        {
-                            console.log("HERE COMPLETE");
-                            resizeSuggestions();
-                        }
-                    });
+                                },
+                                error : function( xhr, status )
+                                {
+                                    console.log("HERE 2 error");
+                                },
+                                complete : function( xhr, status )
+                                {
+                                    console.log("HERE COMPLETE");
+                                    resizeSuggestions();
+                                }
+                            });
 
 //                lastPeticion= peticionXHR;
+                    }
+                }
             }
-
         });
     </script>
 
