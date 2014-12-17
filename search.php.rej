@@ -1,0 +1,13 @@
+diff a/search.php b/search.php	(rejected hunks)
+@@ -9,9 +9,10 @@
+  <script src="scripts/js/modal.js"></script>
+  <script src="scripts/js/bootstrap.js"></script>
+  <script src="scripts/js/alert.js"></script>
++  <script src="scripts/js/bootstrap-typeahead.js"></script>
+  <div style="position:fixed;top:0px;">	
+  <img src="newbeta.png" style="position:absolute;display:block;">
+-      <ul class="nav nav-pills" style="margin-left:40px">	  
++      <ul class="nav nav-pills" style="margin-left:40px;">	  
+         <li class="dropdown">
+           <a id="drop4" role="button" data-toggle="dropdown" href="#">Web Sociales<b class="caret"></b></a>
+           <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
