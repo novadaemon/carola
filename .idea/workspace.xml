@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0c64320-9c80-439e-b00c-9883ac327bdd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/css/carola_site.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Carola.iml" afterPath="$PROJECT_DIR$/.idea/Carola.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/carola_site_black.css" afterPath="$PROJECT_DIR$/css/carola_site_black.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/carola_site_white.css" afterPath="$PROJECT_DIR$/css/carola_site_white.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ftp.php" afterPath="$PROJECT_DIR$/ftp.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search.php" afterPath="$PROJECT_DIR$/search.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="E:\xampp\htdocs\xampp\carola\carola\scripts\js\mycookie.js" afterPath="$PROJECT_DIR$/scripts/js/mystorage.js" />
-    </list>
+    <list default="true" id="b0c64320-9c80-439e-b00c-9883ac327bdd" name="Default" comment="" />
     <ignored path="Carola.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418906873567" ignored="false" />
+    <file path="/Dummy.txt" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418936492532" ignored="false" />
     <file path="/fragment.js2" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418665091338" ignored="false" />
     <file path="/search.php" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418929234762" ignored="false" />
     <file path="/carola_site.css" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418935938698" ignored="false" />
@@ -43,13 +33,8 @@
       <file leaf-file-name="search.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/search.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="9" selection-start="309" selection-end="309" vertical-scroll-proportion="40.53846">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="10" column="9" selection-start="309" selection-end="309" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -57,7 +42,7 @@
       <file leaf-file-name="carola_site.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/carola_site.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="32" selection-start="2084" selection-end="2084" vertical-scroll-proportion="0.51428574">
+            <state line="107" column="32" selection-start="2084" selection-end="2084" vertical-scroll-proportion="2.5985715">
               <folding />
             </state>
           </provider>
@@ -132,7 +117,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1456" />
+    <option name="width" value="1452" />
     <option name="height" value="886" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -161,6 +146,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -241,7 +227,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -250,8 +235,8 @@
     <property name="options.lastSelected" value="Settings.JavaScript" />
     <property name="last_opened_file_path" value="E:/nodejs/node.exe" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -282,14 +267,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="886" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1452" height="886" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16642755" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16906475" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -394,9 +379,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/php/scan.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="5" selection-start="181" selection-end="181" vertical-scroll-proportion="-3.3488371">
-          <folding />
-        </state>
+        <state line="7" column="5" selection-start="181" selection-end="181" vertical-scroll-proportion="-3.3488371" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/php/ajaxftpedit.php">
@@ -447,24 +430,14 @@
     <entry file="file://$PROJECT_DIR$/ftp.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="207" column="63" selection-start="9686" selection-end="9686" vertical-scroll-proportion="0.7948718">
-          <folding>
-            <marker date="1418929426419" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1418929426419" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1418929426419" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1418929426419" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/search.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="9" selection-start="309" selection-end="309" vertical-scroll-proportion="40.53846">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="10" column="9" selection-start="309" selection-end="309" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -484,7 +457,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/carola_site.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="32" selection-start="2084" selection-end="2084" vertical-scroll-proportion="0.51428574">
+        <state line="107" column="32" selection-start="2084" selection-end="2084" vertical-scroll-proportion="2.5985715">
           <folding />
         </state>
       </provider>
