@@ -6,8 +6,15 @@
  }
 
  #carola-nav {
+     /*background-color: #35444e !important;*/
+     opacity: 0.6;
      background-color: #d0e3f0 !important;
      opacity: 0.6;
+ }
+
+ #carola-nav > ul > li > a{
+
+     color: #000000;
  }
 
  #grafiti {

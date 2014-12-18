@@ -363,7 +363,9 @@ if($_GET)
         $rescount=0;
         if($ftpscount==0)
             echo("Aun no se han creado los indices para ningun ftp. Denle el berro a los Admins");
-        else
+        else{
+            echo("<div id='all-ftp'>");
+            echo('<ul class="list-group">');
             for($i=0;$i<$ftpscount;$i++)
             {
                 $ftpsrow=mysql_fetch_array($ftps);
@@ -373,7 +375,18 @@ if($_GET)
                 $count=mysql_num_rows($result);
                 if($count!=0)
                 {
-                    echo("<p id=currentftp><b>".$currentftp."</b></p>");
+                    echo('<li class="list-group-item">');
+                    echo('<span class="badge">14</span>');
+                    echo($currentftp);
+                    echo('</li>');
+
+//                    echo("<p id=currentftp><b>".$currentftp."</b></p>");
+
+
+
+
+
+
                     echo("<div id=".$ftpsrow['id']." class='ftp_results'>");
                     for($j=0;$j<$count;$j++)
                     {
@@ -384,6 +397,9 @@ if($_GET)
                     echo("</div>");
                 }
             }
+            echo("</ul>");
+            echo("</div>");
+        }
         echo("<p id=cantresult>Se han encontrado <b>".$rescount."</b> resultados.</p>");
     }
 
