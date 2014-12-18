@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0c64320-9c80-439e-b00c-9883ac327bdd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ftp.php" afterPath="$PROJECT_DIR$/ftp.php" />
     </list>
     <ignored path="Carola.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +25,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="config.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="config.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="21" selection-start="1053" selection-end="1135" vertical-scroll-proportion="0.35559568" vertical-offset="143" max-vertical-offset="697">
+            <state line="30" column="0" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="765">
               <folding />
             </state>
           </provider>
@@ -37,7 +37,7 @@
       <file leaf-file-name="search.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/search.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="21" selection-start="4582" selection-end="4582" vertical-scroll-proportion="-0.0" vertical-offset="1122" max-vertical-offset="2618">
+            <state line="66" column="21" selection-start="4582" selection-end="4582" vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="2618">
               <folding />
             </state>
           </provider>
@@ -46,16 +46,16 @@
       <file leaf-file-name="general.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/general.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="42" selection-start="4303" selection-end="4303" vertical-scroll-proportion="-16.076923" vertical-offset="840" max-vertical-offset="1394">
+            <state line="74" column="42" selection-start="4303" selection-end="4303" vertical-scroll-proportion="0.0" vertical-offset="1258" max-vertical-offset="1394">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ftp.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ftp.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ftp.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="305" column="29" selection-start="13639" selection-end="13639" vertical-scroll-proportion="-5.8846154" vertical-offset="5032" max-vertical-offset="10608">
+            <state line="296" column="7" selection-start="13472" selection-end="13472" vertical-scroll-proportion="0.0" vertical-offset="5032" max-vertical-offset="10608">
               <folding>
                 <marker date="1416171444974" expanded="false" signature="2395:2406" placeholder="..." />
                 <marker date="1416171444974" expanded="false" signature="4872:4883" placeholder="..." />
@@ -148,41 +148,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="E:/BackTract/xampp/htdocs/cont" />
     <property name="FullScreen" value="false" />
   </component>
-  <component name="PublishConfig" serverName="localhost" serverId="810311ad-a293-4a03-9d70-6be441e466a6">
-    <servers>
-      <server id="810311ad-a293-4a03-9d70-6be441e466a6">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" />
-          </mappings>
-        </serverdata>
-      </server>
-    </servers>
-  </component>
   <component name="RunManager">
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
-    <configuration default="true" type="AppEnginePhpConfigurationType" factoryName="App Engine for PHP">
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -213,7 +181,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1040" height="754" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -247,58 +215,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/include/general.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="42" selection-start="4303" selection-end="4303" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1394">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ftp.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="7" selection-start="13472" selection-end="13472" vertical-scroll-proportion="0.0" vertical-offset="5032" max-vertical-offset="10608">
-          <folding>
-            <marker date="1416171444974" expanded="false" signature="2395:2406" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="4872:4883" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="5243:5254" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="16790:16802" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/search.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="21" selection-start="4582" selection-end="4582" vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="2618">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/general.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="42" selection-start="4303" selection-end="4303" vertical-scroll-proportion="0.0" vertical-offset="1258" max-vertical-offset="1394">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ftp.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="7" selection-start="13472" selection-end="13472" vertical-scroll-proportion="0.0" vertical-offset="5032" max-vertical-offset="10608">
-          <folding>
-            <marker date="1416171444974" expanded="false" signature="2395:2406" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="4872:4883" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="5243:5254" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="16790:16802" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="0" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="765">
@@ -346,15 +262,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ftp.php">
+    <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="305" column="29" selection-start="13639" selection-end="13639" vertical-scroll-proportion="-5.8846154" vertical-offset="5032" max-vertical-offset="10608">
-          <folding>
-            <marker date="1416171444974" expanded="false" signature="2395:2406" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="4872:4883" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="5243:5254" placeholder="..." />
-            <marker date="1416171444974" expanded="false" signature="16790:16802" placeholder="..." />
-          </folding>
+        <state line="30" column="0" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="765">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -367,15 +278,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/general.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="42" selection-start="4303" selection-end="4303" vertical-scroll-proportion="-16.076923" vertical-offset="840" max-vertical-offset="1394">
+        <state line="74" column="42" selection-start="4303" selection-end="4303" vertical-scroll-proportion="0.0" vertical-offset="1258" max-vertical-offset="1394">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.php">
+    <entry file="file://$PROJECT_DIR$/ftp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="21" selection-start="1053" selection-end="1135" vertical-scroll-proportion="0.35559568" vertical-offset="143" max-vertical-offset="697">
-          <folding />
+        <state line="296" column="7" selection-start="13472" selection-end="13472" vertical-scroll-proportion="0.0" vertical-offset="5032" max-vertical-offset="10608">
+          <folding>
+            <marker date="1416171444974" expanded="false" signature="2395:2406" placeholder="..." />
+            <marker date="1416171444974" expanded="false" signature="4872:4883" placeholder="..." />
+            <marker date="1416171444974" expanded="false" signature="5243:5254" placeholder="..." />
+            <marker date="1416171444974" expanded="false" signature="16790:16802" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
