@@ -38,6 +38,10 @@
  	z-index: -1 !important;
  }
 
+ ul.typeahead {
+     overflow: hidden !important;
+ }
+
  #subtitle{
  	font-size: 1.4em !important;
  	padding: -5px;
