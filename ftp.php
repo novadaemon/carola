@@ -141,7 +141,7 @@ function ShowEditFTPDialog(id)//Muestra el dialogo para modificar un ftp con id=
 	{   
 		url : "scripts/php/ajaxftpedit.php",   
 		data : {    action : "getrowbyid",
-					id:id,
+					id:id
 				},
 		type : "GET",  
 		dataType : "json",     
@@ -205,7 +205,7 @@ $.ajax(
 	{   
 		url : "scripts/php/ajaxftpedit.php",   
 		data : {    action : "delete",
-					ftptodelete:$('#ftptodelete').prop('value'),
+					ftptodelete:$('#ftptodelete').prop('value')
 				},
 		type : "POST",  
 		dataType : "json",     
@@ -258,7 +258,7 @@ $.ajax(
 					activo:$('#activeforindexing').prop('checked'),
 					user:$('#user').prop('value'),
 					pass:$('#pass').prop('value'),
-					statustd:"<td id=\"row"+$('#actionid').prop('value')+"statustd\">"+$("#row"+$('#actionid').prop('value')+"statustd").html()+"</td>",
+					statustd:"<td id=\"row"+$('#actionid').prop('value')+"statustd\">"+$("#row"+$('#actionid').prop('value')+"statustd").html()+"</td>"
 					}, 
 		type : "POST",  
 		dataType : "json",     
@@ -358,7 +358,7 @@ $.ajax(
 		url : "scripts/php/scan.php",   
 		data : {    action : "scansingle",
 					scanid:id,
-					remake:rehacer,
+					remake:rehacer
 				},
 		type : "GET",  
 		dataType : "json",     
@@ -418,21 +418,21 @@ $.getJSON( "scripts/php/getstatus.php",{action:'gettaskstatus',taskid:id},
 
 function DismissTask(id)//Cierra una notificacion de una tarea.
 {
-	$.getJSON( "scripts/php/ajaxftpedit.php",{action:'dismisstask',idtask:id,},function(json) 
+	$.getJSON( "scripts/php/ajaxftpedit.php",{action:'dismisstask',idtask:id},function(json)
 			{if(json.result=='ok')
 				$('#progressinfopanel'+id).remove();});	
 }
 
 function CancelTask(id)//Cancela una tarea
 {
-	$.getJSON( "scripts/php/ajaxftpedit.php",{action:'canceltask',idtask:id,});	
+	$.getJSON( "scripts/php/ajaxftpedit.php",{action:'canceltask',idtask:id});
 }
 
 function CheckServerActivity()//Chequea cuantas tareas hay activas en el servidor.
 {
 
 //row".$row['id']."statustd;
-$.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus',},
+$.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus'},
 			function(json) 
 			{
 				if(json.result=='ok')					
@@ -475,7 +475,7 @@ $.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus',},
 		setTimeout("CheckServerActivity()",5000);
 }
 </script>
-</head>
+<!--</head>-->
 <body>
  <script src="scripts/js/jquery.js"></script>
  <script src="scripts/js/modal.js"></script>

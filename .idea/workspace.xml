@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0c64320-9c80-439e-b00c-9883ac327bdd" name="Default" comment="">
+    <list default="true" id="b0c64320-9c80-439e-b00c-9883ac327bdd" name="Default" comment="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/carola_site_white.css" afterPath="$PROJECT_DIR$/css/carola_site_white.css" />
-    </list>
     <ignored path="Carola.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418936492532" ignored="false" />
@@ -66,6 +65,23 @@
         <entry file="file://$PROJECT_DIR$/css/carola_site_black.css">
           <provider selected="true" editor-type-id="text-editor">
             <state line="41" column="18" selection-start="759" selection-end="759" vertical-scroll-proportion="0.0">
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="carola_site_white.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/carola_site_white.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="5" selection-start="228" selection-end="498" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="carola_site_black.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/carola_site_black.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="35" selection-start="478" selection-end="478" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -224,6 +240,11 @@
     <property name="FullScreen" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\xampp\htdocs\xampp\carola\carola\css" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
@@ -391,21 +412,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ftp.php">
+    <entry file="file://$PROJECT_DIR$/scripts/js/mystorage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="207" column="63" selection-start="9686" selection-end="9686" vertical-scroll-proportion="0.7948718">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/carola_site_black.css">
-      <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="18" selection-start="759" selection-end="759" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/search.php">
+    <entry file="file://$PROJECT_DIR$/css/carola_site_white.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="37" selection-start="1080" selection-end="1080" vertical-scroll-proportion="125.53846">
           <folding>
