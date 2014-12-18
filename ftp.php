@@ -28,6 +28,7 @@
 	}
 	//A continuacion se imprime la cabecera HTML que se utilizara en cualquier sircunstancia para la salida
 ?>
+
 <html>
 <head>
 <link href="css/bootstrap.css" rel="stylesheet">
