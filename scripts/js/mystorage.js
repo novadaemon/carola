@@ -1,3 +1,14 @@
+
+var supportsStorage = function() {
+    try {
+        return 'localStorage' in window && window.localStorage !== null;
+    } catch(e) {
+        return false;
+    }
+};
+
+
+
 function fixCookieDate(date) {
     var base = new Date(0);
     var skew = base.getTime();
@@ -5,6 +16,7 @@ function fixCookieDate(date) {
         date.setTime(date.getTime() - skew);
     }
 }
+
 
 function getCookieVal(offset) {
     var endstr = document.cookie.indexOf(";", offset);
@@ -36,7 +48,7 @@ function setCookie(name, value) {
     var expires = new Date();
     fixCookieDate(expires);
     //expires.setTime(expires.getTime() + (24 * 60 * 60 * 1000)); //24 horas
-    expires.setTime(expires.getTime() + (30*1000)); //30 seg
+    expires.setTime(expires.getTime() + (2*60*1000)); //2 minutos
     document.cookie = name + "=" + value +//encodeURIComponent(value) +
             ((expires) ? "; expires=" + expires.toGMTString() : "");
 }

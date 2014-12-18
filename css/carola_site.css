@@ -1,0 +1,123 @@
+ html {
+ 	/*box-shadow: inset 0 0 200px rgba(0.2,0.2,.8,.9) !important;*/
+
+ 	height: 100% !important;;
+ }
+
+ body{
+    height: 100% !important;
+ 	position: static !important;
+
+ }
+
+ @font-face {
+	 font-family: 'bubble';
+	 src: url('../media/ttf/bubble.ttf') format('truetype');
+ }
+
+ @font-face {
+	 font-family: 'block';
+	 src: url('../media/ttf/block.ttf') format('truetype');
+ }
+
+  @font-face {
+ 	 font-family: 'rufa';
+ 	 src: url('../media/ttf/rufa.ttf') format('truetype');
+  }
+
+ #grafiti {
+ 	font-family: rufa !important;
+ 	font-size: 6em;
+ 	position:relative;
+ 	letter-spacing: 0.07em !important;
+ 	left:-10px;
+ 	padding: 0.02em !important;
+ 	margin-left: 0.15em !important;
+ 	z-index: -1 !important;
+ }
+
+ .footer {
+ 
+  position: fixed !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  /* Set the fixed height of the footer here */
+  height: 3em !important;
+  background-color: #f5f5f5 !important;
+}
+
+ form#carola-form {
+     width: 100% !important;
+ }
+
+ #carola-search-box{
+     /*background-color: #b94a48 !important;*/
+     padding: 2em !important;
+     margin: 1em;
+ }
+
+ #carola-form a, #carola-form strong{
+     text-align: start !important;
+ }
+
+ .carola-search-box-center{
+     text-align: center !important;
+     margin-top: 9.5% !important;
+ }
+
+ .btn {
+     border-radius: 0px !important;
+     text-transform: uppercase !important;
+     font-family: sans-serif !important;
+     font-weight: bold !important;
+     text-spacing: normal !important;
+ }
+
+ .carola-search-box-left{
+     text-align: start !important;
+     margin: 5px !important;
+     padding: 5px !important;
+ }
+
+ .nav-pills > li > a {
+     border-radius: 0px !important;
+ }
+
+
+
+ #carola-nav {
+    background-color: #35444e !important;
+    opacity: 0.6;
+
+    width: 100% !important;
+ }
+
+ #carola-nav > ul > li > a{
+     font-weight: bold;
+     color: #000000;
+ }
+
+ #subtitle{
+     /*background-color: #4AB1D7;*/
+     /*background-image: radial-gradient(90deg, #4AB1D7 0%, rgba(0, 82, 255, 0.0150) 20%) ;*/
+
+
+
+     font-size: 0.9em !important;
+     /*padding: -5px;*/
+     padding-top: 4px !important;
+     padding-left: 3px !important;
+     width: 40% !important;
+ }
+
+ .subtitle-center{
+     margin-left: 30% !important;
+ }
+
+ .subtitle-left{
+     margin-left: 0% !important;
+ }
+
+.ftp_results {
+     background-color: #398439;
+ }

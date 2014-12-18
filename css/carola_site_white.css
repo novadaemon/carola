@@ -1,64 +1,44 @@
- html {
- 	/*box-shadow: inset 0 0 200px rgba(0.2,0.2,.8,.9) !important;*/
-
- 	/*height: 100% !important;;*/
- }
 
  body{
-    height: 100% !important;
- 	position: static !important;
+
  	background-color: #FFFFFF !important;
 
  }
 
- @font-face {
-	 font-family: 'bubble';
-	 src: url('../media/ttf/bubble.ttf');
+ #carola-nav {
+     background-color: #d0e3f0 !important;
+     opacity: 0.6;
  }
-
- @font-face {
-	 font-family: 'block';
-	 src: url('../media/ttf/block.ttf');
- }
-
-  @font-face {
- 	 font-family: 'rufa';
- 	 src: url('../media/ttf/rufa.ttf');
-  }
 
  #grafiti {
- 	font-family: rufa !important;
- 	font-size: 6em;
+
  	color: #269abc;
- 	position:relative;
- 	letter-spacing: 0.07em !important;
- 	left:-10px;
- 	padding: 0.02em !important;
- 	margin-left: 0.15em !important;
- 	z-index: -1 !important;
+
  }
 
  #subtitle{
- 	font-size: 1.4em !important;
- 	padding: -5px;
- 	color: #222222 !important;
+     /*margin-top: -0.5em !important;*/
+     text-align: right !important;
+     border-top-style: dotted;
+     border-top-width: 5px !important;
+     border-top-color: #31b0d5  !important;;
+     -moz-border-top-width: 5px !important;
+     -moz-border-top-color: #31b0d5  !important;;
+     color: #269abc !important;
+     /*text-shadow: 2px 2px 7px #3d3d3d !important;*/
  }
 
  #currentftp, #cantresult {
  	color: #444444 !important;
  }
 
- .footer {
- 
-  position: absolute !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  /* Set the fixed height of the footer here */
-  height: 3em !important;
-  background-color: #f5f5f5 !important;
-}
+ #carola-nav .dropdown-menu > li > a {
+     /*color: rgb(28, 129, 255) !important;*/
+     /*color: rgb(255, 52, 126) !important;*/
+     color: rgb(255, 70, 69) !important;
+ }
 
-/*
- .carola-nav {
- 	
- }*/
+ #carola-nav {
+     background-color: #63656f;
+
+ }
