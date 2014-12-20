@@ -6,8 +6,6 @@
  }
 
  #carola-nav {
-     /*background-color: #35444e !important;*/
-     opacity: 0.6;
      background-color: #d0e3f0 !important;
      opacity: 0.6;
  }
@@ -47,6 +45,12 @@
      /*color: rgb(28, 129, 255) !important;*/
      /*color: rgb(255, 52, 126) !important;*/
      color: rgb(255, 70, 69) !important;
+ }
+
+ #carola-nav > ul > li.open  ul > li > a:hover {
+     font-weight: bold !important;
+     color: #FFFFFF !important;
+     background-color: #269abc !important;
  }
 
  #carola-nav {
