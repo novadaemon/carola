@@ -97,6 +97,7 @@ if(isset($_GET['t'])){
 <div id="subtitle" class="subtitle-center">FTP INDEXER</div>
 <!-- <img src="media/jpg/logo.jpg" style="position:relative;left:-10px;"> -->
 <br><br>
+<!--action="filter_search.php?filter_search"-->
 <form id="carola-form" class="form-inline" action="search.php" method="get" style="width:780px">
     <div class="form-group">
         <input class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
@@ -131,6 +132,7 @@ $('.typeahead-suggestion').typeahead(opt);  ///> inicializacion del typeahead co
 var cant=-1; ///> cantidad de items (sugerencias) que devuelve la busqueda mientras se va escribiendo codigo, -1 por defecto (no muestra ninguna)
 var lastCantWords=0;
 var cantCharBeforeSuggest = 3;
+var maxItemsToSuggest = 10;
 function restarSuggestions(){
     cant=-1;
     lastCantWords=0;
@@ -188,6 +190,7 @@ var onlyKeyUp=false;
 var lastPetition = {};
 $('.typeahead-suggestion').keyup(function(event){
     if(!onlyKeyUp){
+        console.log("STARTING ANALISYS OF LAST CHAR");
         var keyCode = event.keyCode || event.which;
 
         resizeSuggestions();
@@ -253,25 +256,33 @@ $('.typeahead-suggestion').keyup(function(event){
             )
             )
             && !ENTER_KEY_IS_PRESSED){
-            lastCantWords=wordsToPeticion;
-            if(cant>=-1){
-                if(lastWord)
-                    console.log("in cant>=-1: and lastWord!=NULL");
-                cant=-1;
+            console.log('_______ cant: '+cant);
+            if(lastCantWords>0 && wordsToPeticion>0 && cant==-1){
+                console.log("+++++++++no result petition por gusto");
+            }
+            else  {
+                lastCantWords=wordsToPeticion;
+                if(cant>=-1){
+                    if(lastWord)
+                        console.log("in cant>=-1: and lastWord!=NULL");
+                    cant=-1;
 
-                var petitionXHR= $.ajax(
-                    {
-                        url : "autocompletamiento.php",
-                        data : {
-                            text : stringToSearch
-                        },
-                        type : "POST",
-                        dataType : "json",
-                        beforeSend: function (xhr)
+
+
+                    var petitionXHR= $.ajax(
                         {
-                            if(lastPetition.petition){
-                                lastPetition.petition.abort();
-                            }
+                            url : "autocompletamiento.php",
+                            data : {
+                                text : stringToSearch
+                            },
+                            type : "POST",
+                            dataType : "json",
+                            beforeSend: function (xhr)
+                            {
+//                            console.log("HERE BEFORE SEND");
+                                if(lastPetition.petition){
+                                    lastPetition.petition.abort();
+                                }
 //                            $('.typeahead-suggestion').data('xhr',peticionXHR);
 //                                    var lastXHR= $('.typeahead-suggestion').data('xhr');
 //                                    if(lastXHR){
@@ -279,50 +290,51 @@ $('.typeahead-suggestion').keyup(function(event){
 //                                        lastXHR.abort();
 //                                    }
 //                                    $('.typeahead-suggestion').data('xhr',$(this));
-                        },
-                        success : function( json )
-                        {
+                            },
+                            success : function( json )
+                            {
 
-                            var sourceX= [];
+                                var sourceX= [];
 
-                            for(var i=0; i<10; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
-                                if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia
-                                    prev_search[i]=json[i];
+                                for(var i=0; i<maxItemsToSuggest; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
+                                    if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia
+                                        prev_search[i]=json[i];
+                                    }
+                                    else
+                                        break;
                                 }
-                                else
-                                    break;
-                            }
-                            // console.log("i > "+i);
-                            cant=i-1; ///> almacena la cantidad (usado por conveniencia en cuanto a los indices de los ul) de sugerencias que vienen en el response al pedido asincrono anterior
-                            if(cant!=-1){
-                                var prev_result = {
-                                    cant_elements: cant,
-                                    items: prev_search
-                                };
+                                // console.log("i > "+i);
+                                cant=i-1; ///> almacena la cantidad (usado por conveniencia en cuanto a los indices de los ul) de sugerencias que vienen en el response al pedido asincrono anterior
+                                if(cant!=-1){
+                                    var prev_result = {
+                                        cant_elements: cant,
+                                        items: prev_search
+                                    };
 
-                                if(storageSupported)
-                                    localStorage.setItem(stringToSearch, JSON.stringify(prev_result));
-                                else
-                                    setCookie(stringToSearch, JSON.stringify(prev_result));
-                                onlyKeyUp=true;
-                                $('.typeahead-suggestion').keyup();
-                                onlyKeyUp=false;
-                            }
+                                    if(storageSupported)
+                                        localStorage.setItem(stringToSearch, JSON.stringify(prev_result));
+                                    else
+                                        setCookie(stringToSearch, JSON.stringify(prev_result));
+                                    onlyKeyUp=true;
+                                    $('.typeahead-suggestion').keyup();
+                                    onlyKeyUp=false;
+                                }
 //                                lastPetition.complete_code = 1;
 //
-                        },
-                        error : function( xhr, status )
-                        {
-                            console.log("HERE 2 error");
-                        },
-                        complete : function( xhr, status )
-                        {
-                            console.log("HERE COMPLETE");
-                            resizeSuggestions();
-                        }
-                    });
+                            },
+                            error : function( xhr, status )
+                            {
+                                console.log("HERE 2 error");
+                            },
+                            complete : function( xhr, status )
+                            {
+                                console.log("HERE COMPLETE");
+                                resizeSuggestions();
+                            }
+                        });
 
-                lastPetition.petition= petitionXHR;
+                    lastPetition.petition= petitionXHR;
+                }
             }
         }
 //            if(lastCantWords!=wordsToPeticion)
@@ -340,7 +352,8 @@ $db=mysql_select_db("ftpindexer");//selecciona la bd
 //tener que actualizarlo en todos los archivos
 
 
-if($_GET)
+//if(isset($_GET['bloqueado esto']))
+if(isset($_GET))
 {
 
     if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
@@ -366,7 +379,7 @@ if($_GET)
             echo("Aun no se han creado los indices para ningun ftp. Denle el berro a los Admins");
         else{
             echo("<div id='all-ftp'>");
-//            echo('<ul class="list-group">');
+            echo('<ul class="list-group">');
             for($i=0;$i<$ftpscount;$i++)
             {
                 $ftpsrow=mysql_fetch_array($ftps);
@@ -376,10 +389,10 @@ if($_GET)
                 $count=mysql_num_rows($result);
                 if($count!=0)
                 {
-//                    echo('<li class="list-group-item">');
-//                    echo('<span class="badge">14</span>');
-//                    echo($currentftp);
-//                    echo('</li>');
+                    echo('<li class="list-group-item">');
+                    echo('<span class="badge">14</span>');
+                    echo($currentftp);
+                    echo('</li>');
 
 //                    echo("<p id=currentftp><b>".$currentftp."</b></p>");
 
@@ -393,13 +406,14 @@ if($_GET)
                     echo("</div>");
                 }
             }
-//            echo("</ul>");
+            echo("</ul>");
             echo("</div>");
         }
         echo("<p id=cantresult>Se han encontrado <b>".$rescount."</b> resultados.</p>");
     }
 
 }
+mysql_close($coneccion);
 
 ?>
 </div>
@@ -413,40 +427,40 @@ if($_GET)
 </ul> -->
 
 <!--<div class="bs-example">-->
-    <nav id="navbar-example2" class="navbar navbar-left" role="navigation">
-        <div class="container-fluid">
-
-            <div class="collapse navbar-collapse bs-example-js-navbar-scrollspy">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="#fat">@fat</a></li>
-                    <li><a href="#mdo">@mdo</a></li>
-                    <li class="dropdown">
-                        <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
-                            <li><a href="#one" tabindex="-1">one</a></li>
-                            <li><a href="#two" tabindex="-1">two</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#three" tabindex="-1">three</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example">
-        <h4 id="fat">@fat</h4>
-        <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
-        <h4 id="mdo">@mdo</h4>
-        <p>Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard. Freegan beard aliqua cupidatat mcsweeney's vero. Cupidatat four loko nisi, ea helvetica nulla carles. Tattooed cosby sweater food truck, mcsweeney's quis non freegan vinyl. Lo-fi wes anderson +1 sartorial. Carles non aesthetic exercitation quis gentrify. Brooklyn adipisicing craft beer vice keytar deserunt.</p>
-        <h4 id="one">one</h4>
-        <p>Occaecat commodo aliqua delectus. Fap craft beer deserunt skateboard ea. Lomo bicycle rights adipisicing banh mi, velit ea sunt next level locavore single-origin coffee in magna veniam. High life id vinyl, echo park consequat quis aliquip banh mi pitchfork. Vero VHS est adipisicing. Consectetur nisi DIY minim messenger bag. Cred ex in, sustainable delectus consectetur fanny pack iphone.</p>
-        <h4 id="two">two</h4>
-        <p>In incididunt echo park, officia deserunt mcsweeney's proident master cleanse thundercats sapiente veniam. Excepteur VHS elit, proident shoreditch +1 biodiesel laborum craft beer. Single-origin coffee wayfarers irure four loko, cupidatat terry richardson master cleanse. Assumenda you probably haven't heard of them art party fanny pack, tattooed nulla cardigan tempor ad. Proident wolf nesciunt sartorial keffiyeh eu banh mi sustainable. Elit wolf voluptate, lo-fi ea portland before they sold out four loko. Locavore enim nostrud mlkshk brooklyn nesciunt.</p>
-        <h4 id="three">three</h4>
-        <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
-        <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.
-        </p>
-    </div>
+<!--<nav id="navbar-example2" class="navbar navbar-left" role="navigation">-->
+<!--    <div class="container-fluid">-->
+<!---->
+<!--        <div class="collapse navbar-collapse bs-example-js-navbar-scrollspy">-->
+<!--            <ul class="nav nav-pills nav-stacked">-->
+<!--                <li><a href="#fat">@fat</a></li>-->
+<!--                <li><a href="#mdo">@mdo</a></li>-->
+<!--                <li class="dropdown">-->
+<!--                    <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
+<!--                    <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">-->
+<!--                        <li><a href="#one" tabindex="-1">one</a></li>-->
+<!--                        <li><a href="#two" tabindex="-1">two</a></li>-->
+<!--                        <li class="divider"></li>-->
+<!--                        <li><a href="#three" tabindex="-1">three</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--<div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example">-->
+<!--    <h4 id="fat">@fat</h4>-->
+<!--    <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>-->
+<!--    <h4 id="mdo">@mdo</h4>-->
+<!--    <p>Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard. Freegan beard aliqua cupidatat mcsweeney's vero. Cupidatat four loko nisi, ea helvetica nulla carles. Tattooed cosby sweater food truck, mcsweeney's quis non freegan vinyl. Lo-fi wes anderson +1 sartorial. Carles non aesthetic exercitation quis gentrify. Brooklyn adipisicing craft beer vice keytar deserunt.</p>-->
+<!--    <h4 id="one">one</h4>-->
+<!--    <p>Occaecat commodo aliqua delectus. Fap craft beer deserunt skateboard ea. Lomo bicycle rights adipisicing banh mi, velit ea sunt next level locavore single-origin coffee in magna veniam. High life id vinyl, echo park consequat quis aliquip banh mi pitchfork. Vero VHS est adipisicing. Consectetur nisi DIY minim messenger bag. Cred ex in, sustainable delectus consectetur fanny pack iphone.</p>-->
+<!--    <h4 id="two">two</h4>-->
+<!--    <p>In incididunt echo park, officia deserunt mcsweeney's proident master cleanse thundercats sapiente veniam. Excepteur VHS elit, proident shoreditch +1 biodiesel laborum craft beer. Single-origin coffee wayfarers irure four loko, cupidatat terry richardson master cleanse. Assumenda you probably haven't heard of them art party fanny pack, tattooed nulla cardigan tempor ad. Proident wolf nesciunt sartorial keffiyeh eu banh mi sustainable. Elit wolf voluptate, lo-fi ea portland before they sold out four loko. Locavore enim nostrud mlkshk brooklyn nesciunt.</p>-->
+<!--    <h4 id="three">three</h4>-->
+<!--    <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>-->
+<!--    <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.-->
+<!--    </p>-->
+<!--</div>-->
 <!--</div><!-- /example -->
 
 <footer class="footer" id="colophon" role="contentinfo">
