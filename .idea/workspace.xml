@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0c64320-9c80-439e-b00c-9883ac327bdd" name="Default" comment="cambiando entorno a WebStorm">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search.php" afterPath="$PROJECT_DIR$/search.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/autocompletamiento.php" afterPath="$PROJECT_DIR$/autocompletamiento.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Carola.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1419199462450" ignored="false" />
+    <file path="/Dummy.txt" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1419257746825" ignored="false" />
     <file path="/fragment.js2" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418665091338" ignored="false" />
     <file path="/search.php" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1419241158216" ignored="false" />
     <file path="/carola_site.css" changelist="b0c64320-9c80-439e-b00c-9883ac327bdd" time="1418940664840" ignored="false" />
@@ -34,17 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="search.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="search.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/search.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="299" column="57" selection-start="14289" selection-end="14289" vertical-scroll-proportion="-0.47906977">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1419241217308" expanded="true" signature="17406:17421" placeholder="..." />
-              </folding>
+            <state line="403" column="162" selection-start="19347" selection-end="19347" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -52,7 +46,7 @@
       <file leaf-file-name="config.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="20" selection-start="643" selection-end="643" vertical-scroll-proportion="-9.153846">
+            <state line="18" column="20" selection-start="643" selection-end="643" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -61,10 +55,8 @@
       <file leaf-file-name="filter_search.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filter_search.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="1" selection-start="787" selection-end="787" vertical-scroll-proportion="16.384615">
-              <folding>
-                <element signature="e#6#160#0" expanded="true" />
-              </folding>
+            <state line="25" column="1" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -78,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="autocompletamiento.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="autocompletamiento.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/autocompletamiento.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="29" selection-start="1061" selection-end="1061" vertical-scroll-proportion="-15.0">
+            <state line="37" column="40" selection-start="1878" selection-end="1878" vertical-scroll-proportion="0.34108528">
               <folding />
             </state>
           </provider>
@@ -132,6 +124,7 @@
         <option value="$PROJECT_DIR$/css/carola_site.css" />
         <option value="$PROJECT_DIR$/filter_search.php" />
         <option value="$PROJECT_DIR$/search.php" />
+        <option value="$PROJECT_DIR$/autocompletamiento.php" />
       </list>
     </option>
   </component>
@@ -187,34 +180,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Carola" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="carola" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="include" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Carola" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="carola" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -223,7 +188,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="Settings.JavaScript" />
-    <property name="last_opened_file_path" value="E:/nodejs/node.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mortor" />
     <property name="FullScreen" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -259,13 +224,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1438" height="868" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1809593" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2122093" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -357,9 +322,7 @@
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/block.rnc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="22" selection-start="3387" selection-end="3387" vertical-scroll-proportion="4.461877">
-          <folding />
-        </state>
+        <state line="179" column="22" selection-start="3387" selection-end="3387" vertical-scroll-proportion="4.461877" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/structural.rnc">
@@ -374,9 +337,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ftp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="207" column="63" selection-start="9686" selection-end="9686" vertical-scroll-proportion="0.7948718">
-          <folding />
-        </state>
+        <state line="207" column="63" selection-start="9686" selection-end="9686" vertical-scroll-proportion="0.7948718" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/carola_site_black.css">
@@ -400,30 +361,31 @@
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_4.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="181" column="9" selection-start="6235" selection-end="6235" vertical-scroll-proportion="-3.5288754">
-          <folding />
-        </state>
+        <state line="181" column="9" selection-start="6235" selection-end="6235" vertical-scroll-proportion="-3.5288754" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/filter_search.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="1" selection-start="787" selection-end="787" vertical-scroll-proportion="16.384615">
-          <folding>
-            <element signature="e#6#160#0" expanded="true" />
-          </folding>
+        <state line="25" column="1" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/general.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="33" selection-start="1502" selection-end="1502" vertical-scroll-proportion="-0.6868217">
-          <folding />
-        </state>
+        <state line="18" column="33" selection-start="1502" selection-end="1502" vertical-scroll-proportion="-0.6868217" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="20" selection-start="643" selection-end="643" vertical-scroll-proportion="-9.153846">
+        <state line="18" column="20" selection-start="643" selection-end="643" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="403" column="162" selection-start="19347" selection-end="19347" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -437,21 +399,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/autocompletamiento.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="29" selection-start="1061" selection-end="1061" vertical-scroll-proportion="-15.0">
+        <state line="37" column="40" selection-start="1878" selection-end="1878" vertical-scroll-proportion="0.34108528">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/search.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="299" column="57" selection-start="14289" selection-end="14289" vertical-scroll-proportion="-0.47906977">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1419241217308" expanded="true" signature="17406:17421" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
