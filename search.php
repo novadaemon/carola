@@ -21,7 +21,35 @@ if(isset($_GET['t'])){
     <link href="css/carola_site_<?php echo($_COOKIE["t"]);?>.css" rel="stylesheet">
 </head>
 <body>
-<script src="scripts/js/jquery.js"></script>
+<script src="scripts/js/jquery.js">
+</script>
+<script>
+    $(document).ready(function(){
+
+        $('html').css('height','100%');
+////        $('html').removeAttr('style');
+//        var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+//        if(is_firefox)
+//            console.log("si es firefox");
+//        else
+//            console.log("no es firefox");
+
+        function explore(e) {
+            alert(encodeURI(e));
+            window.location = encodeURI(e);
+        }
+        function filterchanged() {
+            alert('');
+        }
+        $(document).ready(function () {
+                if ($('tr').length - 1 > 10)
+
+                    $('#mypaginator').clone().insertAfter($('tr:last'));
+//                $('#inputsearch').autocomplete({source: 'scripts/php/autocomplete.php', delay: 500});
+            }
+        );
+    });
+</script>
 <script src="scripts/js/modal.js"></script>
 <script src="scripts/js/bootstrap.js"></script>
 <script src="scripts/js/alert.js"></script>
@@ -29,7 +57,8 @@ if(isset($_GET['t'])){
 <script src="scripts/js/mystorage.js"></script>
 <script src="scripts/js/scrollspy.js"></script>
 <div id="carola-nav" style="position:fixed;top:0px;">
-    <!-- <img src="newbeta.png" style="position:absolute;display:block;"> -->
+
+
     <ul class="nav nav-pills" style="margin-left:40px;">
         <li class="dropdown">
             <a id="drop4" role="button" data-toggle="dropdown" href="#">Web Sociales<b class="caret"></b></a>
@@ -81,28 +110,32 @@ if(isset($_GET['t'])){
         <li class="dropdown pull-right">
             <a id="drop8" role="button" data-toggle="dropdown" href="#">Estilo <b class="caret"></b></a>
             <ul id="menu4" class="dropdown-menu" role="menu" aria-labelledby="drop8">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=w">Carola White</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=b">Carola Black</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=w">BlueWhite </a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=b">BlackTea </a></li>
             </ul>
         </li>
     </ul> <!-- /tabs -->
+
 </div>
 <div class="container bs-docs-container" id="contenido">
 
 
 <div id="carola-search-box" class="carola-search-box-center">
-<div id="grafiti">
-    CAROLA
+<div id="logo">
+    <div id="grafiti">
+        CAROLA
+    </div>
+    <div id="subtitle">FTP INDEXER</div>
+<!--    class="subtitle-center"-->
 </div>
-<div id="subtitle" class="subtitle-center">FTP INDEXER</div>
 <!-- <img src="media/jpg/logo.jpg" style="position:relative;left:-10px;"> -->
 <br><br>
 <!--action="filter_search.php?filter_search"-->
-<form id="carola-form" class="form-inline" action="search.php" method="get" style="width:780px">
+<form id="carola-form" class="form-inline" action="search.php" method="get" >
     <div class="form-group">
         <input class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
-               style="margin: 0 auto; width:480px;" data-provide="typeahead" data-items="10"
-               value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
+               data-provide="typeahead" data-items="10"
+               value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>" required="true">
     </div><div class="form-group">
         &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
     </div>
@@ -171,7 +204,7 @@ $('.typeahead-suggestion').keydown(function(event) {
     else{
         ENTER_KEY_IS_PRESSED=false;
         resizeSuggestions();
-            console.log("==================== in KEYDOWN: cant= "+cant);
+        console.log("==================== in KEYDOWN: cant= "+cant);
         var typeaheadValue= $('.typeahead').prop('value');
         if(typeaheadValue.length<=1){
             restarSuggestions();
@@ -230,6 +263,7 @@ $('.typeahead-suggestion').keyup(function(event){
 //            if(cantWords<lastCantWords) //mostrar una busqueda realizada
 //            {
         var cookieObject;
+
         if(storageSupported)
             cookieObject = JSON.parse(localStorage.getItem(stringToSearch));
         else
@@ -342,130 +376,170 @@ $('.typeahead-suggestion').keyup(function(event){
     }
 });
 </script>
+
+
+
 <?php
-include 'config.php';//Inclusion del archivo de configuracion que contiene los datos de coneccion al server
-include 'include\general.php';//inclusion del archivo de funciones basicas a la bd
-$coneccion=mysql_connect($server,$user,$password);//inicializa la coneccion
-$db=mysql_select_db("ftpindexer");//selecciona la bd
 
-//todo Por hacer: hay que crear un campo para almecenar el nombre de la bd en el archivo config.php para evitar
-//tener que actualizarlo en todos los archivos
-
-
-//if(isset($_GET['bloqueado esto']))
 if(isset($_GET))
 {
 
-    if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
-    {
-        echo('<div class="alert alert-success fade in alert-dismissable"><button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>'.
-            '<h4 id="infoalerttitle">Error</h4><p id="infoalerttext">No se admiten cadenas de menos de 3 caracteres para la busqueda.</p></div>');
-
-    }
-    else if(isset($_GET["searchedtext"])){
-        ?>
-        <script type="text/javascript">
-            $('#carola-search-box').removeClass('carola-search-box-center');
-            $('#subtitle').removeClass('subtitle-center');
-            $('#carola-search-box').addClass('carola-search-box-left');
-            $('#subtitle').addClass('subtitle-left');
-        </script>
-        <?php
-        //setlocale(LC_ALL, 'es_ES');
-        $ftps=mysql_query("select * from ftps where activo=1");
-        $ftpscount=mysql_num_rows($ftps);
-        $rescount=0;
-        if($ftpscount==0)
-            echo("Aun no se han creado los indices para ningun ftp. Denle el berro a los Admins");
-        else{
-            echo("<div id='all-ftp'>");
-            echo('<ul class="list-group">');
-            for($i=0;$i<$ftpscount;$i++)
-            {
-                $ftpsrow=mysql_fetch_array($ftps);
-                $currentftp=$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'];
-                //echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
-                $result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
-                $count=mysql_num_rows($result);
-                if($count!=0)
-                {
-                    echo('<li class="list-group-item">');
-                    echo('<span class="badge">14</span>');
-                    echo($currentftp);
-                    echo('</li>');
-
-//                    echo("<p id=currentftp><b>".$currentftp."</b></p>");
-
-                    echo("<div id=".$ftpsrow['id']." class='ftp_results'>");
-                    for($j=0;$j<$count;$j++)
-                    {
-                        $row=mysql_fetch_array($result);
-                        $rescount++;
-                        echo("<a href='ftp://".$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'].$row['path'].'/'.$row['Nombre']."' target='_blank'>".$row['path'].'/'.$row['Nombre']."</a><br>");
-                    }
-                    echo("</div>");
-                }
-            }
-            echo("</ul>");
-            echo("</div>");
-        }
-        echo("<p id=cantresult>Se han encontrado <b>".$rescount."</b> resultados.</p>");
-    }
+if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
+{
+    echo('<div class="alert alert-success fade in alert-dismissable"><button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>'.
+        '<h4 id="infoalerttitle">Error</h4><p id="infoalerttext">No se admiten cadenas de menos de 3 caracteres para la busqueda.</p></div>');
 
 }
-mysql_close($coneccion);
-
+else if(isset($_GET["searchedtext"])){
 ?>
-</div>
-</div>
-<!-- <ul class="pagination">
-  <li class="disabled"><a href="#">&laquo;</a></li>
-  <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-  <li class=""><a href="#">2 </a></li>
-  <li class=""><a href="#">3 </a></li>
-  
-</ul> -->
+<script type="text/javascript">
+    $('#carola-search-box').removeClass('carola-search-box-center');
+    $(document).ready(function(){
+        $('html').removeAttr('style');
+//        $('#logo').removeProperty('margin-left');
+        $('#logo').css('margin-left','0.7em');
+    });
 
-<!--<div class="bs-example">-->
-<!--<nav id="navbar-example2" class="navbar navbar-left" role="navigation">-->
-<!--    <div class="container-fluid">-->
-<!---->
-<!--        <div class="collapse navbar-collapse bs-example-js-navbar-scrollspy">-->
-<!--            <ul class="nav nav-pills nav-stacked">-->
-<!--                <li><a href="#fat">@fat</a></li>-->
-<!--                <li><a href="#mdo">@mdo</a></li>-->
-<!--                <li class="dropdown">-->
-<!--                    <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
-<!--                    <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">-->
-<!--                        <li><a href="#one" tabindex="-1">one</a></li>-->
-<!--                        <li><a href="#two" tabindex="-1">two</a></li>-->
-<!--                        <li class="divider"></li>-->
-<!--                        <li><a href="#three" tabindex="-1">three</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
-<!--<div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example">-->
-<!--    <h4 id="fat">@fat</h4>-->
-<!--    <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>-->
-<!--    <h4 id="mdo">@mdo</h4>-->
-<!--    <p>Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard. Freegan beard aliqua cupidatat mcsweeney's vero. Cupidatat four loko nisi, ea helvetica nulla carles. Tattooed cosby sweater food truck, mcsweeney's quis non freegan vinyl. Lo-fi wes anderson +1 sartorial. Carles non aesthetic exercitation quis gentrify. Brooklyn adipisicing craft beer vice keytar deserunt.</p>-->
-<!--    <h4 id="one">one</h4>-->
-<!--    <p>Occaecat commodo aliqua delectus. Fap craft beer deserunt skateboard ea. Lomo bicycle rights adipisicing banh mi, velit ea sunt next level locavore single-origin coffee in magna veniam. High life id vinyl, echo park consequat quis aliquip banh mi pitchfork. Vero VHS est adipisicing. Consectetur nisi DIY minim messenger bag. Cred ex in, sustainable delectus consectetur fanny pack iphone.</p>-->
-<!--    <h4 id="two">two</h4>-->
-<!--    <p>In incididunt echo park, officia deserunt mcsweeney's proident master cleanse thundercats sapiente veniam. Excepteur VHS elit, proident shoreditch +1 biodiesel laborum craft beer. Single-origin coffee wayfarers irure four loko, cupidatat terry richardson master cleanse. Assumenda you probably haven't heard of them art party fanny pack, tattooed nulla cardigan tempor ad. Proident wolf nesciunt sartorial keffiyeh eu banh mi sustainable. Elit wolf voluptate, lo-fi ea portland before they sold out four loko. Locavore enim nostrud mlkshk brooklyn nesciunt.</p>-->
-<!--    <h4 id="three">three</h4>-->
-<!--    <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>-->
-<!--    <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.-->
-<!--    </p>-->
-<!--</div>-->
-<!--</div><!-- /example -->
+
+//    $('#subtitle').removeClass('subtitle-center');
+    $('#carola-search-box').addClass('carola-search-box-left');
+    $('#subtitle').addClass('subtitle-left');
+</script>
+
+
+<?php
+//setlocale(LC_ALL, 'es_ES');
+include 'config.php';//Inclusion del archivo de configuracion que contiene los datos de coneccion al server
+include 'include\general.php';//inclusion del archivo de funciones basicas a la bd
+$coneccion=mysql_connect($server,$user,$password);//inicializa la coneccion
+$db = mysql_select_db($db_name);//selecciona la bd
+
+$ftps = mysql_query("select * from ftps where activo=1");
+$ftpscount = mysql_num_rows($ftps);
+
+if ($ftpscount == 0)
+echo("Aún no se han creado los indices para ningun ftp. Denle el berro a los Admins");
+else {
+
+
+$row_start = (isset($_GET['offset']) ? $_GET['offset'] : 0);
+
+
+//$ftps = mysql_fetch_all( mysql_query("SELECT ftptree.idftp, Count(ftptree.idftp), ftps.direccion_ip, ftps.user FROM ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "'"));
+$ftps_rows = mysql_query("select ftps.direccion_ip as ip, count(ftps.direccion_ip) as ftp_count from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%' GROUP BY ftps.direccion_ip");
+$ext_rows = mysql_query("select SUBSTRING_INDEX(Nombre, '.', -1) AS ext, count(Nombre) as ext_count from ftptree where Nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%' AND LENGTH(SUBSTRING_INDEX(Nombre, '.', -1)) BETWEEN 2 AND  5 GROUP BY ext ORDER BY ext_count DESC LIMIT 15");
+$query = "select Nombre, Tamanho, ftps.direccion_ip as ip, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%'";
+$row_count = mysql_numrows(mysql_query($query));
+//echo $query;
+$rows = mysql_query($query . " LIMIT $row_start, $row_offset");
+$current_ftp = -1;
+?>
+
+<div onchange="filterchanged()" class="panel panel-default" style="float: right;">
+    <div class="panel-heading"><h4>FTPs</h4></div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <?php for ($i = 0; $i < mysql_numrows($ftps_rows); $i++) {
+                $frow = mysql_fetch_array($ftps_rows);?>
+                <li class="list-group-item">
+                    <label style="font-size: small;font-weight: normal"> <input
+                            type="checkbox"/> <?php echo $frow['ip']; ?>
+                    </label> <span class="badge  alert-info"><?php echo $frow['ftp_count']; ?></span>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+
+    <div class="panel-heading"><h4>Extensiones</h4></div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <?php for ($i = 0; $i < mysql_numrows($ext_rows); $i++) {
+                $frow = mysql_fetch_array($ext_rows);?>
+                <li class="list-group-item">
+                    <label style="font-size: small;font-weight: normal"> <input
+                            type="checkbox"/> <?php echo $frow['ext']; ?>
+                    </label> <span class="badge  alert-info"><?php echo $frow['ext_count']; ?></span>
+                </li>
+            <?php } ?>
+        </ul>
+
+    </div>
+</div>
+
+<table class='table table-responsive table-hover' style='font-size: small;width: 70% '>
+    <tr id="mypaginator">
+        <th colspan="2">
+            <div style="padding: 5px" class="container-fluid">
+
+                <div style="float: left;margin-top: 15px">
+                    <p class='text-info'>
+                        Resultados   <?php echo ($row_start + 1) . " - " . ($row_start + mysql_numrows($rows)) . " / $row_count resultados." ?>
+
+                </div>
+                <?php if ($row_count > $row_offset) { ?>
+                    <div style="float: right">
+                        <ul class='pagination pagination-centered pull-right'>
+                            <li><a href="?searchedtext=<?php echo $_GET["searchedtext"] ?>&offset=0">&laquo;</a>
+                            </li>
+                            <li class="divider"></li>
+                            <?php
+
+                            for ($i = 0; $i < $row_count; $i += $row_offset)
+                                if ($i > $row_start - 5 * $row_offset && $i < $row_start + 5 * $row_offset)
+                                    echo "<li " . ($row_start == $i ? "class='active'" : '') . "><a href='?searchedtext=" . $_GET["searchedtext"] . "&offset=$i'>" . ($i / $row_offset + 1) . "</a></li>";
+                            ?>
+                            <li class=""></li>
+                            <li>
+                                <a href="?searchedtext=<?php echo $_GET["searchedtext"] ?>&offset=<?php echo $row_count - $row_count % $row_offset ?>">&raquo;</a>
+                            </li>
+                        </ul>
+                    </div>
+                <?php } ?>
+            </div>
+        </th>
+    </tr>
+    <?php
+    for ($i = 0; $i < mysql_numrows($rows); $i++) {
+        // if($ftps[$current_ftp])
+        $row = mysql_fetch_array($rows);
+        ?>
+        <tr>
+            <td>
+                <div><strong>  <?php echo $row['Nombre'] ?></strong></div>
+                <div style='font-size:smaller'> <?php echo "ftp://" . $row['ip'] . " | " . $row['Tamanho'] ?>
+                    Kb
+                </div>
+            </td>
+            <td>
+
+                <a id="btndw" class="btn" role="link"
+                   href='ftp:// <?php echo $row['ip'] . $row['path'] . '/' . $row['Nombre'] ?>'>
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </a>
+                <a class="btn" href='#' onclick="explore('ftp://<?php echo $row['ip'] . $row['path'] ?>')">
+                            <span class="glyphicon glyphicon-folder-open">
+                </a>
+            </td>
+        </tr>
+    <?php
+    }
+    echo '</table>';
+
+
+    }
+    mysql_close($coneccion);
+    }
+    }
+    ?>
+
+
+
+</div>
+</div>
 
 <footer class="footer" id="colophon" role="contentinfo">
-    <a href="ftp.php" target="_blank"><button type="button" class="btn btn-link">Administrar</button></a><br>
-    <!-- <img src="remo.png"> -->
+    <a href="ftp.php" id="administrar" class="pull-left" target="_blank">Administrar</a>
+    <a href="http://192.168.32.1/netlab/" id="copyright" class="pull-right" target="_blank">Thanks to netlab</a>
 </footer>
 </body>
 </html>

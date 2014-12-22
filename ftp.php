@@ -34,6 +34,11 @@
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/docs.css" rel="stylesheet">
 <?php
+    if(isset($_COOKIE['t'])){
+        ?>
+        <link href="css/carola_site_<?php echo($_COOKIE["t"]);?>.css" rel="stylesheet">
+    <?php
+    }
 	//El siguiente codigo intenta conectarse al servidor utilizando los datos de config.php
 	$coneccion=mysql_connect($server,$user,$password) or die //Si no se ha podido emite el siguiente mensaje de error
 	("No se ha podido conectar con el servidor de datos, intente acceder mas tarde y si el problema 

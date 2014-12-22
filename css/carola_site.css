@@ -1,14 +1,10 @@
+
+
+
 html {
-    /*box-shadow: inset 0 0 200px rgba(0.2,0.2,.8,.9) !important;*/
-
-    height: 100% !important;;
+    /*height: 100%;*/
 }
 
-body{
-    height: 100% !important;
-    position: static !important;
-
-}
 
 @font-face {
     font-family: 'bubble';
@@ -25,15 +21,46 @@ body{
     src: url('../media/ttf/rufa.ttf') format('truetype');
 }
 
+#logo {
+    width: 40%;
+    margin-left: 30%;
+
+}
+
 #grafiti {
     font-family: rufa !important;
+    text-align: center;
     font-size: 6em;
     position:relative;
     letter-spacing: 0.07em !important;
     left:-10px;
-    padding: 0.02em !important;
-    margin-left: 0.15em !important;
     z-index: -1 !important;
+    border-bottom-style: dotted;
+    border-bottom-width: 3px !important;
+
+
+}
+
+
+#subtitle{
+    /*background-color: #4AB1D7;*/
+    /*background-image: radial-gradient(90deg, #4AB1D7 0%, rgba(0, 82, 255, 0.0150) 20%) ;*/
+    font-size: 0.7em !important;
+
+    /*padding: -5px;*/
+    padding-top: 4px !important;
+    padding-left: 3px !important;
+
+    text-align: center;
+
+}
+
+.subtitle-center{
+    text-align: center !important;
+}
+
+.subtitle-left{
+    text-align: left !important;
 }
 
 .footer {
@@ -45,6 +72,18 @@ body{
     height: 3em !important;
     background-color: #f5f5f5 !important;
 }
+
+#carola-nav{
+    z-index: 1000 !important;
+    width: 100% !important;
+}
+
+
+#carola-nav > ul > li > a{
+    font-weight: bold;
+}
+
+
 
 form#carola-form {
     width: 100% !important;
@@ -65,6 +104,9 @@ form#carola-form {
     text-align: center !important;
     margin-top: 9.5% !important;
 }
+#contenido {
+    min-height: 100% !important;
+}
 
 .btn {
     border-radius: 0px !important;
@@ -72,6 +114,15 @@ form#carola-form {
     font-family: sans-serif !important;
     font-weight: bold !important;
     text-spacing: normal !important;
+}
+
+#carola-search-box .glyphicon {
+    position: inherit !important;
+}
+
+#mypaginator .pagination {
+    /*z-index: -1 !important;*/
+    /*position: none !important;*/
 }
 
 .carola-search-box-left{
@@ -86,39 +137,69 @@ form#carola-form {
 
 
 
-#carola-nav {
-    width: 100% !important;
-}
 
-#carola-nav > ul > li > a{
-    font-weight: bold;
-}
 
-#subtitle{
-    /*background-color: #4AB1D7;*/
-    /*background-image: radial-gradient(90deg, #4AB1D7 0%, rgba(0, 82, 255, 0.0150) 20%) ;*/
-    font-size: 0.9em !important;
-    /*padding: -5px;*/
-    padding-top: 4px !important;
-    padding-left: 3px !important;
-    width: 40% !important;
-}
 
-.subtitle-center{
-    margin-left: 30% !important;
-}
 
-.subtitle-left{
-    margin-left: 0% !important;
-}
 
-#all-ftp {
-    margin: 2px !important;
+
+
+
+#carola-search-box .table{
     margin-top: 1em !important;
-    padding: 3px !important;
-    background-color: #dbf2fe;
-    padding-left: 1em !important;
-    min-height: 25em !important;
-    max-height: 25em !important;
-    overflow-y: scroll !important;
 }
+
+#carola-search-box .table {
+    margin-bottom: 8em !important;
+}
+
+.panel {
+    margin-top: 0.9em !important;
+    width: 19em;
+}
+
+input.typeahead-suggestion{
+    width:34em;
+    margin: 0 auto;
+}
+
+@media (max-width: 978px) {
+    input.typeahead-suggestion{
+        width: 24em ;
+        margin: 0px;
+    }
+    #carola-search-box{
+        margin: 0px !important;;
+        padding: 0px !important;;
+    }
+    .panel .panel-body{
+        padding: 0px ;
+    }
+    .panel{
+        width: 12em;
+    }
+    #grafiti{
+        font-size: 4em;
+    }
+}
+
+
+
+#carola-search-box .table > tbody > tr:hover > th {
+    background-color: transparent !important;
+}
+
+footer#colophon > a {
+    text-transform: UPPERCASE;
+    text-decoration-style: dashed;
+    text-decoration: none ;
+    margin: 1em;
+}
+
+/*#administrar{*/
+/*float: left;*/
+/*}*/
+
+/*#copyright{*/
+/*float: right;*/
+/*}*/

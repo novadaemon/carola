@@ -1,18 +1,23 @@
-html {
-    box-shadow: inset 0 0 200px rgba(0,0,0,.5) !important;
+/*html{*/
+    /*height: 100% !important;*/
+/*}*/
 
-}
+
 
 body{
-
     background-color: #334 !important;
-
+    box-shadow: inset 0 0 200px rgba(0,0,0,.5) !important;
+    height: 100% !important;
 }
 
 #carola-nav {
     background-color: #000000;
-    /*background-color: #2B2B39 !important;*/
+    opacity: 0.8;
+}
 
+#carola-nav > ul > li > ul{
+    opacity: 1 !important;
+    background-color: #2e2e2e;
 }
 
 #grafiti {
@@ -22,10 +27,7 @@ body{
 }
 
 #subtitle{
-    text-align: right !important;
-    border-top-style: dotted;
-    /*-moz-border-top-image: lineal-gradient(45deg, #d72b32 0%, rgba(0, 82, 255, 0.2150) 80%) !important;*/
-    border-top-width: 5px !important;
+
     border-top-color: #d0e3f0  !important;;
     -moz-border-top-width: 5px !important;
     /*-moz-border-top-color: #d0e3f0  !important;;*/
@@ -66,6 +68,60 @@ body{
 
 
 
+#carola-search-box .table > tbody > tr {
+    background-color: #334 !important;
+    color: rgb(255, 254, 250) !important;
+    /*color: rgb(197, 220, 244) !important;*/
+}
+
+#carola-search-box .table > tbody > tr:hover > th {
+    color: rgb(255, 254, 250) !important;
+}
+
+#carola-search-box .table > tbody > tr:hover > td   {
+    background-color: rgb(255, 254, 250) !important;
+    color: #428BCA !important;
+}
+
 #carola-nav .dropdown-menu > li > a {
     color: rgb(255, 52, 101) !important;
+}
+
+.text-info {
+    color: rgba(84, 195, 255, 1) !important;
+}
+
+
+.panel {
+    background-color: transparent !important;
+    border: 1px solid #eeeeee !important;
+    border-left: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+
+.panel .panel-body {
+    padding: 0px !important;
+    background-color: transparent !important;
+
+}
+.list-group-item{
+    color: #f5f5f5 !important;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+.panel .panel-heading {
+    background-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.list-group-item:last-child, .list-group-item:first-child {
+    border-radius: 0px !important;
+}
+
+.list-group-item:hover{
+    background-color: #428BCA;
+}
+
+.list-group{
+    margin: 0px !important;
 }

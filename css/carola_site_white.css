@@ -6,13 +6,19 @@
  }
 
  #carola-nav {
-     background-color: #d0e3f0 !important;
-     opacity: 0.6;
+     /*background-color: #d0e3f0 !important;*/
+     background-color: #269abc !important;
+     opacity: 0.8;
  }
 
  #carola-nav > ul > li > a{
 
-     color: #000000;
+     color: #ffffff;
+ }
+
+ #carola-nav > ul > li.open > a,  #carola-nav > ul > li > a:hover{
+
+     color: #51AEC9;
  }
 
  #grafiti {
@@ -27,9 +33,7 @@
 
  #subtitle{
      /*margin-top: -0.5em !important;*/
-     text-align: right !important;
-     border-top-style: dotted;
-     border-top-width: 5px !important;
+
      border-top-color: #31b0d5  !important;;
      -moz-border-top-width: 5px !important;
      -moz-border-top-color: #31b0d5  !important;;
@@ -57,3 +61,5 @@
      background-color: #63656f;
 
  }
+
+
