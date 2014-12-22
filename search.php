@@ -168,7 +168,7 @@ $('.typeahead-suggestion').keydown(function(event) {
     else{
         ENTER_KEY_IS_PRESSED=false;
         resizeSuggestions();
-//            console.log("==================== in KEYDOWN: cant= "+cant);
+            console.log("==================== in KEYDOWN: cant= "+cant);
         var typeaheadValue= $('.typeahead').prop('value');
         if(typeaheadValue.length<=1){
             restarSuggestions();
