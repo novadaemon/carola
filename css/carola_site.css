@@ -1,21 +1,5 @@
 
 
-
-html {
-    /*height: 100%;*/
-}
-
-
-/*@font-face {*/
-    /*font-family: 'bubble';*/
-    /*src: url('../media/ttf/bubble.ttf') format('truetype');*/
-/*}*/
-
-/*@font-face {*/
-    /*font-family: 'block';*/
-    /*src: url('../media/ttf/block.ttf') format('truetype');*/
-/*}*/
-
 @font-face {
     font-family: 'rufa';
     src:    url('../fonts/titillium_webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -168,7 +152,7 @@ input.typeahead-suggestion{
     margin: 0 auto;
 }
 
-@media (max-width: 978px) {
+@media (max-width: 1200px) { /*978*/
     input.typeahead-suggestion{
         width: 24em ;
         margin: 0px;

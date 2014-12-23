@@ -177,13 +177,14 @@ function restarSuggestions(){
  */
 function resizeSuggestions() {
     if (cant >= 0){
+        $('ul.typeahead li.active').removeClass('active');
         $('ul.typeahead').removeClass('hide');
         $('ul.typeahead li').removeClass('hide');
         $('ul.typeahead li:gt(' + cant + ')').addClass('hide');
+
     }
-//                $('ul.typeahead li:gt(' + cant + ')').remove();
+
     else {
-//                $('ul.typeahead li').remove();
         $('ul.typeahead li').addClass('hide');
         $('ul.typeahead').addClass('hide');
     }
@@ -193,17 +194,22 @@ $('.typeahead-suggestion').keydown(function(event) {
     var keyCode = event.keyCode || event.which;
     if(keyCode == 13) //ENTER KEY
     {
+//        console.log('comprueba 133333333 aki ENTER_KEY_IS_PRESSED');
         ENTER_KEY_IS_PRESSED=true;
-        if($('ul.typeahead').hasClass('hide')){
-            var value=$('.typeahead-suggestion').prop('value');
+        var value=$('.typeahead-suggestion').prop('value');
+        if($('ul.typeahead').hasClass('hide') || !($('ul.typeahead li').hasClass('active'))){
+//            console.log('comprueba 133333333 aki !$("ul.typeahead li.active")');
             $('ul.typeahead li').attr('data-value',value);
             $('ul.typeahead li a').html(value);
+
+            $('#carola-form .btn').click();
         }
+
         restarSuggestions();
     }
     else{
         ENTER_KEY_IS_PRESSED=false;
-        resizeSuggestions();
+//        resizeSuggestions();
         console.log("==================== in KEYDOWN: cant= "+cant);
         var typeaheadValue= $('.typeahead').prop('value');
         if(typeaheadValue.length<=1){
@@ -222,9 +228,12 @@ var timeoutTest= 10000;
 var onlyKeyUp=false;
 var lastPetition = {};
 $('.typeahead-suggestion').keyup(function(event){
-    if(!onlyKeyUp){
+    var keyCode = event.keyCode || event.which;
+
+
+    if(!onlyKeyUp && keyCode != 38 && keyCode!=40 && keyCode!=13){
         console.log("STARTING ANALISYS OF LAST CHAR");
-        var keyCode = event.keyCode || event.which;
+
 
         resizeSuggestions();
 
@@ -431,6 +440,14 @@ $ftps_rows = mysql_query("select ftps.direccion_ip as ip, count(ftps.direccion_i
 $ext_rows = mysql_query("select SUBSTRING_INDEX(Nombre, '.', -1) AS ext, count(Nombre) as ext_count from ftptree where Nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%' AND LENGTH(SUBSTRING_INDEX(Nombre, '.', -1)) BETWEEN 2 AND  5 GROUP BY ext ORDER BY ext_count DESC LIMIT 15");
 $query = "select Nombre, Tamanho, ftps.direccion_ip as ip, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%'";
 $row_count = mysql_numrows(mysql_query($query));
+if($row_count <= 7 ){?>
+    <script id="myscript" type="text/javascript">
+        $(document).ready(function(){
+            $('html').css('height','100%');
+        });
+
+    </script>
+<?php }
 //echo $query;
 $rows = mysql_query($query . " LIMIT $row_start, $row_offset");
 $current_ftp = -1;
