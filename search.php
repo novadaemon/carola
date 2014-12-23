@@ -398,6 +398,7 @@ else if(isset($_GET["searchedtext"])){
         $('html').removeAttr('style');
 //        $('#logo').removeProperty('margin-left');
         $('#logo').css('margin-left','0.7em');
+        $('#grafiti').css('text-align','start');
     });
 
 
@@ -471,13 +472,13 @@ $current_ftp = -1;
         <th colspan="2">
             <div style="padding: 5px" class="container-fluid">
 
-                <div style="float: left;margin-top: 15px">
+                <div style="float: left;margin-top: 2.2em">
                     <p class='text-info'>
                         Resultados   <?php echo ($row_start + 1) . " - " . ($row_start + mysql_numrows($rows)) . " / $row_count resultados." ?>
 
                 </div>
                 <?php if ($row_count > $row_offset) { ?>
-                    <div style="float: right">
+                    <div id="paginator-containter" style="float: right">
                         <ul class='pagination pagination-centered pull-right'>
                             <li><a href="?searchedtext=<?php echo $_GET["searchedtext"] ?>&offset=0">&laquo;</a>
                             </li>
@@ -510,7 +511,7 @@ $current_ftp = -1;
                     Kb
                 </div>
             </td>
-            <td>
+            <td id="download-explore">
 
                 <a id="btndw" class="btn" role="link"
                    href='ftp:// <?php echo $row['ip'] . $row['path'] . '/' . $row['Nombre'] ?>'>

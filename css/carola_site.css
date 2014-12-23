@@ -6,20 +6,25 @@ html {
 }
 
 
-@font-face {
-    font-family: 'bubble';
-    src: url('../media/ttf/bubble.ttf') format('truetype');
-}
+/*@font-face {*/
+    /*font-family: 'bubble';*/
+    /*src: url('../media/ttf/bubble.ttf') format('truetype');*/
+/*}*/
 
-@font-face {
-    font-family: 'block';
-    src: url('../media/ttf/block.ttf') format('truetype');
-}
+/*@font-face {*/
+    /*font-family: 'block';*/
+    /*src: url('../media/ttf/block.ttf') format('truetype');*/
+/*}*/
 
 @font-face {
     font-family: 'rufa';
-    src: url('../media/ttf/rufa.ttf') format('truetype');
+    src:    url('../fonts/titillium_webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('../media/ttf/rufa.ttf') format('truetype')
+
+    ;
 }
+
+
 
 #logo {
     width: 40%;
@@ -28,15 +33,13 @@ html {
 }
 
 #grafiti {
-    font-family: rufa !important;
+    font-family: rufa;
     text-align: center;
     font-size: 6em;
-    position:relative;
+    /*position:relative;*/
     letter-spacing: 0.07em !important;
     left:-10px;
     z-index: -1 !important;
-    border-bottom-style: dotted;
-    border-bottom-width: 3px !important;
 
 
 }
@@ -52,6 +55,8 @@ html {
     padding-left: 3px !important;
 
     text-align: center;
+    border-top-style: dotted;
+    border-bottom-width: 3px !important;
 
 }
 
@@ -190,10 +195,18 @@ input.typeahead-suggestion{
 }
 
 footer#colophon > a {
-    text-transform: UPPERCASE;
+    text-transform: uppercase;
     text-decoration-style: dashed;
     text-decoration: none ;
     margin: 1em;
+}
+
+td#download-explore > a {
+    float: right !important;
+}
+
+#paginator-containter {
+    margin-right: -0.87em !important;
 }
 
 /*#administrar{*/

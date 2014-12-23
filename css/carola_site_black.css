@@ -20,18 +20,28 @@ body{
     background-color: #2e2e2e;
 }
 
-#grafiti {
+@font-face {
+    font-family: 'kosalsay';
+    src:    url('../fonts/opensans_light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../media/ttf/kosalsay.ttf') format('truetype')
 
+;
+}
+
+#grafiti {
+    font-family: kosalsay;
     color: #eeeeee;
+    font-size: 7.4em ;
 
 }
 
 #subtitle{
 
-    border-top-color: #d0e3f0  !important;;
-    -moz-border-top-width: 5px !important;
+    /*border-top-color: #d0e3f0  !important;;*/
+    /*-moz-border-top-width: 5px !important;*/
     /*-moz-border-top-color: #d0e3f0  !important;;*/
     color: #d0e3f0 !important;
+    margin-top: -3em !important;
 }
 
 #currentftp, #cantresult {
@@ -51,7 +61,7 @@ body{
 }
 
 #carola-nav > ul > li.open  ul > li > a:hover {
-    color: #f0ad4e !important;
+    color: #ffffff !important;
     background-color: #101010 !important;
 }
 /*#carola-nav > ul  {*/
@@ -124,4 +134,18 @@ body{
 
 .list-group{
     margin: 0px !important;
+}
+
+#carola-form button.btn {
+     background-color: #ffffff;
+     color: #555555;
+     border-color: #555555;
+     border-style: ridge;
+ }
+
+#carola-form button.btn:hover {
+    background-color: #e3e3e3;
+    color: #53552f;
+    border-color: #555555;
+    border-style: ridge;
 }
