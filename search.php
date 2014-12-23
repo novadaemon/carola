@@ -1,4 +1,5 @@
 <?php
+//! configuracion de los estilos
 if(!(isset($_COOKIE["t"]))){
     setcookie("t", 'white', time()+(3600*24*365));
 }
@@ -8,7 +9,13 @@ if(isset($_GET['t'])){
         setcookie("t", 'black', time()+(3600*24*365));
     else if( $_GET['t']=='w')
         setcookie("t", 'white', time()+(3600*24*365));
-    header('Location: search.php');
+//    $last_url
+//    var_dump($_REQUEST);
+//
+    $last_url = $_SERVER['HTTP_REFERER'];
+//    echo '<br/>';
+//    echo urlencode($_GET['url']);
+    header('Location:'. $last_url);
 }
 ?>
 <!DOCTYPE html>
@@ -110,6 +117,7 @@ if(isset($_GET['t'])){
         <li class="dropdown pull-right">
             <a id="drop8" role="button" data-toggle="dropdown" href="#">Estilo <b class="caret"></b></a>
             <ul id="menu4" class="dropdown-menu" role="menu" aria-labelledby="drop8">
+
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=w">BlueWhite </a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=b">BlackTea </a></li>
             </ul>
@@ -126,7 +134,7 @@ if(isset($_GET['t'])){
         CAROLA
     </div>
     <div id="subtitle">FTP INDEXER</div>
-<!--    class="subtitle-center"-->
+    <!--    class="subtitle-center"-->
 </div>
 <!-- <img src="media/jpg/logo.jpg" style="position:relative;left:-10px;"> -->
 <br><br>
@@ -411,7 +419,7 @@ else if(isset($_GET["searchedtext"])){
     });
 
 
-//    $('#subtitle').removeClass('subtitle-center');
+    //    $('#subtitle').removeClass('subtitle-center');
     $('#carola-search-box').addClass('carola-search-box-left');
     $('#subtitle').addClass('subtitle-left');
 </script>
