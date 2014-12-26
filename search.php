@@ -1,6 +1,22 @@
 <?php
-if(!(isset($_COOKIE["tema"])))
-    $_COOKIE["tema"]="white";
+//! configuracion de los estilos
+if(!(isset($_COOKIE["t"]))){
+    setcookie("t", 'white', time()+(3600*24*365));
+}
+if(isset($_GET['t'])){
+    setcookie("t", 0,0);
+    if($_GET["t"]=='b')
+        setcookie("t", 'black', time()+(3600*24*365));
+    else if( $_GET['t']=='w')
+        setcookie("t", 'white', time()+(3600*24*365));
+//    $last_url
+//    var_dump($_REQUEST);
+//
+    $last_url = $_SERVER['HTTP_REFERER'];
+//    echo '<br/>';
+//    echo urlencode($_GET['url']);
+    header('Location:'. $last_url);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,17 +24,48 @@ if(!(isset($_COOKIE["tema"])))
     <meta charset="UTF-8" />
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/docs.css" rel="stylesheet">
-    <link href="css/carola_site_<?php echo($_COOKIE["tema"]);?>.css" rel="stylesheet">
+    <link href="css/carola_site.css" rel="stylesheet">
+    <link href="css/carola_site_<?php echo($_COOKIE["t"]);?>.css" rel="stylesheet">
 </head>
 <body>
-<script src="scripts/js/jquery.js"></script>
+<script src="scripts/js/jquery.js">
+</script>
+<script>
+    $(document).ready(function(){
+
+        $('html').css('height','100%');
+////        $('html').removeAttr('style');
+//        var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+//        if(is_firefox)
+//            console.log("si es firefox");
+//        else
+//            console.log("no es firefox");
+
+        function explore(e) {
+            alert(encodeURI(e));
+            window.location = encodeURI(e);
+        }
+        function filterchanged() {
+            alert('');
+        }
+        $(document).ready(function () {
+                if ($('tr').length - 1 > 10)
+
+                    $('#mypaginator').clone().insertAfter($('tr:last'));
+//                $('#inputsearch').autocomplete({source: 'scripts/php/autocomplete.php', delay: 500});
+            }
+        );
+    });
+</script>
 <script src="scripts/js/modal.js"></script>
 <script src="scripts/js/bootstrap.js"></script>
 <script src="scripts/js/alert.js"></script>
 <script src="scripts/js/bootstrap-typeahead.js"></script>
-<script src="scripts/js/mycookie.js"></script>
+<script src="scripts/js/mystorage.js"></script>
+<script src="scripts/js/scrollspy.js"></script>
 <div id="carola-nav" style="position:fixed;top:0px;">
-    <!-- <img src="newbeta.png" style="position:absolute;display:block;"> -->
+
+
     <ul class="nav nav-pills" style="margin-left:40px;">
         <li class="dropdown">
             <a id="drop4" role="button" data-toggle="dropdown" href="#">Web Sociales<b class="caret"></b></a>
@@ -67,241 +114,226 @@ if(!(isset($_COOKIE["tema"])))
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Dota III</a></li>
             </ul>
         </li>
+        <li class="dropdown pull-right">
+            <a id="drop8" role="button" data-toggle="dropdown" href="#">Estilo <b class="caret"></b></a>
+            <ul id="menu4" class="dropdown-menu" role="menu" aria-labelledby="drop8">
+
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=w">BlueWhite </a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="search.php?t=b">BlackTea </a></li>
+            </ul>
+        </li>
     </ul> <!-- /tabs -->
+
 </div>
 <div class="container bs-docs-container" id="contenido">
-<?php
-include 'config.php';//Inclusion del archivo de configuracion que contiene los datos de coneccion al server
-include 'include\general.php';//inclusion del archivo de funciones basicas a la bd
-$coneccion=mysql_connect($server,$user,$password);//inicializa la coneccion
-$db=mysql_select_db("ftpindexer");//selecciona la bd
-
-//todo Por hacer: hay que crear un campo para almecenar el nombre de la bd en el archivo config.php para evitar 
-//tener que actualizarlo en todos los archivos
 
 
-if($_GET)
-{
-
-    if(isset($_GET["searchedtext"]) && $_GET["searchedtext"]=='')
-        goto tag;
-    if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
-    {
-        echo('<div class="alert alert-success fade in alert-dismissable"><button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>'.
-            '<h4 id="infoalerttitle">Error</h4><p id="infoalerttext">No se admiten cadenas de menos de 3 caracteres para la busqueda.</p></div>');
-        goto tag;
-    }
-    ?>
-    <div id="grafiti">
-        CAROLA
-    </div>
-    <!-- <img src="media/jpg/logo2.jpg" style="position:relative;left:-10px"><br><br> -->
-    <form class="form-inline" action="search.php" method="get" style="width:780px">
-        <div class="form-group">
-            <!--  <input class="form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
- style="width:600px;"   value="<?php /*echo($_GET["searchedtext"]);*/ ?>"> -->
-
-            <input class="typeahead-suggestion typeahead form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
-                   style="margin: 0 auto; width:480px;" data-provide="typeahead" data-items="10"
-                   value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
-        </div><div class="form-group">
-            &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
-        </div>
-
-
-
-    </form>
-    <!-- <div class="pagination">
-      <ul>
-        <li><a href="#">Prev</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">Next</a></li>
-      </ul>
-    </div> -->
-    <?php
-
-    if(isset($_GET["searchedtext"])){
-        //setlocale(LC_ALL, 'es_ES');
-        $ftps=mysql_query("select * from ftps where activo=1");
-        $ftpscount=mysql_num_rows($ftps);
-        $rescount=0;
-        if($ftpscount==0)
-            echo("Aun no se han creado los indices para ningun ftp. Denle el berro a los Admins");
-        else
-            for($i=0;$i<$ftpscount;$i++)
-            {
-                $ftpsrow=mysql_fetch_array($ftps);
-                $currentftp=$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'];
-                //echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
-                $result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
-                $count=mysql_num_rows($result);
-                if($count!=0)
-                {
-                    echo("<p id=currentftp><b>".$currentftp."</b></p>");
-                    for($j=0;$j<$count;$j++)
-                    {
-                        $row=mysql_fetch_array($result);
-                        $rescount++;
-                        echo("<a href='ftp://".$ftpsrow['user'].'@'.$ftpsrow['direccion_ip'].$row['path'].'/'.$row['Nombre']."' target='_blank'>".$row['path'].'/'.$row['Nombre']."</a><br>");
-                    }
-                }
-            }
-        echo("<p id=cantresult>Se han encontrado <b>".$rescount."</b> resultados.</p>");
-    }
-
-}
-else
-{
-tag:
-?>
-
-<center>
+<div id="carola-search-box" class="carola-search-box-center">
+<div id="logo">
     <div id="grafiti">
         CAROLA
     </div>
     <div id="subtitle">FTP INDEXER</div>
-    <!-- <img src="media/jpg/logo.jpg" style="position:relative;left:-10px;"> -->
-    <br><br>
-    <form class="form-inline" action="search.php" method="get" style="width:780px">
-        <div class="form-group">
-            <input class="typeahead-suggestion typeahead form-control" type="text" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
-                   style="margin: 0 auto; width:480px;" data-provide="typeahead" data-items="10"
-                   value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>">
-        </div><div class="form-group">
-            &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
-        </div>
-    </form>
-    <?php
+    <!--    class="subtitle-center"-->
+</div>
+<!-- <img src="media/jpg/logo.jpg" style="position:relative;left:-10px;"> -->
+<br><br>
+<!--action="filter_search.php?filter_search"-->
+<form id="carola-form" class="form-inline" action="search.php" method="get" >
+    <div class="form-group">
+        <input class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+               data-provide="typeahead" data-items="10"
+               value="<?php if(isset($_GET["searchedtext"])) echo($_GET["searchedtext"]); ?>" required="true">
+    </div><div class="form-group">
+        &nbsp;<button type="submit" class="btn btn-primary"><img src="media/png/search2.png"> Buscar</button>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+
+
+var storageSupported= supportsStorage();
+function esCaracterValido(caracter){
+    if(caracter.charCodeAt(0) >= 65 && caracter.charCodeAt(0)<=90)
+        return true;
+    else if(caracter.charCodeAt(0) >= 97 && caracter.charCodeAt(0)<=122)
+        return true;
+    else if(caracter.charCodeAt(0) == 241)  //la ñ
+        return true;
+    else
+        return false;
+}
+
+var prev_search=[]; ///> arreglo de las sugerencias, ira cambiando a medida que se escribe en el input y se piden nuevas sugerencias
+var opt= { source: prev_search  }; ///> opciones que se le pasan al typeahead
+$('.typeahead-suggestion').typeahead(opt);  ///> inicializacion del typeahead con las opciones de arriba (las por default)
+
+//  var caracteres= 1;///> cantidad de caracteres que el usuario va escribiendo, usado solo para ir haciendo la busqueda cada 2 caracteres escritos
+var cant=-1; ///> cantidad de items (sugerencias) que devuelve la busqueda mientras se va escribiendo codigo, -1 por defecto (no muestra ninguna)
+var lastCantWords=0;
+var cantCharBeforeSuggest = 3;
+var maxItemsToSuggest = 10;
+function restarSuggestions(){
+    cant=-1;
+    lastCantWords=0;
+
+}
+/*
+ Usado para restringir el numero de elemntos que se muestran a la cantidad de sugerencias de la busqueda
+ Llevado a cabo porque el typeahead de bootstrap no permite cambiar el numero de items que muestra de forma dinamic
+ */
+function resizeSuggestions() {
+    if (cant >= 0){
+        $('ul.typeahead li.active').removeClass('active');
+        $('ul.typeahead').removeClass('hide');
+        $('ul.typeahead li').removeClass('hide');
+        $('ul.typeahead li:gt(' + cant + ')').addClass('hide');
+
     }
-    ?>
 
-    <script type="text/javascript">
+    else {
+        $('ul.typeahead li').addClass('hide');
+        $('ul.typeahead').addClass('hide');
+    }
+}
+var ENTER_KEY_IS_PRESSED=false;
+$('.typeahead-suggestion').keydown(function(event) {
+    var keyCode = event.keyCode || event.which;
+    if(keyCode == 13) //ENTER KEY
+    {
+//        console.log('comprueba 133333333 aki ENTER_KEY_IS_PRESSED');
+        ENTER_KEY_IS_PRESSED=true;
+        var value=$('.typeahead-suggestion').prop('value');
+        if($('ul.typeahead').hasClass('hide') || !($('ul.typeahead li').hasClass('active'))){
+//            console.log('comprueba 133333333 aki !$("ul.typeahead li.active")');
+            $('ul.typeahead li').attr('data-value',value);
+            $('ul.typeahead li a').html(value);
 
-        function esCaracterValido(caracter){
-            if(caracter.charCodeAt(0) >= 65 && caracter.charCodeAt(0)<=90)
-                return true;
-            else if(caracter.charCodeAt(0) >= 97 && caracter.charCodeAt(0)<=122)
-                return true;
-            else if(caracter.charCodeAt(0) == 241)  //la ñ
-                return true;
-            else
-                return false;
+            $('#carola-form .btn').click();
         }
 
-        var prev_search=[]; ///> arreglo de las sugerencias, ira cambiando a medida que se escribe en el input y se piden nuevas sugerencias
-        var opt= { source: prev_search  }; ///> opciones que se le pasan al typeahead
-        $('.typeahead-suggestion').typeahead(opt);  ///> inicializacion del typeahead con las opciones de arriba (las por default)
-
-        //  var caracteres= 1;///> cantidad de caracteres que el usuario va escribiendo, usado solo para ir haciendo la busqueda cada 2 caracteres escritos
-        var cant=-1; ///> cantidad de items (sugerencias) que devuelve la busqueda mientras se va escribiendo codigo, -1 por defecto (no muestra ninguna)
-        var lastCantWords=0;
-        var cantCharBeforeSuggest = 3;
-        function restarSuggestions(){
-            cant=-1;
-            lastCantWords=0;
-
+        restarSuggestions();
+    }
+    else{
+        ENTER_KEY_IS_PRESSED=false;
+//        resizeSuggestions();
+        console.log("==================== in KEYDOWN: cant= "+cant);
+        var typeaheadValue= $('.typeahead').prop('value');
+        if(typeaheadValue.length<=1){
+            restarSuggestions();
+            console.log("restarSuggestions executed");
         }
-        /*
-         Usado para restringir el numero de elemntos que se muestran a la cantidad de sugerencias de la busqueda
-         Llevado a cabo porque el typeahead de bootstrap no permite cambiar el numero de items que muestra de forma dinamic
-         */
-        function resizeSuggestions() {
-            if (cant >= 0){
-                $('ul.typeahead').removeClass('hide');
-                $('ul.typeahead li').removeClass('hide');
-                $('ul.typeahead li:gt(' + cant + ')').addClass('hide');
+    }
+});
+var timeoutTest= 10000;
+
+
+/*
+ Se encarga de realizar el proceso de buscar las sugerencias que matchean con lo que se escribe en el input
+ Usa AJAX y solicita en formato json las sugerencias
+ */
+var onlyKeyUp=false;
+var lastPetition = {};
+$('.typeahead-suggestion').keyup(function(event){
+    var keyCode = event.keyCode || event.which;
+
+
+    if(!onlyKeyUp && keyCode != 38 && keyCode!=40 && keyCode!=13){
+        console.log("STARTING ANALISYS OF LAST CHAR");
+
+
+        resizeSuggestions();
+
+        var typeaheadValue= $('.typeahead').prop('value');
+
+        var arrayOfStrings = typeaheadValue.split(' ');
+        console.log("arrayOfStrings => "+arrayOfStrings);
+        var stringToSearch= "";
+        var cantWords= arrayOfStrings.length;
+        var wordsToPeticion = 0;
+        var size = cantWords;
+        for (var i = 0; i <size ; i++) {
+            if(arrayOfStrings[i].length == 0 ){
+                console.log("elimino");
+                cantWords--;
+                continue;
             }
-//                $('ul.typeahead li:gt(' + cant + ')').remove();
-            else {
-//                $('ul.typeahead li').remove();
-                $('ul.typeahead li').addClass('hide');
-                $('ul.typeahead').addClass('hide');
+            else if(arrayOfStrings[i].length >= cantCharBeforeSuggest || (arrayOfStrings[i].length==1 && !esCaracterValido(arrayOfStrings[i]))){
+                wordsToPeticion++;
+
             }
+            if(i>0 && i<size)
+                stringToSearch+= " ";
+            stringToSearch+=arrayOfStrings[i];
+        };
+        var lastWord;
+        if(keyCode == 32){ //espacio
+            lastWord= arrayOfStrings[arrayOfStrings.length - 2];
+            console.log("lastWord: ["+lastWord+"]");
         }
+//            if(lastCantWords == cantWords)
+//                lastCantWords --;
 
-        $('.typeahead-suggestion').keydown(function(event) {
-            resizeSuggestions();
-//            console.log("==================== in KEYDOWN: cant= "+cant);
-            var typeaheadValue= $('.typeahead').prop('value');
-            if(typeaheadValue.length==0){
-                restarSuggestions();
-                console.log("restarSuggestions executed");
-            }
-
-        });
-        var timeoutTest= 10000;
-
-
-        /*
-         Se encarga de realizar el proceso de buscar las sugerencias que matchean con lo que se escribe en el input
-         Usa AJAX y solicita en formato json las sugerencias
-         */
-        var onlyKeyUp=false;
-        $('.typeahead-suggestion').keyup(function(){
-            if(!onlyKeyUp){
-                resizeSuggestions();
-
-                var typeaheadValue= $('.typeahead').prop('value');
-
-                var arrayOfStrings = typeaheadValue.split(' ');
-                console.log("arrayOfStrings => "+arrayOfStrings);
-                var stringToSearch= "";
-                var cantWords= arrayOfStrings.length;
-                var wordsToPeticion = 0;
-                var size = cantWords;
-                for (var i = 0; i <size ; i++) {
-                    if(arrayOfStrings[i].length == 0 ){
-                        console.log("elimino");
-                        cantWords--;
-                        continue;
-                    }
-                    else if(arrayOfStrings[i].length >= cantCharBeforeSuggest || (arrayOfStrings[i].length==1 && !esCaracterValido(arrayOfStrings[i]))){
-                        wordsToPeticion++;
-                    }
-                    if(i>0 && i<size)
-                        stringToSearch+= " ";
-                    stringToSearch+=arrayOfStrings[i];
-                };
-
-//            console.log("stringToSearch => "+stringToSearch);
-//            console.log("lastCantWords: "+lastCantWords+" , cantWords: "+cantWords+" , wordsToPeticion: "+wordsToPeticion);
+        console.log("stringToSearch => "+stringToSearch);
+        console.log("lastCantWords: "+lastCantWords+" , cantWords: "+cantWords+" , wordsToPeticion: "+wordsToPeticion);
 //            if(cantWords<lastCantWords) //mostrar una busqueda realizada
 //            {
-                var cookieObject = JSON.parse(getCookie(stringToSearch));
-                if(cookieObject){
-                    console.log(">>>>>>>>>>>>>>> cant_elements of a cookieObject: "+cookieObject.cant_elements);
-                    cant= cookieObject.cant_elements;
-//                    resizeSuggestions();
-                    for(var i=0; i<=cant; i++){
-                        prev_search[i]= cookieObject.items[i];
-                    }
+        var cookieObject;
 
-                    onlyKeyUp=true;
-                    $('.typeahead-suggestion').keyup();
-                    resizeSuggestions();
-                    onlyKeyUp=false;
-                }
+        if(storageSupported)
+            cookieObject = JSON.parse(localStorage.getItem(stringToSearch));
+        else
+            cookieObject = JSON.parse(getCookie(stringToSearch));
+        if(cookieObject && (lastCantWords!=wordsToPeticion || (lastCantWords==wordsToPeticion && lastWord))){
+            console.log(">>>>>>>>>>>>>>> cant_elements of a cookieObject: "+cookieObject.cant_elements);
+            cant= cookieObject.cant_elements;
+//                    resizeSuggestions();
+            for(var i=0; i<=cant; i++){
+                prev_search[i]= cookieObject.items[i];
+            }
+            lastCantWords=wordsToPeticion;
+            onlyKeyUp=true;
+            $('.typeahead-suggestion').keyup();
+            resizeSuggestions();
+            onlyKeyUp=false;
+        }
 
 //            }
-                else if(stringToSearch.length>0 && wordsToPeticion>lastCantWords){
-                    lastCantWords=wordsToPeticion;
-                    if(cant>=-1){
+        else if(stringToSearch.length>0
+            && (wordsToPeticion>lastCantWords
+            || (wordsToPeticion==lastCantWords
+            && lastWord && lastWord.length>(2*cantCharBeforeSuggest)
+            )
+            )
+            && !ENTER_KEY_IS_PRESSED){
+            console.log('_______ cant: '+cant);
+            if(lastCantWords>0 && wordsToPeticion>0 && cant==-1){
+                console.log("+++++++++no result petition por gusto");
+            }
+            else  {
+                lastCantWords=wordsToPeticion;
+                if(cant>=-1){
+                    if(lastWord)
+                        console.log("in cant>=-1: and lastWord!=NULL");
+                    cant=-1;
 
-                        cant=-1;
 
-                        var peticionXHR= $.ajax(
+
+                    var petitionXHR= $.ajax(
+                        {
+                            url : "autocompletamiento.php",
+                            data : {
+                                text : stringToSearch
+                            },
+                            type : "POST",
+                            dataType : "json",
+                            beforeSend: function (xhr)
                             {
-                                url : "autocompletamiento.php",
-                                data : {
-                                    text : stringToSearch
-                                },
-                                type : "POST",
-                                dataType : "json",
-                                beforeSend: function (xhr)
-                                {
+//                            console.log("HERE BEFORE SEND");
+                                if(lastPetition.petition){
+                                    lastPetition.petition.abort();
+                                }
 //                            $('.typeahead-suggestion').data('xhr',peticionXHR);
 //                                    var lastXHR= $('.typeahead-suggestion').data('xhr');
 //                                    if(lastXHR){
@@ -309,66 +341,231 @@ tag:
 //                                        lastXHR.abort();
 //                                    }
 //                                    $('.typeahead-suggestion').data('xhr',$(this));
-                                },
-                                success : function( json )
-                                {
+                            },
+                            success : function( json )
+                            {
 
-                                    var sourceX= [];
+                                var sourceX= [];
 
-                                    for(var i=0; i<10; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
-                                        if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia
-                                            prev_search[i]=json[i];
-                                        }
-                                        else
-                                            break;
+                                for(var i=0; i<maxItemsToSuggest; i++){ ///> 10 es el limite propuesto de items a mostrar como sugerencias
+                                    if(json[i]){ ///> si el arreglo json esta definido en la pos i, indica que es una sugerencia
+                                        prev_search[i]=json[i];
                                     }
-                                    // console.log("i > "+i);
-                                    cant=i-1; ///> almacena la cantidad (usado por conveniencia en cuanto a los indices de los ul) de sugerencias que vienen en el response al pedido asincrono anterior
-                                    if(cant!=-1){
-                                        var prev_result = {
-                                            cant_elements: cant,
-                                            items: prev_search
-                                        };
-                                        setCookie(stringToSearch, JSON.stringify(prev_result));
-                                        onlyKeyUp=true;
-                                        $('.typeahead-suggestion').keyup();
-                                        onlyKeyUp=false;
-                                    }
-//                                resizeSuggestions();
-
-                                    //,1000 + (Math.random()*1000)+Math.random()*1357
-
-                                },
-                                error : function( xhr, status )
-                                {
-                                    console.log("HERE 2 error");
-                                },
-                                complete : function( xhr, status )
-                                {
-                                    console.log("HERE COMPLETE");
-                                    resizeSuggestions();
+                                    else
+                                        break;
                                 }
-                            });
+                                // console.log("i > "+i);
+                                cant=i-1; ///> almacena la cantidad (usado por conveniencia en cuanto a los indices de los ul) de sugerencias que vienen en el response al pedido asincrono anterior
+                                if(cant!=-1){
+                                    var prev_result = {
+                                        cant_elements: cant,
+                                        items: prev_search
+                                    };
 
-//                lastPeticion= peticionXHR;
-                    }
+                                    if(storageSupported)
+                                        localStorage.setItem(stringToSearch, JSON.stringify(prev_result));
+                                    else
+                                        setCookie(stringToSearch, JSON.stringify(prev_result));
+                                    onlyKeyUp=true;
+                                    $('.typeahead-suggestion').keyup();
+                                    onlyKeyUp=false;
+                                }
+//                                lastPetition.complete_code = 1;
+//
+                            },
+                            error : function( xhr, status )
+                            {
+                                console.log("HERE 2 error");
+                            },
+                            complete : function( xhr, status )
+                            {
+                                console.log("HERE COMPLETE");
+                                resizeSuggestions();
+                            }
+                        });
+
+                    lastPetition.petition= petitionXHR;
                 }
             }
+        }
+//            if(lastCantWords!=wordsToPeticion)
+//            lastCantWords=cantWords;
+    }
+});
+</script>
+
+
+
+<?php
+
+if(isset($_GET))
+{
+
+if(isset($_GET["searchedtext"]) && strlen($_GET["searchedtext"])<1)
+{
+    echo('<div class="alert alert-success fade in alert-dismissable"><button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button>'.
+        '<h4 id="infoalerttitle">Error</h4><p id="infoalerttext">No se admiten cadenas de menos de 3 caracteres para la busqueda.</p></div>');
+
+}
+else if(isset($_GET["searchedtext"])){
+?>
+<script type="text/javascript">
+    $('#carola-search-box').removeClass('carola-search-box-center');
+    $(document).ready(function(){
+        $('html').removeAttr('style');
+//        $('#logo').removeProperty('margin-left');
+        $('#logo').css('margin-left','0.7em');
+        $('#grafiti').css('text-align','start');
+    });
+
+
+    //    $('#subtitle').removeClass('subtitle-center');
+    $('#carola-search-box').addClass('carola-search-box-left');
+    $('#subtitle').addClass('subtitle-left');
+</script>
+
+
+<?php
+//setlocale(LC_ALL, 'es_ES');
+include 'config.php';//Inclusion del archivo de configuracion que contiene los datos de coneccion al server
+include 'include\general.php';//inclusion del archivo de funciones basicas a la bd
+$coneccion=mysql_connect($server,$user,$password);//inicializa la coneccion
+$db = mysql_select_db($db_name);//selecciona la bd
+
+$ftps = mysql_query("select * from ftps where activo=1");
+$ftpscount = mysql_num_rows($ftps);
+
+if ($ftpscount == 0)
+echo("Aún no se han creado los indices para ningun ftp. Denle el berro a los Admins");
+else {
+
+
+$row_start = (isset($_GET['offset']) ? $_GET['offset'] : 0);
+
+
+//$ftps = mysql_fetch_all( mysql_query("SELECT ftptree.idftp, Count(ftptree.idftp), ftps.direccion_ip, ftps.user FROM ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "'"));
+$ftps_rows = mysql_query("select ftps.direccion_ip as ip, count(ftps.direccion_ip) as ftp_count from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%' GROUP BY ftps.direccion_ip");
+$ext_rows = mysql_query("select SUBSTRING_INDEX(Nombre, '.', -1) AS ext, count(Nombre) as ext_count from ftptree where Nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%' AND LENGTH(SUBSTRING_INDEX(Nombre, '.', -1)) BETWEEN 2 AND  5 GROUP BY ext ORDER BY ext_count DESC LIMIT 15");
+$query = "select Nombre, Tamanho, ftps.direccion_ip as ip, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%" . strtr(addslashes($_GET["searchedtext"]), ' ', '%') . "%'";
+$row_count = mysql_numrows(mysql_query($query));
+if($row_count <= 7 ){?>
+    <script id="myscript" type="text/javascript">
+        $(document).ready(function(){
+            $('html').css('height','100%');
         });
+
     </script>
+<?php }
+//echo $query;
+$rows = mysql_query($query . " LIMIT $row_start, $row_offset");
+$current_ftp = -1;
+?>
+
+<div onchange="filterchanged()" class="panel panel-default" style="float: right;">
+    <div class="panel-heading"><h4>FTPs</h4></div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <?php for ($i = 0; $i < mysql_numrows($ftps_rows); $i++) {
+                $frow = mysql_fetch_array($ftps_rows);?>
+                <li class="list-group-item">
+                    <label style="font-size: small;font-weight: normal"> <input
+                            type="checkbox"/> <?php echo $frow['ip']; ?>
+                    </label> <span class="badge  alert-info"><?php echo $frow['ftp_count']; ?></span>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+
+    <div class="panel-heading"><h4>Extensiones</h4></div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <?php for ($i = 0; $i < mysql_numrows($ext_rows); $i++) {
+                $frow = mysql_fetch_array($ext_rows);?>
+                <li class="list-group-item">
+                    <label style="font-size: small;font-weight: normal"> <input
+                            type="checkbox"/> <?php echo $frow['ext']; ?>
+                    </label> <span class="badge  alert-info"><?php echo $frow['ext_count']; ?></span>
+                </li>
+            <?php } ?>
+        </ul>
+
+    </div>
+</div>
+
+<table class='table table-responsive table-hover' style='font-size: small;width: 70% '>
+    <tr id="mypaginator">
+        <th colspan="2">
+            <div style="padding: 5px" class="container-fluid">
+
+                <div style="float: left;margin-top: 2.2em">
+                    <p class='text-info'>
+                        Resultados   <?php echo ($row_start + 1) . " - " . ($row_start + mysql_numrows($rows)) . " / $row_count resultados." ?>
+
+                </div>
+                <?php if ($row_count > $row_offset) { ?>
+                    <div id="paginator-containter" style="float: right">
+                        <ul class='pagination pagination-centered pull-right'>
+                            <li><a href="?searchedtext=<?php echo $_GET["searchedtext"] ?>&offset=0">&laquo;</a>
+                            </li>
+                            <li class="divider"></li>
+                            <?php
+
+                            for ($i = 0; $i < $row_count; $i += $row_offset)
+                                if ($i > $row_start - 5 * $row_offset && $i < $row_start + 5 * $row_offset)
+                                    echo "<li " . ($row_start == $i ? "class='active'" : '') . "><a href='?searchedtext=" . $_GET["searchedtext"] . "&offset=$i'>" . ($i / $row_offset + 1) . "</a></li>";
+                            ?>
+                            <li class=""></li>
+                            <li>
+                                <a href="?searchedtext=<?php echo $_GET["searchedtext"] ?>&offset=<?php echo $row_count - $row_count % $row_offset ?>">&raquo;</a>
+                            </li>
+                        </ul>
+                    </div>
+                <?php } ?>
+            </div>
+        </th>
+    </tr>
+    <?php
+    for ($i = 0; $i < mysql_numrows($rows); $i++) {
+        // if($ftps[$current_ftp])
+        $row = mysql_fetch_array($rows);
+        ?>
+        <tr>
+            <td>
+                <div><strong>  <?php echo $row['Nombre'] ?></strong></div>
+                <div style='font-size:smaller'> <?php echo "ftp://" . $row['ip'] . " | " . $row['Tamanho'] ?>
+                    Kb
+                </div>
+            </td>
+            <td id="download-explore">
+
+                <a id="btndw" class="btn" role="link"
+                   href='ftp:// <?php echo $row['ip'] . $row['path'] . '/' . $row['Nombre'] ?>'>
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </a>
+                <a class="btn" href='#' onclick="explore('ftp://<?php echo $row['ip'] . $row['path'] ?>')">
+                            <span class="glyphicon glyphicon-folder-open">
+                </a>
+            </td>
+        </tr>
+    <?php
+    }
+    echo '</table>';
+
+
+    }
+    mysql_close($coneccion);
+    }
+    }
+    ?>
+
+
 
 </div>
-<center>
-    <!-- <ul class="pagination">
-      <li class="disabled"><a href="#">&laquo;</a></li>
-  <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-  <li class=""><a href="#">2 </a></li>
-  <li class=""><a href="#">3 </a></li>
-  
-</ul> -->
-    <footer class="footer" id="colophon" role="contentinfo">
-        <a href="ftp.php" target="_blank"><button type="button" class="btn btn-link">Administrar</button></a><br>
-        <!-- <img src="remo.png"> -->
-    </footer>
+</div>
+
+<footer class="footer" id="colophon" role="contentinfo">
+    <a href="ftp.php" id="administrar" class="pull-left" target="_blank">Administrar</a>
+    <a href="http://192.168.32.1/netlab/" id="copyright" class="pull-right" target="_blank">Thanks to netlab</a>
+</footer>
 </body>
 </html>

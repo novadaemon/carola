@@ -18,6 +18,9 @@ $password="master";
 
 $server="localhost";
 
+$db_name = "ftpindexer";
+$row_offset = 30;
+
 /*Seccion 2: Usuarios autorizados al panel administrativo, no tienen nada que ver con el acceso al servidor.
 Para acceder a este los usuarios permitidos por esta seccion usaran la contrasena y el usuario
 especificados en el apartado anterior. Esto no implica que los usuarios obtengan conocimiento de
@@ -36,5 +39,8 @@ $usuarios = array("user");
 	//de lo contrario podrian ocurrir errores pues todavia no hay proteccion implementada
 
 $contrasenas = array("123");
+
+
+
 
 ?>

@@ -21,7 +21,7 @@
                   //echo("select * from ftptree where nombre LIKE '%".strtr(addslashes($_GET["searchedtext"]),' ','%')."%' and idftp=".$ftpsrow['id']);
                   /// en la consulta solo pido 10
                   // $result=mysql_query("select * from ftptree where nombre LIKE '%".strtr(addslashes($text),' ','%')."%' and idftp=".$ftpsrow['id']." LIMIT 10");  
-                  $result=mysql_query("select DISTINCT * from ftptree where nombre LIKE '%".strtr(addslashes($text),' ','%')."%' LIMIT 10"); 
+                  $result=mysql_query("select DISTINCT Nombre from ftptree where nombre LIKE '%".strtr(addslashes($text),' ','%')."%' LIMIT 10");
                   $count=mysql_num_rows($result);
                   if($count!=0)
                   {
