@@ -2,8 +2,6 @@
     /*height: 100%;*/
 /*}*/
 
-
-
 body{
     background-color: #334 !important;
     box-shadow: inset 0 0 200px rgba(0,0,0,.5) !important;
@@ -22,8 +20,8 @@ body{
 
 @font-face {
     font-family: 'kosalsay';
-    src:    url('../fonts/opensans_light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../media/ttf/kosalsay.ttf') format('truetype')
+    src:    url('fonts/opensans_light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/kosalsay.ttf') format('truetype')
 
 ;
 }

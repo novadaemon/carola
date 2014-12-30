@@ -2,8 +2,8 @@
 
 @font-face {
     font-family: 'rufa';
-    src:    url('../fonts/titillium_webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-            url('../media/ttf/rufa.ttf') format('truetype')
+    src:    url('fonts/titillium_webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('fonts/rufa.ttf') format('truetype')
 
     ;
 }
@@ -13,6 +13,7 @@
 #logo {
     width: 40%;
     margin-left: 30%;
+    margin-bottom: 40px;
 
 }
 
@@ -192,11 +193,3 @@ td#download-explore > a {
 #paginator-containter {
     margin-right: -0.87em !important;
 }
-
-/*#administrar{*/
-/*float: left;*/
-/*}*/
-
-/*#copyright{*/
-/*float: right;*/
-/*}*/
