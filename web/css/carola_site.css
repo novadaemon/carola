@@ -1,9 +1,11 @@
-
+html{
+    height: 100%;
+}
 
 @font-face {
     font-family: 'rufa';
-    src:    url('fonts/titillium_webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-            url('fonts/rufa.ttf') format('truetype')
+    src:    url('../fonts/titillium_webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('../fonts/rufa.ttf') format('truetype')
 
     ;
 }

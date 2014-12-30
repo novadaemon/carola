@@ -6,13 +6,19 @@ use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
+use \DatabaseHandler;
 
 $app = new Application();
+
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new SessionServiceProvider());
+
+$app['database'] = $app->share(function() use ($app){
+	return new DatabaseHandler($app['db.options']['dsn'], $app['db.options']['user'], $app['db.options']['pass']);
+});
 
 
 $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {

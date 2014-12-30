@@ -1,0 +1,47 @@
+<table class='table table-responsive table-hover' style='font-size: small;width: 70% '>
+    <thead>
+        <tr id="mypaginator">
+            <th colspan="2">
+                <div style="padding: 5px" class="container-fluid">
+
+                    <div style="float: left;margin-top: 2.2em">
+                        <p class='text-info'>
+                            Resultados
+                        </p>
+                    </div>
+                        <div id="paginator-containter" style="float: right">
+                            <ul class='pagination pagination-centered pull-right'>
+                                <li><a href="">&laquo;</a></li>
+                                <li class="divider"></li>
+                                <li><a href="">1</a></li>
+                                <li class=""></li>
+                                <li><a href="">&raquo;</a></li>
+                            </ul>
+                        </div>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+         <tr>
+            <td>
+                <div><strong>{{ result['Nombre']}}</strong></div>
+                <div style='font-size:smaller'>{{ 'ftp://' ~ result['ip'] ~ '/' ~ result['Nombre'] }} | {{ result['Tamanho'] ~ 'Kb' }}
+                </div>
+            </td>
+            <td id="download-explore">
+
+                <a id="btndw" class="btn" role="link"
+                   href="ftp://{{ result['ip'] ~ result['path'] ~ '/' ~ result['Nombre'] }}">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </a>
+                <a class="btn" href='#' onclick="explore('ftp://{{ result['ip'] ~ result['path'] ~ '/' ~ result['Nombre'] }}')">
+                    <span class="glyphicon glyphicon-folder-open">
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+       
