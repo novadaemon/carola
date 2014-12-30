@@ -1,14 +1,3 @@
-.idea/*
-*.dll
-idea/*
-*.iml
-.idea/Carola.iml
-.idea/encodings.xml
-.idea/workspace.xml
-.idea/Carola.iml
-.idea/Carola.iml
-.idea/encodings.xml
-.idea/workspace.xml
-.idea/Carola.iml
-.idea/encodings.xml
-.idea/workspace.xml
+oldcarola/
+carola.sublime-workspace
+carola.sublime-project
