@@ -25,7 +25,9 @@
 							<a href='#' onclick='ShowDeleteFTPDialog("{{ ftp.id }}")'><img src="{{ app.request.basepath }}/img/delete.png"></a>
 						</td>
 						<td class="text-center">
-							<input type="checkbox" id="activeforindexing" {% if ftp.activo %} checked {% endif %}>
+							<span class="glyphicon {% if ftp.activo %}glyphicon-ok {% else %}glyphicon-remove {% endif %}> "></span>
+							 
+							
 						</td>
 						<td>{{ ftp.descripcion }}</td>
 						<td>{{ ftp.direccion_ip}}</td>
