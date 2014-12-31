@@ -43,6 +43,11 @@ class DatabaseHandler extends PDO {
              restore_exception_handler();
          }
 
+         /**
+          * Método para la búsqueda principal
+          * @param  string $key Palabra clave a buscar
+          * @return array 
+          */
          public function search($key){
 
             $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%'");
@@ -52,6 +57,11 @@ class DatabaseHandler extends PDO {
 
          }
 
+          /**
+           * Método para el autocompletamiento
+           * @param  string $key Palabra clave a buscar
+           * @return array
+           */
           public function autocomplete($key){
 
             $db = $this->prepare("select DISTINCT Nombre from ftptree where nombre LIKE '%".$key."%' LIMIT 10");
@@ -64,6 +74,19 @@ class DatabaseHandler extends PDO {
             }
 
             return array_unique($results);
+
+         }
+
+         /**
+          * Buscar todos los ftps
+          * @return array
+          */
+         public function getFtps(){
+
+            $db = $this->prepare("SELECT * FROM ftps");
+            $db->execute();
+
+            return $db->fetchAll();
 
          }
 

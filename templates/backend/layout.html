@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Administración de Carola</title>
+
+	<!-- stylesheets -->
+	<link href="{{ app.request.basepath }}/css/bootstrap.css" rel="stylesheet">
+	<link href="{{ app.request.basepath }}/css/docs.css" rel="stylesheet">
+	<link href="{{ app.request.basepath }}/css/carola_site_{{ app.session.get('style') }}.css" rel="stylesheet">
+	<style type="text/css" media="screen">
+		html{
+			height: 100%;
+		}
+		body{
+			min-height: 100%;
+			height: auto;
+		}
+	</style>
+
+	<!-- jscripts -->
+    <script src="{{ app.request.basepath }}/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ app.request.basepath }}/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ app.request.basepath }}/js/alert.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ app.request.basepath }}/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ app.request.basepath }}/js/mystorage.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ app.request.basepath }}/js/scrollspy.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ app.request.basepath }}/js/backend.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body>
+	<div class="container bs-docs-container" id="contenido">
+		{% include 'backend/navbar.html' %}
+		<div class="highlight" style="background-color: #FFFFFF">
+			{% block content %}
+			
+			{% endblock %}	
+		</div>	
+	</div>	
+	<!-- Incluir las divisiones modales -->
+	{% include 'backend/insert.html' %}
+	{% include 'backend/delete.html' %}
+</body>
+</html>

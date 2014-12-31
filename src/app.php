@@ -2,18 +2,25 @@
 
 use Silex\Application;
 use Silex\Provider\TwigServiceProvider;
+use Silex\Provider\FormServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
+use Silex\Provider\SecurityServiceProvider;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use \DatabaseHandler;
 
 $app = new Application();
 
 $app->register(new UrlGeneratorServiceProvider());
+$app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
+$app->register(new TranslationServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new TwigServiceProvider());
+$app->register(new SecurityServiceProvider());
 $app->register(new SessionServiceProvider());
 
 $app['database'] = $app->share(function() use ($app){
@@ -31,5 +38,22 @@ $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
 
     return $twig;
 }));
+
+// configuración de la seguridad
+$app['security.encoder.digest'] = $app->share(function ($app) {
+    // algoritmo SHA-1, con 1 iteración y sin codificar en base64
+    return new MessageDigestPasswordEncoder('sha1', false, 1);
+});
+
+$app['security.firewalls'] = array(
+    'admin' => array(
+        'pattern' => '^/admin',
+        'http'    => true,
+        'users'   => array(
+            // la contraseña sin codificar es "1234"
+            'admin' => array('ROLE_ADMIN', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'),
+        ),
+    ),
+);
 
 return $app;

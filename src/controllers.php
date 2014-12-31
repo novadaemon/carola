@@ -7,7 +7,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-//Request::setTrustedProxies(array('127.0.0.1'));
+// Administración
+$app->mount('/admin', include 'backend.php');
 
 //Filtro que se aplica antes de las acciones para cambiar el estilo
 $app->before(function(Request $request) use($app){
@@ -83,10 +84,11 @@ $app->get('/', function () use ($app) {
  */
 $app->get('/search/', function () use ($app) {
 
+    $results = array();
 
     $key = $app['request']->query->get('searchedtext');
 
-    if(strlen($key) > 3){
+    if(strlen($key) > 2){
       $results = $app['database']->search($key);  
     }
 
@@ -95,6 +97,7 @@ $app->get('/search/', function () use ($app) {
     /**
      * Optener los ftps y las extensiones
      */
+    $ftps = $exts = array();
     foreach ($results as $value) {
         //ftps
         if(!array_key_exists($value['ip'], $ftps)){
@@ -142,9 +145,6 @@ $app->post('/automplete', function() use ($app){
     return new JsonResponse($results);
 
 })->bind('autocompletamiento');
-
-
-
 
 
 $app->error(function (\Exception $e, $code) use ($app) {

@@ -1,0 +1,57 @@
+<div class="modal fade" id="insertform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" id="insertdialogcontent">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Agregar un nuevo FTP a la lista del indizador.</h4>
+      </div>
+		<div class="form-horizontal" style="margin-top:10px">
+		<input type="hidden" id="action">
+		<input type="hidden" id="actionid">
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="descripcion">
+					Descripcion
+				</label>
+				<div class="col-sm-8">
+					{{ form_widget(form.descripcion, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Descripción del ftp' }}) }}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="dirip">
+					Direccion
+				</label>
+				<div class="col-sm-4">
+					{{ form_widget(form.ip, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Dirección IP' }}) }}
+				</div>
+				<div class="col-sm-4">
+					<div class="checkbox">
+						{{ form_widget(form.activo, { 'attr' : {'required' : false }}) }}
+						<label>Activo para busquedas </label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="user">
+					Usuario
+				</label>
+				<div class="col-sm-3">
+					{{ form_widget(form.usuario, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Usuario' }}) }}
+				</div>
+				<label class="col-sm-2 control-label" for="pass">
+					Contraseña
+				</label>
+				<div class="col-sm-3">
+					{{ form_widget(form.contrasenna, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Contraseña' }}) }}
+				</div>
+			</div>
+		</div>
+      <div class="modal-footer">
+		<div class="col-sm-6" id="ajaxwait" style="display:none;">
+		<img src="{{ app.request.basepath }}/img/loading1.gif">Espere un momento por favor...
+		</div>	  
+		<button id="ajaxinsertbutton1" type="button" class="btn btn-primary" onclick="AddOrEditFtp()">Aceptar</button>
+        <button id="ajaxinsertbutton2" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>        
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

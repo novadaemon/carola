@@ -1,0 +1,43 @@
+{% extends 'backend/layout.html' %}
+{% block content %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th width="70px"></th>
+				<th width="40px">Activo</th>
+				<th  width="250px">Descripción</th>
+				<th>Dirección</th>
+				<th>Usuario</th>
+				<th>Estado</th>
+			</tr>
+		</thead>
+		<tbody id="ftplist">
+			{% if results | length == 0 %}
+				<tr id='emptyrow'>
+					<td colspan="6">No hay ftps para mostrar. Inserte un nuevo ftp para comenzar a trabajar.</td>
+				</tr>
+			{% else %}
+				{% for ftp in results %}
+					<tr id="rowid{{ ftp.id }}">
+						<td>
+							<a href='#' onclick='ShowEditFTPDialog("{{ ftp.id }}")'>
+								<img src="{{ app.request.basepath }}/img/edit.png">
+							</a>
+							&nbsp;&nbsp;
+							<a href='#' onclick='ShowDeleteFTPDialog("{{ ftp.id }}")'>
+								<img src="{{ app.request.basepath }}/img/delete.png">
+							</a>
+						</td>
+						<td class="text-center">
+							<input type="checkbox" id="activeforindexing" {% if ftp.activo %} checked {% endif %}>
+						</td>
+						<td>{{ ftp.descripcion }}</td>
+						<td>{{ ftp.direccion_ip}}</td>
+						<td>{{ ftp.user }}</td>
+						<td id='row{{ ftp.id}}statustd'>{{ ftp.status }}</td>
+					</tr>
+				{% endfor%}
+			{% endif %}
+		</tbody>
+	</table>
+{% endblock %}
