@@ -78,7 +78,9 @@ $app->get('/', function () use ($app) {
 })
 ->bind('homepage');
 
-//Ruta para las búsquedas
+/**
+ * Ruta para las búsquedas
+ */
 $app->get('/search/', function () use ($app) {
 
 

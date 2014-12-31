@@ -20,6 +20,11 @@ $app['database'] = $app->share(function() use ($app){
 	return new DatabaseHandler($app['db.options']['dsn'], $app['db.options']['user'], $app['db.options']['pass']);
 });
 
+$app->register(new TwigServiceProvider(), array(
+    'twig.path'    => array(__DIR__.'/../templates'),
+    // descomenta esta línea para activar la cache de Twig
+    'twig.options' => array('cache' => __DIR__.'/../cache/twig'),
+));
 
 $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
     // add custom globals, filters, tags, ...
