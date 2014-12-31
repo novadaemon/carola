@@ -119,7 +119,6 @@ $app->get('/search/', function () use ($app) {
     //Paginar el resultado
     $offset = $app['request']->query->has('offset') ? $app['request']->query->get('offset') : 0;
     $limit = $app['request']->query->has('limit') ? $app['request']->query->get('limit') : 30;
-
     $results = array_slice($results, $offset,  $limit);
 
     $content = $app['twig']->render('results.html', array( 

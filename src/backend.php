@@ -24,9 +24,22 @@ $backend->get('/', function () use ($app) {
 
 })->bind('admin');
 
-$backend->match('/insert', function () use ($app) {
+$backend->post('/insert', function () use ($app) {
 
+	$form = $app['form'];
 
+	$form ->bind($app['request']);
+
+	// return new Response(var_dump($form->getData()));
+
+	if($form->isValid()){
+		//Insertar los valores
+		$app['database']->insertFtp($form->getData());
+		$app['session']->getFlashBag()->add('success', 'FTP insertado satisfactoriamente.');
+
+	}
+
+	return $app->redirect($app['url_generator']->generate('admin'));
 
 })->bind('insert');
 
@@ -44,9 +57,9 @@ $app['form'] = function() use ($app){
 	$form = $app['form.factory']->createBuilder('form')
         ->add('descripcion')
         ->add('ip')
-        ->add('activo', 'checkbox')
+        ->add('activo', 'checkbox' , array('required' => false ))
         ->add('usuario')
-        ->add('contrasenna')
+        ->add('pass', 'password')
      ->getForm();
 
      return $form;

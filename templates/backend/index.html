@@ -20,13 +20,9 @@
 				{% for ftp in results %}
 					<tr id="rowid{{ ftp.id }}">
 						<td>
-							<a href='#' onclick='ShowEditFTPDialog("{{ ftp.id }}")'>
-								<img src="{{ app.request.basepath }}/img/edit.png">
-							</a>
+							<a href='#' onclick='ShowEditFTPDialog("{{ ftp.id }}")'><img src="{{ app.request.basepath }}/img/edit.png"></a>
 							&nbsp;&nbsp;
-							<a href='#' onclick='ShowDeleteFTPDialog("{{ ftp.id }}")'>
-								<img src="{{ app.request.basepath }}/img/delete.png">
-							</a>
+							<a href='#' onclick='ShowDeleteFTPDialog("{{ ftp.id }}")'><img src="{{ app.request.basepath }}/img/delete.png"></a>
 						</td>
 						<td class="text-center">
 							<input type="checkbox" id="activeforindexing" {% if ftp.activo %} checked {% endif %}>
