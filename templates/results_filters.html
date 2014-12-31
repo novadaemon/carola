@@ -2,21 +2,25 @@
     <div class="panel-heading"><h4>FTPs</h4></div>
     <div class="panel-body">
         <ul class="list-group">
-	                <li class="list-group-item">
+            {% for ip, count in ftps %}
+                <li class="list-group-item">
                     <input type="checkbox"/>
-                    <label style="font-size: small;font-weight: normal">192.168.65.162</label>
-                    <span class="badge  alert-info">45</span>
+                    <label style="font-size: small;font-weight: normal">{{ ip }}</label>
+                    <span class="badge  alert-info">{{ count }}</span>
                 </li>
+            {% endfor %}
         </ul>
     </div>
     <div class="panel-heading"><h4>Extensiones</h4></div>
     <div class="panel-body">
         <ul class="list-group">
+            {% for ext, count in exts %}
                 <li class="list-group-item">
                     <input type="checkbox"/>
-                    <label style="font-size: small;font-weight: normal">mpg</label>
-                    <span class="badge  alert-info">10</span>
+                    <label style="font-size: small;font-weight: normal">{{ ext }}</label>
+                    <span class="badge  alert-info">{{ count }}</span>
                 </li>
+            {% endfor %}
         </ul>
 
     </div>

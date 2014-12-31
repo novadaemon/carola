@@ -1,26 +1,8 @@
+{% set offset = app.request.query.has('offset') ? app.request.get('offset') : 0 %}
+{% set limit= app.request.query.has('limit') ? app.request.get('limit') : 30 %}
 <table class='table table-responsive table-hover' style='font-size: small;width: 70% '>
     <thead>
-        <tr id="mypaginator">
-            <th colspan="2">
-                <div style="padding: 5px" class="container-fluid">
-
-                    <div style="float: left;margin-top: 2.2em">
-                        <p class='text-info'>
-                            Resultados
-                        </p>
-                    </div>
-                        <div id="paginator-containter" style="float: right">
-                            <ul class='pagination pagination-centered pull-right'>
-                                <li><a href="">&laquo;</a></li>
-                                <li class="divider"></li>
-                                <li><a href="">1</a></li>
-                                <li class=""></li>
-                                <li><a href="">&raquo;</a></li>
-                            </ul>
-                        </div>
-                </div>
-            </th>
-        </tr>
+        {% include 'paginador.html' %}
     </thead>
     <tbody>
         {% for result in results %}
@@ -31,7 +13,6 @@
                 </div>
             </td>
             <td id="download-explore">
-
                 <a id="btndw" class="btn" role="link"
                    href="ftp://{{ result['ip'] ~ result['path'] ~ '/' ~ result['Nombre'] }}">
                     <span class="glyphicon glyphicon-download-alt"></span>
@@ -43,5 +24,8 @@
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        {% include 'paginador.html' %}
+    </tfoot>  
 </table>
        

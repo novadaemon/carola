@@ -81,11 +81,67 @@ $app->get('/', function () use ($app) {
 //Ruta para las búsquedas
 $app->get('/search/', function () use ($app) {
 
+    //funciones para optener los datos necesarios del array
+    /**
+     * Optener los ftps
+     */
+    $getFTPs = function ($array){
+
+        $ftps = array();
+        foreach ($array as $value) {
+            if(!array_key_exists($value['ip'], $ftps)){
+                $ftps[$value['ip']] = 1;
+            }else{
+              $ftps[$value['ip']]++;  
+            };
+        }
+        arsort($ftps);
+        return $ftps; 
+    };
+
+    /**
+     * Optener las extensiones
+     */
+    $getExts = function ($array){
+
+        $exts = array();
+        foreach ($array as $value) {
+            if(!array_key_exists($value['ext'], $exts)){
+                $exts[$value['ext']] = 1;
+            }else{
+              $exts[$value['ext']]++;  
+            };
+        }
+        arsort($exts);
+        
+        return array_slice($exts,0,15);
+    };
+
+    $results = array();
+
     $key = $app['request']->query->get('searchedtext');
 
-    $results = $app['database']->search($key);
-    
-    $content = $app['twig']->render('results.html', array( 'results' => $results ));
+    if(strlen($key) > 3){
+      $results = $app['database']->search($key);  
+    }
+
+    $total = count($results);
+    $ftps = $getFTPs($results);
+    $exts = $getExts($results);
+
+    //Paginar el resultado
+    $offset = $app['request']->query->has('offset') ? $app['request']->query->get('offset') : 0;
+    $limit = $app['request']->query->has('limit') ? $app['request']->query->get('limit') : 30;
+
+    $results = array_slice($results, $offset,  $limit);
+
+    $content = $app['twig']->render('results.html', array( 
+        'total' => $total,
+        'results' => $results,
+        'ftps' => $ftps,
+        'exts'  => $exts
+
+         ));
 
     return $app['response']->setContent($content);
 })

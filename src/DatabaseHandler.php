@@ -43,9 +43,9 @@ class DatabaseHandler extends PDO {
              restore_exception_handler();
          }
 
-         public function search($key, $start=1, $end=30){
+         public function search($key){
 
-            $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%' LIMIT $start, $end");
+            $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%'");
             $db->execute();
 
             return $db->fetchAll();;

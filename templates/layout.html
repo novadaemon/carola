@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <input class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
                                data-provide="typeahead" data-items="10"
-                               value="{% if(app.request.query.has('searchedtext')) %} {{ app.request.query.get('searchedtext') }} {% endif %}" required>
+                               value="{% if(app.request.query.has('searchedtext')) %}{{ app.request.query.get('searchedtext') }}{% endif %}" required>
                     </div><div class="form-group">
                         &nbsp;<button type="submit" class="btn btn-primary"><img src="{{ app.request.basepath }}/img/search2.png"> Buscar</button>
                     </div>

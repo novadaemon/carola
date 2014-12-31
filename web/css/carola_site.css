@@ -10,7 +10,9 @@ html{
     ;
 }
 
-
+.alert{
+    margin-top: 10px;
+}
 
 #logo {
     width: 40%;

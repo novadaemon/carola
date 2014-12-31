@@ -1,0 +1,27 @@
+<tr id="mypaginator">
+    <th colspan="2">
+        <div style="padding: 5px" class="container-fluid">
+
+            <div style="float: left;margin-top: 2.2em">
+                <p class='text-info'>
+                    Resultados {{ offset +  1 }}  - {{ offset + results | length }} / {{ total }}
+                </p>
+            </div>
+            {% if total > limit %}
+                <div id="paginator-containter" style="float: right">
+                    <ul class='pagination pagination-centered pull-right'>
+                        <li><a href="{{ path('search', { 'searchedtext' : app.request.query.get('searchedtext'), 'offset' : 0}) }}">&laquo;</a></li>
+                        <li class="divider"></li>
+                        {% for i in range(0, total, limit) %}
+                            {% if i > offset - 5 * limit and i < offset + 5 * limit %}
+                                <li><a href="{{ path('search', { 'searchedtext' : app.request.query.get('searchedtext'), 'offset' : i }) }}">{{ '%.0f' | format(i / limit + 1) }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class=""></li>
+                        <li><a href="{{ path('search', { 'searchedtext' : app.request.query.get('searchedtext'), 'offset' : total - total % limit }) }}">&raquo;</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </th>
+</tr>

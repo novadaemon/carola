@@ -5,7 +5,7 @@
 body{
     background-color: #334 !important;
     box-shadow: inset 0 0 200px rgba(0,0,0,.5) !important;
-    height: 100%;
+    /*height: 100%;*/
 }
 
 #carola-nav {
