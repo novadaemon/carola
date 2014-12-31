@@ -90,4 +90,31 @@ class DatabaseHandler extends PDO {
 
          }
 
+         /**
+          * Insertar nuevo ftp
+          * @return array
+          */
+         public function insertFtp($data){
+
+            try{
+                
+                $db = $this->prepare("INSERT INTO ftps(descripcion, direccion_ip, activo, user, pass) VALUES(?,?,?,?,?);");
+
+                $array = array(
+                    $data['descripcion'],
+                    $data['ip'],
+                    $data['activo'],
+                    $data['usuario'],
+                    $data['pass']
+                );
+                 
+
+                return $db->execute($array);   
+
+            }catch(\Exception $e){
+                return $e->getMessage();
+            }
+
+         }
+
  }
