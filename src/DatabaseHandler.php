@@ -52,4 +52,19 @@ class DatabaseHandler extends PDO {
 
          }
 
+          public function autocomplete($key){
+
+            $db = $this->prepare("select DISTINCT Nombre from ftptree where nombre LIKE '%".$key."%' LIMIT 10");
+            $db->execute();
+
+            $results = array();
+
+            foreach ($db->fetchAll() as $value) {
+                $results[] = $value['Nombre'];
+            }
+
+            return array_unique($results);
+
+         }
+
  }

@@ -81,43 +81,6 @@ $app->get('/', function () use ($app) {
 //Ruta para las búsquedas
 $app->get('/search/', function () use ($app) {
 
-    //funciones para optener los datos necesarios del array
-    /**
-     * Optener los ftps
-     */
-    $getFTPs = function ($array){
-
-        $ftps = array();
-        foreach ($array as $value) {
-            if(!array_key_exists($value['ip'], $ftps)){
-                $ftps[$value['ip']] = 1;
-            }else{
-              $ftps[$value['ip']]++;  
-            };
-        }
-        arsort($ftps);
-        return $ftps; 
-    };
-
-    /**
-     * Optener las extensiones
-     */
-    $getExts = function ($array){
-
-        $exts = array();
-        foreach ($array as $value) {
-            if(!array_key_exists($value['ext'], $exts)){
-                $exts[$value['ext']] = 1;
-            }else{
-              $exts[$value['ext']]++;  
-            };
-        }
-        arsort($exts);
-        
-        return array_slice($exts,0,15);
-    };
-
-    $results = array();
 
     $key = $app['request']->query->get('searchedtext');
 
@@ -126,8 +89,27 @@ $app->get('/search/', function () use ($app) {
     }
 
     $total = count($results);
-    $ftps = $getFTPs($results);
-    $exts = $getExts($results);
+    
+    /**
+     * Optener los ftps y las extensiones
+     */
+    foreach ($results as $value) {
+        //ftps
+        if(!array_key_exists($value['ip'], $ftps)){
+            $ftps[$value['ip']] = 1;
+        }else{
+          $ftps[$value['ip']]++;  
+        };
+
+        //extensiones
+        if(!array_key_exists($value['ext'], $exts)){
+            $exts[$value['ext']] = 1;
+        }else{
+          $exts[$value['ext']]++;  
+        };
+    }
+    arsort($ftps); arsort($exts);
+    $exts = array_slice($exts,0,15);
 
     //Paginar el resultado
     $offset = $app['request']->query->has('offset') ? $app['request']->query->get('offset') : 0;
@@ -146,6 +128,18 @@ $app->get('/search/', function () use ($app) {
     return $app['response']->setContent($content);
 })
 ->bind('search');
+
+/**
+ * Acción para el autocompletamiento
+ */
+$app->post('/automplete', function() use ($app){
+    
+    $key = $app['request']->get('text');
+    $results = $app['database']->autocomplete($key);
+
+    return new JsonResponse($results);
+
+})->bind('autocompletamiento');
 
 
 

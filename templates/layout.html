@@ -16,6 +16,11 @@
         <script src="{{ app.request.basepath }}/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ app.request.basepath }}/js/mystorage.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ app.request.basepath }}/js/scrollspy.js" type="text/javascript" charset="utf-8"></script>
+        <!-- Guardar en una varible javascript la ruta para el autocompletamiento -->
+        <script>
+         var autocomplete_route = '{{ path('autocompletamiento') }}';
+        </script>
+        <script src="{{ app.request.basepath }}/js/carola_script.js" type="text/javascript" charset="utf-8"></script>
 
         {% block jscripts %}{% endblock %}
     </head>

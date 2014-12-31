@@ -51,8 +51,16 @@
             <a id="drop8" role="button" data-toggle="dropdown" href="#">Estilo <b class="caret"></b></a>
             <ul id="menu4" class="dropdown-menu" role="menu" aria-labelledby="drop8">
 
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="?style=white">BlueWhite </a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="?style=black">BlackTea </a></li>
+                {% set searchedtext = app.request.query.has('searchedtext') ? app.request.query.get('searchedtext') : null %}
+                {% set offset = app.request.query.has('offset') ? app.request.query.get('offset') : 0 %}
+                {% set limit = app.request.query.has('limit') ? app.request.query.get('limit') : 30 %}
+
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="{% if not searchedtext is none %}?{{ 'searchedtext=' ~ searchedtext ~ '&offset=' ~ offset ~ '&limit=' ~ limit ~ '&style=white' }}{% else %}?style=white{% endif %}">BlueWhite</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="{% if not searchedtext is none %}?{{ 'searchedtext=' ~ searchedtext ~ '&offset=' ~ offset ~ '&limit=' ~ limit ~ '&style=black' }}{% else %}?style=white{% endif %}">BlackTea</a>
+                </li>
             </ul>
         </li>
     </ul> <!-- /tabs -->
