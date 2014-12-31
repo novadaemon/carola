@@ -3,11 +3,11 @@ Indexador de ftps Carola
 
 Indexador del contenido de los ftps realizado con el microframework Silex.
 
-##Configuración de la base de datos##
+## Configuración de la base de datos ##
 
 Los parámetros de la conexión se deben configurar en el archivo `config\prod.php`.
 
-##Sugerencias para la configuración de los servidores http para Carola##
+## Sugerencias para la configuración de los servidores http para Carola ##
 
 **Apache**
 ```
