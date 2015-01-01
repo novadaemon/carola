@@ -21,7 +21,7 @@ class DatabaseHandler extends PDO {
          */
          public static function exception_handler($exception) {
              // Output the exception details
-             die('Uncaught exception: '. $exception->getMessage());
+             die('Ha ocurrido un error: '. $exception->getMessage());
          }
   
          /**
@@ -109,10 +109,11 @@ class DatabaseHandler extends PDO {
                 );
                  
 
-                return $db->execute($array);   
+                $db->execute($array);
+                return $db->errorInfo();   
 
             }catch(\Exception $e){
-                return $e->getMessage();
+                return $this->exception_handler($e);
             }
 
          }

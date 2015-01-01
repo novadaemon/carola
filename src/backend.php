@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints as Assert;
 
 // Controladores relacionados con la parte de administración del sitio web
 $backend = $app['controllers_factory'];
@@ -30,14 +31,33 @@ $backend->post('/insert', function () use ($app) {
 
 	$form ->bind($app['request']);
 
-	// return new Response(var_dump($form->getData()));
-
 	if($form->isValid()){
-		//Insertar los valores
-		$app['database']->insertFtp($form->getData());
-		$app['session']->getFlashBag()->add('success', 'FTP insertado satisfactoriamente.');
+
+         // return new Response(var_dump($app['database']->insertFtp($form->getData())));
+		
+        //Insertar los valores
+        $insert_result = $app['database']->insertFtp($form->getData());
+        if($insert_result == '00000'){
+
+            $errorMessage['state'] = 'success';
+            $errorMessage['message'] = 'FTP insertado satisfactoriamente.';
+
+        }else{
+           
+          $errorMessage['state'] = 'danger';
+          $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '.$insert_result[2]; 
+        }
+
 
 	}
+
+    if(!isset($errorMessage)){
+        $errorMessage['state'] = 'danger';
+        $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '. $form->getErrorsAsString();
+
+    } 
+
+    $app['session']->getFlashBag()->add($errorMessage['state'], $errorMessage['message'] );
 
 	return $app->redirect($app['url_generator']->generate('admin'));
 
@@ -54,12 +74,20 @@ $app->get('/logout', function () use ($app) {
  */
 $app['form'] = function() use ($app){
 
-	$form = $app['form.factory']->createBuilder('form')
-        ->add('descripcion')
-        ->add('ip')
+    $form = $app['form.factory']->createBuilder('form')
+        ->add('descripcion', 'text' , array(
+            'constraints' => new Assert\NotBlank()
+         ))
+        ->add('ip', 'text', array(
+            'constraints' => new Assert\Ip()
+        ))
         ->add('activo', 'checkbox' , array('required' => false ))
-        ->add('usuario')
-        ->add('pass', 'password')
+        ->add('usuario', 'text', array(
+            'constraints' => new Assert\NotBlank()
+            ))
+        ->add('pass', 'password', array(
+            'constraints' => array(new Assert\NotBlank(),new Assert\Length("min=5") )    
+            ))
      ->getForm();
 
      return $form;

@@ -32,9 +32,23 @@
 	<div class="container bs-docs-container" id="contenido">
 		{% include 'backend/navbar.html' %}
 		<div class="highlight" style="background-color: #FFFFFF">
+			<!-- Definiendo sección para mostrar los mensajes flash de notificación	 -->
+			{% if app.session and app.session.flashbag %}
+				{% for label, flashes in app.session.flashbag.all %}
+					{% for flash in flashes %}
+						<div class="alert alert-block alert-{{label}} fade in">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							{{ flash }}
+						</div>
+							
+					{% endfor %}
+				{% endfor %}
+			{% endif %}
+
 			{% block content %}
 			
 			{% endblock %}	
+			
 		</div>	
 	</div>	
 	<!-- Incluir las divisiones modales -->

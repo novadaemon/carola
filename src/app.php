@@ -17,7 +17,10 @@ $app = new Application();
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
-$app->register(new TranslationServiceProvider());
+$app->register(new TranslationServiceProvider(), array(
+    'locale_fallback' => 'es'
+    )
+);
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new SecurityServiceProvider());
