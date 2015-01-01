@@ -118,4 +118,23 @@ class DatabaseHandler extends PDO {
 
          }
 
+         /**
+          * Elimina un ftp
+          * @return array
+          */
+         public function deleteFtp($id){
+
+            try{
+                
+                $db = $this->prepare("DELETE from ftps WHERE id = ?");
+                $db->bindParam(1, $id, PDO::PARAM_INT);
+                $db->execute();
+                return $db->errorInfo();   
+
+            }catch(\Exception $e){
+                return $this->exception_handler($e);
+            }
+
+         }
+
  }

@@ -25,10 +25,10 @@ function ShowInsertFTPDialog()//Muestra el dialogo de insertar un FTP
 	$('#insertform').modal('show');
 	$('#action').prop('value','insert');
 }
-function ShowDeleteFTPDialog(id)//Muestra el dialogo de eliminar un FTP con id= al parametro id
+function ShowDeleteFTPDialog(id)//Muestra el dialogo de eliminar un FTP con id = al parametro id
 {
 	$('#deleteform').modal('show');
-	$('#ftptodelete').prop('value',id);
+	$('#form_id').val(id);
 }
 function ShowEditFTPDialog(id)//Muestra el dialogo para modificar un ftp con id= al parametro id y lo rellena obteniendo los datos del servidor para el ftp seleccionado.
 {
@@ -91,48 +91,6 @@ function ShowEditFTPDialog(id)//Muestra el dialogo para modificar un ftp con id=
 					},   
 		complete : function( xhr, status ) 
 					{ 						
-					} 
-	});
-}
-
-function DeleteFtp()//Elimina un ftp con el id contenido en el input oculto del dialogo DeleteFtp si el usuario dio click en eceptar.
-{
-$('#ajaxwait2').show();
-$('#ajaxdeletebutton1').hide();
-$('#ajaxdeletebutton2').hide();
-$.ajax(
-	{   
-		url : "scripts/php/ajaxftpedit.php",   
-		data : {    action : "delete",
-					ftptodelete:$('#ftptodelete').prop('value'),
-				},
-		type : "POST",  
-		dataType : "json",     
-		success : function( json ) 
-					{  
-						if(json.result=="ok")						
-							{								
-								Alertar("alert-success","Accion finalizada satisfactorimente","Se pudo eliminar correctamente el FTP de la lista de sitios a indizar.");							
-								$("#rowid"+$("#ftptodelete").prop("value")).remove();
-							}
-						else
-							{
-								Alertar("alert-warning","Error!","No se ha podido eliminar el FTP de la base de datos.<br>El texto del error devuelto es: <br>"+json.error);			
-								$("#ftptodelete").prop("value", "");
-							}
-					},   
-		error : function( xhr, status ) 
-					{    
-						Alertar("alert-danger","Error!","No se ha podido completar la accion solicitada. Los datos tecnicos del error son los siguientes:<br>xhr="+xhr+"<br>status="+status);							
-						$("#ftptodelete").prop("value", "");
-					},   
-		complete : function( xhr, status ) 
-					{ 
-						$('#ajaxwait2').hide();
-						$('#ajaxdeletebutton1').show();
-						$('#ajaxdeletebutton2').show();
-						$('#deleteform').modal('hide');	
-						$("#ftptodelete").prop("value", "");						
 					} 
 	});
 }
@@ -373,3 +331,22 @@ $.getJSON( "scripts/php/getstatus.php",{action:'getserverstatus',},
 		);
 		setTimeout("CheckServerActivity()",5000);
 }
+
+$(function(){
+
+	//Setear user y pass cuando se selecciona la opción 'anonimo'
+$("input[name=anonimo]").click(function(){
+	if($(this).is(":checked")){
+		$("#form_usuario").val('anonymous');
+		$("#form_usuario").attr('readonly', true);
+		$("#form_pass").val('anonymous@ftpindexer.cu');
+		$("#form_pass").attr('readonly', true);
+	}else{
+		$("#form_usuario").val('');
+		$("#form_usuario").attr('readonly' , false);
+		$("#form_pass").val('');
+		$("#form_pass").attr('readonly', false);
+	}
+})
+})
+

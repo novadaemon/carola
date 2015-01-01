@@ -1,27 +1,27 @@
 <div class="modal fade" id="deleteform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content" id="insertdialogcontent">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel1">Eliminar FTP.</h4>
-      </div>
-		<div class="form-horizontal" style="margin-top:10px">
-			<div class="form-group">
-			<input type="hidden" id="ftptodelete">
-			<div class="col-sm-10" style="margin-left:20px;">
-				Si elimina este FTP tambien se eliminaran todos los indices relacionados y se cancelaran todas las tareas activas que hagan referencia a el. Si el FTP cambio de direccion utilice la funcion Editar.
-				<br><br>
-				<b>De verdad desea eliminar este FTP?</b>
+    	<form action="{{ path('ftp_delete') }}" method="post">
+		    <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h4 class="modal-title" id="myModalLabel1">Eliminar FTP.</h4>
+		    </div>
+			<div class="form-horizontal" style="margin-top:10px">
+				<div class="form-group">
+				{{ form_widget(form_delete.id)}}
+				{{ form_rest(form_delete)}}
+				<div class="col-sm-10" style="margin-left:20px;">
+					Si elimina este FTP tambien se eliminarán todos los índices relacionados y se cancelarán todas las tareas activas que hagan referencia a él. Si el FTP cambió de dirección utilice la función <strong>Editar</strong>.
+					<br><br>
+					<b>¿De verdad desea eliminar este FTP?</b>
+					</div>
 				</div>
 			</div>
-		</div>
-      <div class="modal-footer">
-		<div class="col-sm-6" id="ajaxwait2" style="display:none;">
-		<img src="{{ app.request.basepath }}/img/loading1.gif"> Espere un momento por favor...
-		</div>	  
-		<button id="ajaxdeletebutton1" type="button" class="btn btn-danger" onclick="DeleteFtp()">Si quiero</button>
-        <button id="ajaxdeletebutton2" type="button" class="btn btn-success" data-dismiss="modal">NOOOOOOOOOOO!!!</button>        
-      </div>
+	      <div class="modal-footer">
+			<button type="submit" class="btn btn-danger">Sí quiero</button>
+	        <button type="button" class="btn btn-success" data-dismiss="modal">NOOOOOOOOOOO!!!</button>     
+	      </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 // Controladores relacionados con la parte de administración del sitio web
 $backend = $app['controllers_factory'];
 
-// Protección extra que asegura que al backend sólo acceden los administradores
+// Protección extra que asegura que al backend sólo accedan los administradores
 $backend->before(function () use($app) {
     if (!$app['security']->isGranted('ROLE_ADMIN')) {
         return new RedirectResponse($app['url_generator']->generate('homepage'));
@@ -20,7 +20,8 @@ $backend->get('/', function () use ($app) {
 
     return $app['twig']->render('backend/index.html', array(
     	'results' => $results,
-    	'form'  => $app['form']->createView()
+    	'form'  => $app['form']->createView(),
+        'form_delete' => $app['form_delete']->createView()
     	));
 
 })->bind('admin');
@@ -33,11 +34,9 @@ $backend->post('/insert', function () use ($app) {
 
 	if($form->isValid()){
 
-         // return new Response(var_dump($app['database']->insertFtp($form->getData())));
-		
         //Insertar los valores
-        $insert_result = $app['database']->insertFtp($form->getData());
-        if($insert_result == '00000'){
+        $result = $app['database']->insertFtp($form->getData());
+        if($result[0] == '00000'){
 
             $errorMessage['state'] = 'success';
             $errorMessage['message'] = 'FTP insertado satisfactoriamente.';
@@ -45,13 +44,11 @@ $backend->post('/insert', function () use ($app) {
         }else{
            
           $errorMessage['state'] = 'danger';
-          $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '.$insert_result[2]; 
+          $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '.$result[2]; 
         }
 
+	}else{
 
-	}
-
-    if(!isset($errorMessage)){
         $errorMessage['state'] = 'danger';
         $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '. $form->getErrorsAsString();
 
@@ -62,6 +59,42 @@ $backend->post('/insert', function () use ($app) {
 	return $app->redirect($app['url_generator']->generate('admin'));
 
 })->bind('insert');
+
+//FTP delete
+$backend->post('/', function() use ($app){
+
+    $form = $app['form_delete'];
+
+    $form->bind($app['request']);
+
+    if($form->isValid()){
+
+        //Eliminar el ftp
+        $result = $app['database']->deleteFtp($form->getData()['id']);
+
+        if($result[0] == '00000'){
+
+            $errorMessage['state'] = 'success';
+            $errorMessage['message'] = 'FTP eliminado satisfactoriamente.';
+
+        }else{
+           
+          $errorMessage['state'] = 'danger';
+          $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '.$result[2]; 
+        }
+
+    }else{ 
+
+        $errorMessage['state'] = 'danger';
+        $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '. $form->getErrorsAsString();
+
+    } 
+
+    $app['session']->getFlashBag()->add($errorMessage['state'], $errorMessage['message'] );
+
+    return $app->redirect($app['url_generator']->generate('admin'));   
+
+})->bind('ftp_delete');
 
 //Logout
 $app->get('/logout', function () use ($app) {
@@ -86,11 +119,22 @@ $app['form'] = function() use ($app){
             'constraints' => new Assert\NotBlank()
             ))
         ->add('pass', 'password', array(
-            'constraints' => array(new Assert\NotBlank(),new Assert\Length("min=5") )    
+            'constraints' => new Assert\NotBlank()    
             ))
      ->getForm();
 
      return $form;
+};
+
+//Formulario para eliminar ftp
+$app['form_delete'] = function() use ($app){
+
+    $form = $app['form.factory']->createBuilder('form')
+        ->setMethod('DELETE')
+        ->add('id', 'hidden')
+    ->getForm();
+
+    return $form;
 };
 
 return $backend;
