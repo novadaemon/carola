@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<title>Administración de Carola</title>
@@ -52,7 +52,6 @@
 
     <!-- Guardar en variables las rutas a utilizar en las peticiones AJAX -->
     <script>
-    	//Obtener los datos del ftp
      	var getDataRoute = '{{ path('get_data') }}';
      	var insertRoute = '{{ path('insert') }}';
      	var updateRoute = '{{ path('update', { 'id' : '__id__' }) }}';
@@ -86,7 +85,7 @@
 	{% include 'backend/form.html' %}
 	{% include 'backend/delete.html' %}
 
-	<!-- división para mostrar icono de loading para las peticiones ajax -->
+	<!-- división para mostrar icono de loading para las peticiones AJAX -->
     <div id="divLoading">
         <i class="glyphicon glyphicon-refresh" style="margin-top: 296px; margin-left: 716.5px;"></i>
     </div>

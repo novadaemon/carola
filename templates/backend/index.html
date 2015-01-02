@@ -3,12 +3,13 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="70px"></th>
+				<th>No.</th>
 				<th width="40px">Activo</th>
 				<th  width="250px">Descripción</th>
 				<th>Dirección</th>
 				<th>Usuario</th>
 				<th>Estado</th>
+				<th>Acciones</th>
 			</tr>
 		</thead>
 		<tbody id="ftplist">
@@ -19,11 +20,7 @@
 			{% else %}
 				{% for ftp in results %}
 					<tr id="rowid{{ ftp.id }}">
-						<td>
-							<a href='#' onclick='ShowEditFTPDialog({{ ftp.id }})'><img src="{{ app.request.basepath }}/img/edit.png"></a>
-							&nbsp;&nbsp;
-							<a href='#' onclick='ShowDeleteFTPDialog({{ ftp.id }})'><img src="{{ app.request.basepath }}/img/delete.png"></a>
-						</td>
+						<td>{{ loop.index }}</td>
 						<td class="text-center">
 							<span class="glyphicon {% if ftp.activo %}glyphicon-ok {% else %}glyphicon-remove {% endif %}> "></span>
 							 
@@ -33,6 +30,11 @@
 						<td>{{ ftp.direccion_ip}}</td>
 						<td>{{ ftp.user }}</td>
 						<td id='row{{ ftp.id}}statustd'>{{ ftp.status }}</td>
+						<td>
+							<a href='#' onclick='ShowEditFTPDialog({{ ftp.id }})' title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+							&nbsp;&nbsp;
+							<a href='#' onclick='ShowDeleteFTPDialog({{ ftp.id }})' title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
+						</td>
 					</tr>
 				{% endfor%}
 			{% endif %}
