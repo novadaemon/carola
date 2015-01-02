@@ -34,6 +34,8 @@
 							<a href='#' onclick='ShowEditFTPDialog({{ ftp.id }})' title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
 							&nbsp;&nbsp;
 							<a href='#' onclick='ShowDeleteFTPDialog({{ ftp.id }})' title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
+							&nbsp;&nbsp;
+							<a href="" {% if ftp.activo %} title="Indexar" {% else %} class="disabled" title="El ftp debe estar activo para indexar" {% endif %} ><span class="glyphicon glyphicon-play"></span></a>
 						</td>
 					</tr>
 				{% endfor%}

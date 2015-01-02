@@ -11,6 +11,7 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use \DatabaseHandler;
+use \FtpIndexer;
 
 $app = new Application();
 
@@ -26,8 +27,15 @@ $app->register(new TwigServiceProvider());
 $app->register(new SecurityServiceProvider());
 $app->register(new SessionServiceProvider());
 
+/**
+ * Servicio para manipular la base de datos
+ */
 $app['database'] = $app->share(function() use ($app){
 	return new DatabaseHandler($app['db.options']['dsn'], $app['db.options']['user'], $app['db.options']['pass']);
+});
+
+$app['ftpindexer'] = $app->share(function() use ($app){
+    return new FtpIndexer($app['database']);
 });
 
 $app->register(new TwigServiceProvider(), array(

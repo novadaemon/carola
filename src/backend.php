@@ -1,7 +1,6 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // Controladores relacionados con la parte de administración del sitio web
@@ -153,12 +152,13 @@ $app->post('/get-data', function() use($app){
 
     }
 
-    return new JsonResponse($result);
+    return $app->json($result);
 
 })->bind('get_data');
 
 //Logout
-$app->get('/logout', function () use ($app) {
+$backend->get('/logout', function () use ($app) {
+	//Destruir el token
     return $app->redirect($app['url_generator']->generate('homepage'));
 })->bind('logout');
 

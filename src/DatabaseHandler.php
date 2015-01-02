@@ -10,7 +10,6 @@
  * @version Git: $Id$
  * 
  */
-
 class DatabaseHandler extends PDO {
   
          
@@ -74,6 +73,26 @@ class DatabaseHandler extends PDO {
             }
 
             return array_unique($results);
+
+         }
+
+         /**
+          * Insertar datos del escaneo
+          * @param array $data
+          * @return string
+          */
+         public function insertScan($data){
+
+            try{
+                
+              $db = $this->prepare("INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, directorio, idftp, path, ext) VALUES(?,?,?,?,?,?,?,?);");
+
+              $db->execute(array_values($data));
+              return $db->errorInfo();   
+
+            }catch(\Exception $e){
+                return $this->exception_handler($e);
+            }
 
          }
 
