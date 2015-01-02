@@ -14,16 +14,26 @@ window.scroll(0,parseInt($('#infoalert'+alertcount).offset().top));
 
 alertcount++;
 }
-
+function waitUser(n){
+    var t=($(document).width()-150)/2;
+    var i=$(document).scrollTop() + $(window).height() / 2 - 150;
+    $("#divLoading > i").css({"margin-top":i,"margin-left":t});
+    n ? $("#divLoading").show() : $("#divLoading").hide();
+}
 function CerrarAlerta(alerta)//Esta funcion cierra una alerta con el id referido en el parametro alerta.
 {
 $(alerta).alert('close');
 }
 function ShowInsertFTPDialog()//Muestra el dialogo de insertar un FTP
 {
-	$('#myModalLabel').text("Agregar un nuevo FTP a la lista del indizador.");
+	$('#myModalLabel').text("Agregar un nuevo FTP.");
+	$("#ftp_form").attr('action', insertRoute );
+	//Limpiar los campos del formulario
+	$("#ftp_form").find("input:not(:last)").val('');
+	$("#form_user").removeAttr('readonly');
+	$("#form_pass").removeAttr('readonly');
+
 	$('#insertform').modal('show');
-	$('#action').prop('value','insert');
 }
 function ShowDeleteFTPDialog(id)//Muestra el dialogo de eliminar un FTP con id = al parametro id
 {
@@ -32,128 +42,43 @@ function ShowDeleteFTPDialog(id)//Muestra el dialogo de eliminar un FTP con id =
 }
 function ShowEditFTPDialog(id)//Muestra el dialogo para modificar un ftp con id= al parametro id y lo rellena obteniendo los datos del servidor para el ftp seleccionado.
 {
-	$('#myModalLabel').text("Editar un FTP de la lista del indizador con id: "+id);
-	$('#insertform').modal('show');
-	$('#action').prop('value','edit');
-	$('#actionid').prop('value',id);
+	$('#myModalLabel').text("Editar FTP");
+	$("#ftp_form").attr('action', updateRoute.replace(/__id__/g,id));
+	$("#ftp_id").val(id);
+
+	waitUser(true);
 	$.ajax(
 	{   
-		url : "scripts/php/ajaxftpedit.php",   
-		data : {    action : "getrowbyid",
-					id:id,
-				},
-		type : "GET",  
-		dataType : "json",     
+		url : getDataRoute,   
+		type : "POST",
+		data: { 'id': id },  
 		success : function( json ) //Si se obtienen los datos satisfactoriamente rellena los campos del dialogo con los datos del ftp que se va a editar.
 					{  
-						if(json.result=="ok")						
-							{
-								$("#descripcion").prop("disabled", false);
-								$("#dirip").prop("disabled", false);
-								$("#user").prop("disabled", false);
-								$("#pass").prop("disabled", false);
-								$("#activeforindexing").prop("disabled", false);
-								$("#descripcion").prop("value", json.descripcion);
-								$("#dirip").prop("value", json.direccion);
-								$("#user").prop("value", json.user);
-								$("#pass").prop("value", json.pass);
-								if(json.activo==1)
-								$('#activeforindexing').prop('checked',true);
-								else
-								$('#activeforindexing').prop('checked',false);
-							}
-						else
-							{
-								Alertar("alert-warning","Error!","No se han podido obtener los datos del FTP de la base de datos.<br>El texto del error devuelto es: <br>"+json.error);			
-								$('#ajaxwait').hide();
-								$('#ajaxinsertbutton1').show();
-								$('#ajaxinsertbutton2').show();
-								$('#insertform').modal('hide');
-								$("#descripcion").prop("disabled", false);
-								$("#dirip").prop("disabled", false);
-								$("#user").prop("disabled", false);
-								$("#pass").prop("disabled", false);
-								$("#activeforindexing").prop("disabled", false);
-							}
-					},   
-		error : function( xhr, status ) 
-					{    
-						Alertar("alert-danger","Error!","No se ha podido completar la accion solicitada. Los datos tecnicos del error son los siguientes:<br>xhr="+xhr+"<br>status="+status);							
-						$('#ajaxwait').hide();
-						$('#ajaxinsertbutton1').show();
-						$('#ajaxinsertbutton2').show();
-						$('#insertform').modal('hide');
-						$("#descripcion").prop("disabled", false);
-						$("#dirip").prop("disabled", false);
-						$("#user").prop("disabled", false);
-						$("#pass").prop("disabled", false);
-						$("#activeforindexing").prop("disabled", false);
-					},   
-		complete : function( xhr, status ) 
-					{ 						
-					} 
-	});
-}
+						waitUser(false);
+						if(json.success == true){
+							$("#form_descripcion").val(json.data[0].descripcion);
+							$("#form_direccion_ip").val(json.data[0].direccion_ip);
+							$("#form_activo").attr('checked', json.data[0].activo);
+							$("#form_user").val(json.data[0].user);
+							$("#form_pass").val(json.data[0].pass);
+							
+							$("#form_user").attr('readonly', json.data[0].user == 'anonymous');
+							$("#form_pass").attr('readonly', json.data[0].user == 'anonymous');
+							$("#form_anonimo").attr('checked', json.data[0].user == 'anonymous');
+							
+							$('#insertform').modal('show');
 
-function AddOrEditFtp()//Ejecuta la accion de agregar o editar un ftp al servidor de datos.
-{
-$('#ajaxwait').show('fast');
-$('#ajaxinsertbutton1').hide();
-$('#ajaxinsertbutton2').hide();
-$("#descripcion").prop("disabled", true);
-$("#dirip").prop("disabled", true);
-$("#user").prop("disabled", true);
-$("#pass").prop("disabled", true);
-$("#activeforindexing").prop("disabled", true);
-$.ajax(
-	{   
-		url : "scripts/php/ajaxftpedit.php",   
-		data : {    action : $('#action').prop('value'),
-					actionid : $('#actionid').prop('value'),
-					descripcion:$('#descripcion').prop('value'),
-					direccion:$('#dirip').prop('value'),
-					activo:$('#activeforindexing').prop('checked'),
-					user:$('#user').prop('value'),
-					pass:$('#pass').prop('value'),
-					statustd:"<td id=\"row"+$('#actionid').prop('value')+"statustd\">"+$("#row"+$('#actionid').prop('value')+"statustd").html()+"</td>",
-					}, 
-		type : "POST",  
-		dataType : "json",     
-		success : function( json ) 
-					{   // alert("success"); 
-						if(json.result=="ok")						
-							{								
-								if($('#action').prop('value')=='insert')
-								{
-									$('#ftplist').append(json.newrow);
-									Alertar("alert-success","Accion finalizada satisfactorimente","Se pudo insertar correctamente un nuevo FTP en la lista de sitios a indizar."+json.aditionalinformation);							
-									$('#emptyrow').hide();
-								}
-								else if($('#action').prop('value')=='edit')
-								{
-									$('#rowid'+$('#actionid').prop('value')).html(json.editedrow);
-									Alertar("alert-success","Accion finalizada satisfactorimente","Se pudo editar correctamente el FTP con id"+$('#actionid').prop('value')+" de la lista de sitios a indizar."+json.aditionalinformation);							
-								}
-							}
-						else
-							Alertar("alert-warning","Error!","No se ha podido insertar el nuevo FTP en la base de datos. Revise los datos introducidos e intentelo de nuevo. El texto del error devuelto es: <br>"+json.error);			
+						}else{
+							Alertar("alert-warning","Error!",json.message);			
+						}
 					},   
 		error : function( xhr, status ) 
 					{    
+						waitUser(false);
 						Alertar("alert-danger","Error!","No se ha podido completar la accion solicitada. Los datos tecnicos del error son los siguientes:<br>xhr="+xhr+"<br>status="+status);							
-					},   
-		complete : function( xhr, status ) 
-					{ 
-						$('#ajaxwait').hide();
-						$('#ajaxinsertbutton1').show();
-						$('#ajaxinsertbutton2').show();
-						$('#insertform').modal('hide');
-						$("#descripcion").prop("disabled", false);
-						$("#dirip").prop("disabled", false);
-						$("#user").prop("disabled", false);
-						$("#pass").prop("disabled", false);
-						$("#activeforindexing").prop("disabled", false);
-					} 
+
+					}
+
 	});
 }
 
@@ -337,13 +262,13 @@ $(function(){
 	//Setear user y pass cuando se selecciona la opción 'anonimo'
 $("input[name=anonimo]").click(function(){
 	if($(this).is(":checked")){
-		$("#form_usuario").val('anonymous');
-		$("#form_usuario").attr('readonly', true);
+		$("#form_user").val('anonymous');
+		$("#form_user").attr('readonly', true);
 		$("#form_pass").val('anonymous@ftpindexer.cu');
 		$("#form_pass").attr('readonly', true);
 	}else{
-		$("#form_usuario").val('');
-		$("#form_usuario").attr('readonly' , false);
+		$("#form_user").val('');
+		$("#form_user").attr('readonly' , false);
 		$("#form_pass").val('');
 		$("#form_pass").attr('readonly', false);
 	}

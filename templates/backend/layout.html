@@ -16,6 +16,29 @@
 			min-height: 100%;
 			height: auto;
 		}
+		#divLoading {
+		    display: none;
+		    height: 100%;
+		    position: absolute;
+		    right: 0;
+		    top: 0;
+		    width: 100%;
+		    z-index: 1000;
+		    background-color: rgba(0,0,0,0.60);
+		}
+		#divLoading i {
+		    color: white;
+		    font-size: 10em;
+		    animation: rotate 1s infinite linear;
+		}
+		@keyframes rotate {
+		    from {
+		        -moz-transform:rotate(0deg);
+		    }
+		    to {
+		        -moz-transform:rotate(360deg);
+		    }
+		}
 	</style>
 
 	<!-- jscripts -->
@@ -26,6 +49,14 @@
     <script src="{{ app.request.basepath }}/js/mystorage.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ app.request.basepath }}/js/scrollspy.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ app.request.basepath }}/js/backend.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- Guardar en variables las rutas a utilizar en las peticiones AJAX -->
+    <script>
+    	//Obtener los datos del ftp
+     	var getDataRoute = '{{ path('get_data') }}';
+     	var insertRoute = '{{ path('insert') }}';
+     	var updateRoute = '{{ path('update', { 'id' : '__id__' }) }}';
+    </script>
 
 </head>
 <body>
@@ -54,5 +85,10 @@
 	<!-- Incluir las divisiones modales -->
 	{% include 'backend/form.html' %}
 	{% include 'backend/delete.html' %}
+
+	<!-- división para mostrar icono de loading para las peticiones ajax -->
+    <div id="divLoading">
+        <i class="glyphicon glyphicon-refresh" style="margin-top: 296px; margin-left: 716.5px;"></i>
+    </div>
 </body>
 </html>

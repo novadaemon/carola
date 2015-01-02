@@ -1,14 +1,12 @@
 <div class="modal fade" id="insertform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content" id="insertdialogcontent">
-    	<form action="{{ path('insert') }}" method="post">
+    	<form action="{{ path('insert') }}" method="post" id="ftp_form">
       		<div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar un nuevo FTP a la lista del indexador.</h4>
+		        <h4 class="modal-title" id="myModalLabel"></h4>
       		</div>
 			<div class="form-horizontal" style="margin-top:10px">
-			<input type="hidden" id="action">
-			<input type="hidden" id="actionid">
 				<div class="form-group">
 					<label class="col-sm-3 control-label" for="descripcion">
 						Descripcion
@@ -22,7 +20,7 @@
 						Direccion
 					</label>
 					<div class="col-sm-4">
-						{{ form_widget(form.ip, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Dirección IP' }}) }}
+						{{ form_widget(form.direccion_ip, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Dirección IP' }}) }}
 					</div>
 					<div class="col-sm-4">
 						<div class="checkbox">
@@ -36,7 +34,7 @@
 						Usuario
 					</label>
 					<div class="col-sm-3">
-						{{ form_widget(form.usuario, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Usuario' }}) }}
+						{{ form_widget(form.user, { 'attr' : { ' class' : 'form-control', 'required' : true, 'placeholder' : 'Usuario' }}) }}
 					</div>
 					<label class="col-sm-2 control-label" for="pass">
 						Contraseña
@@ -46,15 +44,12 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<input type="checkbox" name="anonimo"><label class="col-sm-3 control-label" for="anonimo">Anónimo</label>
+					<input type="checkbox" value="1" id="form_anonimo" name="anonimo"><label class="col-sm-3 control-label" for="anonimo">Anónimo</label>
 				</div>
 			</div>
 		      <div class="modal-footer">
-				<div class="col-sm-6" id="ajaxwait" style="display:none;">
-				<img src="{{ app.request.basepath }}/img/loading1.gif">Espere un momento por favor...
-				</div>	  
-				<button id="ajaxinsertbutton1" type="submit" class="btn btn-primary">Aceptar</button>
-		        <button id="ajaxinsertbutton2" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>        
+				<button  type="submit" class="btn btn-primary">Aceptar</button>
+		        <button  type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>       
 		      </div>
       	{{ form_rest(form) }}
 	   </form>

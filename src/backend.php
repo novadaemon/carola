@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // Controladores relacionados con la parte de administración del sitio web
@@ -60,6 +61,47 @@ $backend->post('/insert', function () use ($app) {
 
 })->bind('insert');
 
+//FTP update
+$backend->post('/update/{id}', function ($id) use ($app) {
+
+    $form = $app['form'];
+
+    $form ->bind($app['request']);
+
+    if($form->isValid()){
+
+        foreach (array_keys($form->getData()) as $key) {
+              $fields[] = $key . '= ?';
+            };
+
+        // return new Response(var_dump(join(",",$fields)));    
+
+        //Insertar los valores
+        $result = $app['database']->updateFtp($form->getData(), $id);
+        if($result[0] == '00000'){
+
+            $errorMessage['state'] = 'success';
+            $errorMessage['message'] = 'FTP actualizado satisfactoriamente.';
+
+        }else{
+           
+          $errorMessage['state'] = 'danger';
+          $errorMessage['message'] = 'Ha ocurrido un error al actualizar el FTP: '.$result[2]; 
+        }
+
+    }else{
+
+        $errorMessage['state'] = 'danger';
+        $errorMessage['message'] = 'Ha ocurrido un error al actualizar el FTP: '. $form->getErrorsAsString();
+
+    } 
+
+    $app['session']->getFlashBag()->add($errorMessage['state'], $errorMessage['message'] );
+
+    return $app->redirect($app['url_generator']->generate('admin'));
+
+})->bind('update');
+
 //FTP delete
 $backend->post('/', function() use ($app){
 
@@ -80,13 +122,13 @@ $backend->post('/', function() use ($app){
         }else{
            
           $errorMessage['state'] = 'danger';
-          $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '.$result[2]; 
+          $errorMessage['message'] = 'Ha ocurrido un error al eliminar el FTP: '.$result[2]; 
         }
 
     }else{ 
 
         $errorMessage['state'] = 'danger';
-        $errorMessage['message'] = 'Ha ocurrido un error a insertar el FTP: '. $form->getErrorsAsString();
+        $errorMessage['message'] = 'Ha ocurrido un error al eliminar el FTP: '. $form->getErrorsAsString();
 
     } 
 
@@ -94,7 +136,26 @@ $backend->post('/', function() use ($app){
 
     return $app->redirect($app['url_generator']->generate('admin'));   
 
-})->bind('ftp_delete');
+})->bind('delete');
+
+//Optener los datos de un ftp
+$app->post('/get-data', function() use($app){
+
+    $id = $app['request']->get('id');
+    $data = $app['database']->getFtp($id);
+
+    if(!$data){
+        $result['success'] = false;
+        $result['message'] = 'No se ha podido encontrar el registro.';
+    }else{
+        $result['success'] = true;
+        $result['data'] = $data;
+
+    }
+
+    return new JsonResponse($result);
+
+})->bind('get_data');
 
 //Logout
 $app->get('/logout', function () use ($app) {
@@ -111,11 +172,11 @@ $app['form'] = function() use ($app){
         ->add('descripcion', 'text' , array(
             'constraints' => new Assert\NotBlank()
          ))
-        ->add('ip', 'text', array(
+        ->add('direccion_ip', 'text', array(
             'constraints' => new Assert\Ip()
         ))
         ->add('activo', 'checkbox' , array('required' => false ))
-        ->add('usuario', 'text', array(
+        ->add('user', 'text', array(
             'constraints' => new Assert\NotBlank()
             ))
         ->add('pass', 'password', array(
