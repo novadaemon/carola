@@ -21,7 +21,7 @@ class DatabaseHandler extends PDO {
          */
          public static function exception_handler($exception) {
              // Output the exception details
-             die('Uncaught exception: '. $exception->getMessage());
+             die('Ha ocurrido un error: '. $exception->getMessage());
          }
   
          /**
@@ -91,28 +91,81 @@ class DatabaseHandler extends PDO {
          }
 
          /**
-          * Insertar nuevo ftp
+          * Obtiene los datos de un ftp
+          * @param integer $id 
           * @return array
+          */
+         public function getFtp($id){
+
+            $db = $this->prepare("SELECT * FROM ftps WHERE id = :id");
+            $db->bindParam(':id', $id, PDO::PARAM_INT);
+            $db->execute();
+
+            return $db->fetchAll();
+
+         }
+
+         /**
+          * Insertar nuevo ftp
+          * @param array $data
+          * @return string
           */
          public function insertFtp($data){
 
             try{
                 
-                $db = $this->prepare("INSERT INTO ftps(descripcion, direccion_ip, activo, user, pass) VALUES(?,?,?,?,?);");
+              $db = $this->prepare("INSERT INTO ftps(descripcion, direccion_ip, activo, user, pass) VALUES(?,?,?,?,?);");
 
-                $array = array(
-                    $data['descripcion'],
-                    $data['ip'],
-                    $data['activo'],
-                    $data['usuario'],
-                    $data['pass']
-                );
-                 
-
-                return $db->execute($array);   
+              $db->execute(array_values($data));
+              return $db->errorInfo();   
 
             }catch(\Exception $e){
-                return $e->getMessage();
+                return $this->exception_handler($e);
+            }
+
+         }
+
+         /**
+          * Actualiza un ftp
+          * @param array $data
+          * @param integer $id
+          * @return string
+          */
+         public function updateFtp($data, $id){
+
+            foreach (array_keys($data) as $key) {
+              $fields[] = $key . '= ?';
+            }
+
+            try{
+                
+                $db = $this->prepare("UPDATE ftps SET ". join(",", $fields). " WHERE id =". $id .";");
+
+                $db->execute(array_values($data));
+                return $db->errorInfo();   
+
+            }catch(\Exception $e){
+                return $this->exception_handler($e);
+            }
+
+         }
+
+         /**
+          * Elimina un ftp
+          * @param integer $id
+          * @return string
+          */
+         public function deleteFtp($id){
+
+            try{
+                
+                $db = $this->prepare("DELETE from ftps WHERE id = ?");
+                $db->bindParam(1, $id, PDO::PARAM_INT);
+                $db->execute();
+                return $db->errorInfo();   
+
+            }catch(\Exception $e){
+                return $this->exception_handler($e);
             }
 
          }

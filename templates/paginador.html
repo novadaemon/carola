@@ -21,7 +21,7 @@
             {% if total > limit %}
                 <div id="paginator-containter" style="float: right">
                     <ul class='pagination pagination-centered pull-right'>
-                        <li><a href="{{ path('search', {'searchedtext' : searchedtext, 'offset' : offset, 'limit': limit }) }}">&laquo;</a></li>
+                        <li><a href="{{ path('search', {'searchedtext' : searchedtext, 'offset' : 0, 'limit': limit }) }}">&laquo;</a></li>
                         <li class="divider"></li>
                         {% for i in range(0, total, limit) %}
                             {% if i > offset - 5 * limit and i < offset + 5 * limit %}

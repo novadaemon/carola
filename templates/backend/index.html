@@ -20,9 +20,9 @@
 				{% for ftp in results %}
 					<tr id="rowid{{ ftp.id }}">
 						<td>
-							<a href='#' onclick='ShowEditFTPDialog("{{ ftp.id }}")'><img src="{{ app.request.basepath }}/img/edit.png"></a>
+							<a href='#' onclick='ShowEditFTPDialog({{ ftp.id }})'><img src="{{ app.request.basepath }}/img/edit.png"></a>
 							&nbsp;&nbsp;
-							<a href='#' onclick='ShowDeleteFTPDialog("{{ ftp.id }}")'><img src="{{ app.request.basepath }}/img/delete.png"></a>
+							<a href='#' onclick='ShowDeleteFTPDialog({{ ftp.id }})'><img src="{{ app.request.basepath }}/img/delete.png"></a>
 						</td>
 						<td class="text-center">
 							<span class="glyphicon {% if ftp.activo %}glyphicon-ok {% else %}glyphicon-remove {% endif %}> "></span>

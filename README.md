@@ -15,7 +15,7 @@ Los parámetros de la conexión se deben configurar en el archivo `config\prod.p
 	    Options -MultiViews
 	 
 	    RewriteEngine On
-	    RewriteBase /ruta/hasta/carola
+	    RewriteBase /ruta/hasta/carola/web
 	    RewriteCond %{REQUEST_FILENAME} !-f
 	    RewriteRule ^ index.php [L]
 	</IfModule>
@@ -79,7 +79,7 @@ Los parámetros de la conexión se deben configurar en el archivo `config\prod.p
 
 **Lighthttpd**
 ```
-	server.document-root = "/ruta/hasta/carola"
+	server.document-root = "/ruta/hasta/carola/web"
 	 
 	url.rewrite-once = (
 	    # configure some static files
