@@ -1,0 +1,46 @@
+{% set searchedtext = app.request.query.has('searchedtext') ? app.request.query.get('searchedtext') : null %}
+{% set offset = app.request.query.has('offset') ? app.request.query.get('offset') : 0 %}
+{% set limit = app.request.query.has('limit') ? app.request.query.get('limit') : 30 %}
+<tr id="mypaginator">
+    <th colspan="2">
+        <div style="padding: 5px" class="container-fluid">
+
+            <div style="float: left;margin-top: 2.2em">
+                <p class='text-info'>
+                    Resultados {{ offset +  1 }}  - {{ offset + results | length }} / {{ total }}
+                </p>
+            </div>
+            <div style="float: right; margin-top: 20px">
+                <select name="limit" class="form-control" >
+                    <option value="10" {% if app.request.query.get('limit') == 10 %} selected {% endif %}>10</option>
+                    <option value="30" {% if not app.request.query.has('limit') or app.request.query.get('limit') == 30  %} selected {% endif %}>30</option>
+                    <option value="50" {% if app.request.query.get('limit') == 50 %} selected {% endif %}>50</option>
+                    <option value="100" {% if app.request.query.get('limit') == 100 %} selected {% endif %}>100</option>
+                </select>
+            </div>
+            {% if total > limit %}
+                <div id="paginator-containter" style="float: right">
+                    <ul class='pagination pagination-centered pull-right'>
+                        <li><a href="{{ path('search', {'searchedtext' : searchedtext, 'offset' : 0, 'limit': limit }) }}">&laquo;</a></li>
+                        <li class="divider"></li>
+                        {% for i in range(0, total, limit) %}
+                            {% if i > offset - 5 * limit and i < offset + 5 * limit %}
+                                <li {% if offset == i %} class="active" {% endif %}  ><a href="{{ path('search', { 'searchedtext' : searchedtext, 'offset' : i , 'limit' : limit }) }}">{{ '%.0f' | format(i / limit + 1) }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class=""></li>
+                        <li><a href="{{ path('search', { 'searchedtext' : searchedtext, 'offset' : total - total % limit, 'limit': limit }) }}">&raquo;</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </th>
+</tr>
+
+<script>
+    $(function(){
+        $("select[name=limit]").change(function(){
+            window.location = '{{ path('search' , { 'searchedtext': searchedtext , 'offset': offset }) }}' +'&limit=' + $(this).val();
+        })    
+    })
+</script>
