@@ -11,6 +11,7 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use \DatabaseHandler;
+use \FtpIndexer;
 
 $app = new Application();
 
@@ -26,18 +27,58 @@ $app->register(new TwigServiceProvider());
 $app->register(new SecurityServiceProvider());
 $app->register(new SessionServiceProvider());
 
+/**
+ * Servicio para manipular la base de datos
+ */
 $app['database'] = $app->share(function() use ($app){
 	return new DatabaseHandler($app['db.options']['dsn'], $app['db.options']['user'], $app['db.options']['pass']);
+});
+
+$app['ftpindexer'] = $app->share(function() use ($app){
+    return new FtpIndexer($app['database']);
 });
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path'    => array(__DIR__.'/../templates'),
     // descomenta esta línea para activar la cache de Twig
     'twig.options' => array('cache' => __DIR__.'/../cache/twig'),
+
 ));
 
 $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
     // add custom globals, filters, tags, ...
+    
+    $twig->addFilter('bytesToHRF', new \Twig_Filter_Function('bytesToHRF'));
+
+    /**
+     * Convierte bytes a la unidad indicada
+     * @param  [type] $bytes [description]
+     * @param  string $unit  [description]
+     * @return [type]        [description]
+     */
+    function bytesToHRF($bytes,$unit=''){
+        
+        $units['TB']=1099511627776;
+        $units['GB']=1073741824;
+        $units['MB']=1048576;
+        $units['KB']=1024;
+        $units['B']=1;
+        
+        reset($units);
+        
+        while(list($key,$value)=each($units)) {
+            if($key==$unit) {
+                $bytes=sprintf('%01.2f',$bytes/$value);
+                return $bytes." ".$key;;
+            }
+            if($bytes>$value && empty($unit)) {
+                $bytes=sprintf('%01.2f',$bytes/$value);
+                return $bytes." ".$key;
+            }
+        }
+
+        return $bytes;
+    }
 
     return $twig;
 }));

@@ -72,10 +72,8 @@ $app->before(function(Request $request) use($app){
 //Ruta homepage
 $app->get('/', function () use ($app) {
 
-    $content = $app['twig']->render('index.html', array());
+    return $app['twig']->render('index.html', array(), $app['response']);
     
-    return $app['response']->setContent($content);
-
 })
 ->bind('homepage');
 
@@ -121,15 +119,14 @@ $app->get('/search/', function () use ($app) {
     $limit = $app['request']->query->has('limit') ? $app['request']->query->get('limit') : 30;
     $results = array_slice($results, $offset,  $limit);
 
-    $content = $app['twig']->render('results.html', array( 
+    return $app['twig']->render('results.html', array( 
         'total' => $total,
         'results' => $results,
         'ftps' => $ftps,
         'exts'  => $exts
 
-         ));
+         ), $app['response']);
 
-    return $app['response']->setContent($content);
 })
 ->bind('search');
 

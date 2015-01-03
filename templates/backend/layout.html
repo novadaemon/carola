@@ -39,6 +39,13 @@
 		        -moz-transform:rotate(360deg);
 		    }
 		}
+		a.disabled{
+		    color: gray !important; 
+		    cursor: not-allowed !important;
+		}
+		#ftplist td:last-child *{
+			vertical-align: middle;
+		}
 	</style>
 
 	<!-- jscripts -->
@@ -55,6 +62,7 @@
      	var getDataRoute = '{{ path('get_data') }}';
      	var insertRoute = '{{ path('insert') }}';
      	var updateRoute = '{{ path('update', { 'id' : '__id__' }) }}';
+     	var scanRoute = '{{ path('scan') }}';
     </script>
 
 </head>
