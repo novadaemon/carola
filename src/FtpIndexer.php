@@ -53,11 +53,29 @@ class FtpIndexer{
 	{
 		try{
 
+			// Modificar configuración de php para el proceso de escaneo
+			set_time_limit(0);
+			ini_set("memory_limit","1000M");
+
 			/**
 			 * Obtener los datos del ftp
 			 * @var array
 			 */
 			$ftp = $this->dbHandler->getFtp($ftp_id);
+
+			/**
+			 * No realizar la acción si el ftp se está indexando
+			 */
+			if($ftp[0]['status'] == 'Indexando...'){
+				return [$ftp[0]['direccion_ip'] => ['success' => false, 'message' => 'El ftp se está indexando en estos momentos.'] ];
+			}
+
+			/**
+			 * No realizar la acción si el ftp está desactivado
+			 */
+			if(!$ftp[0]['activo']){
+				return [$ftp[0]['direccion_ip'] => ['success' => false, 'message' => 'El ftp está desactivado.'] ];
+			}
 
 			/**
 			 * Loguearse en el ftp. Devuelve true si es correcto.
@@ -98,7 +116,7 @@ class FtpIndexer{
 							
 						}
 
-						//Comprobar si hay errores en el proceso de inserción en la bd
+						//Comprobar si hay errores en el proceso de insercción en la bd
 						$estado = isset($error) ? 'Parcialmente indexado' : 'Indexado';
 
 						//Setear el estado
@@ -121,6 +139,12 @@ class FtpIndexer{
 			$result = ['success' => false, 'message' => $e->getMessage()];
 		} 
 
+		//Actualizar fecha y mensaje del último escaneo
+		$this->dbHandler->updateFtp(array(
+			'date_last_scan' => date('Y-m-d'),
+			'message' => $result['message']
+			 ), $ftp_id);
+
 		return [$ftp[0]['direccion_ip'] => $result];
 	}
 
@@ -131,7 +155,7 @@ class FtpIndexer{
 	public function scanAll()
 	{
 		/**
-		 * Obtener los ftps activo
+		 * Obtener los ftps activos
 		 * @var array
 		 */
 		$ftps = $this->dbHandler->getActivesFtps();
@@ -194,7 +218,7 @@ class FtpIndexer{
 
             	$array = $chunks = preg_split("/\s+/", $child);
 
-            	//Obtener le nombre primero
+            	//Obtener el nombre primero
             	array_splice($array, 0, 8);
         		$item['name'] = implode(" ", $array) ;	
 

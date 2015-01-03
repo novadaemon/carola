@@ -48,7 +48,7 @@ $app->register(new TwigServiceProvider(), array(
 $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
     // add custom globals, filters, tags, ...
     
-    $twig->addFilter('bytesToHRF', new \Twig_Filter_Function('bytesToHRF'));
+    $twig->addFilter('bytesToHRF', new \Twig_Filter_Function('bytes_to_hrf_filter'));
 
     /**
      * Convierte bytes a la unidad indicada
@@ -56,7 +56,7 @@ $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
      * @param  string $unit  [description]
      * @return [type]        [description]
      */
-    function bytesToHRF($bytes,$unit=''){
+    function bytes_to_hrf_filter($bytes,$unit=''){
         
         $units['TB']=1099511627776;
         $units['GB']=1073741824;

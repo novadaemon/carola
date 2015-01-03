@@ -127,49 +127,44 @@ $.ajax(
 	});
 
 }*/
-function IndizarFTP(id,rehacer)//Envia una peticion al servidor para indizar un ftp con id= al parametro id
+function IndexarFTP(id, ip, obj)//Envia una petición al servidor para indizar un ftp con id= al parametro id
 {
-//$('#progressalert'+id+'closebutton').hide();
-//$('#progressalert').show();
-//indexing=true;
-//$('#indexingajax').show();
-//$('#infoalerttext').html("<b>Estado: </b>Esperando respuesta...</br><b>Progreso: </b>Esperando respuesta...");
-//setTimeout("GetIndexingInfoAndStatus("+id+",false)",4000);
+$(obj).next("img").show();
+$(obj).addClass('disabled');
+$(obj).attr('title', 'Indexando...');
 $.ajax(
 	{   
-		url : "scripts/php/scan.php",   
-		data : {    action : "scansingle",
-					scanid:id,
-					remake:rehacer,
-				},
-		type : "GET",  
-		dataType : "json",     
+		url : scanRoute, 
+		type: 'POST',  
+		data : { 'id' : id },
 		success : function( json ) 
 					{  
-						if(json.result=="ok")						
+						$(obj).next("img").hide();
+						$(obj).removeClass('disabled');
+
+						if(json.succes== true)				
 							{								
-								Alertar("alert-success","Accion finalizada satisfactorimente","Indizacion completada");							
+								Alertar("alert-success","Acción finalizada satisfactorimente","Indexación completada");							
 								//$('#indexingajax').hide();
 								//indexing=false;
 							}
 						else
 							{
-								Alertar("alert-warning","Error!","No se ha podido realizar la indizacion del ftp seleccionado<br>El texto del error devuelto es: <br>"+json.error);			
+								Alertar("alert-warning","Error!","No se ha podido realizar la indexación del ftp seleccionado.<br>El texto del error devuelto es: <br>"+json.message);			
 								//$('#indexingajax').hide();
 								//indexing=false;
 							}
 					},   
 		error : function( xhr, status ) 
 					{    
-						Alertar("alert-danger","Error!","No se ha podido completar la accion solicitada. Los datos tecnicos del error son los siguientes:<br>xhr="+xhr+"<br>status="+status);							
+						$(obj).next("img").hide();
+						$(obj).removeClass('disabled');
+						Alertar("alert-danger","Error!","No se ha podido completar la acción solicitada. Los datos técnicos del error son los siguientes:<br>xhr="+xhr.responseText+"<br>status="+status);							
 						//$("#ftptodelete").prop("value", "");
 					},   
-		complete : function( xhr, status ) 
-					{ 
-						//$('#progressalertclosebutton').show();
-						//GetIndexingInfoAndStatus(id,true)
-					} 
+
 	});
+return false;
 }
 
 function AddTaskAlert(id)//Agrega una notificacion de estado de alguna tarea para que el usuario la vea.
