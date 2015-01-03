@@ -5,7 +5,46 @@ Indexador del contenido de los ftps realizado con el microframework Silex.
 
 ## Configuración de la base de datos ##
 
-Los parámetros de la conexión se deben configurar en el archivo `config\prod.php`.
+Instalar la base de datos que se distribuye en la carpeta `carola/database`.
+
+Configurar los parámetros de conexión en el archivo `config/prod.php`.
+
+## Instalación ##
+
+Configurar un virtual host o alias apuntando a la carpeta `carola/web`.
+
+Para poder usar urls limpias debe activarse `mod_rewrite`.
+
+## Utilización ##
+
+Para indexar los ftps se puede utilizar el comando de consola `ftp:indexer`.
+
+Este comando acepta un parámetro **ip** mediante el cuál se puede indicar la ip del servidor ftp que se quiere indexar. Si no se pasa ningún parámetro se indexan todos los ftps activos.
+
+Para ejecutar el primero situarse en dl directorio **carola/bin**
+
+Ej.:
+
+`php console ftp:indexer 192.168.136.1` Ejecuta el escaneo e indexación para el ftp con ip 192.168.136.1.
+
+`php console ftp:indexer` Ejecuta el escaneo para todos los ftps activos.
+
+Con este comando de consola es posible configurar el crontab de Linux para establecer escaneos programados.
+
+Para editar el crontab escribimos en la consola: `sudo crontab -e`. Luego editamos el archivo programando la tarea teniendo en cuenta el formato necesario para configurar una tarea programada.
+
+Ej.: 
+
+`* 0 * * 5 php /ruta/hasta/carola/bin/console ftp:indexer` Ejecuta el escaneo para todos los ftps activos a las 12:00 de la noche todos los viernes.
+
+`30 17 * * * php /ruta/hasta/carola/bin/console ftp:indexer 192.168.128.2` Ejecuta el escaneo para el ftp 192.168.128.2 todos los días a las 5:30 pm.
+
+## Backend o parte de administración ##
+
+Las credenciasles para acceder a la parte de administración son:
+
+* **usuario:** admin
+* **password:* 1234
 
 ## Sugerencias para la configuración de los servidores http para Carola ##
 
@@ -15,7 +54,7 @@ Los parámetros de la conexión se deben configurar en el archivo `config\prod.p
 	    Options -MultiViews
 	 
 	    RewriteEngine On
-	    RewriteBase /ruta/hasta/carola/web
+	    RewriteBase /ruta/hasta/carola
 	    RewriteCond %{REQUEST_FILENAME} !-f
 	    RewriteRule ^ index.php [L]
 	</IfModule>
@@ -79,7 +118,7 @@ Los parámetros de la conexión se deben configurar en el archivo `config\prod.p
 
 **Lighthttpd**
 ```
-	server.document-root = "/ruta/hasta/carola/web"
+	server.document-root = "/ruta/hasta/carola"
 	 
 	url.rewrite-once = (
 	    # configure some static files

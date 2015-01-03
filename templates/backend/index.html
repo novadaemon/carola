@@ -39,7 +39,7 @@
 							&nbsp;&nbsp;
 							<a href='#' onclick='ShowDeleteFTPDialog({{ ftp.id }})' title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
 							&nbsp;&nbsp;
-							<a href="" onclick="return IndexarFTP({{ ftp.id }}, {{ ftp.direccion_ip }}, this)" {% if not ftp.activo or ftp.status == 'Indexando...' %} class="disabled" title="No se puede indexar el ftp. Está desactivado o se está indexando en estos momentos." {% endif %} ><span class="glyphicon glyphicon-play"></span></a>
+							<a href="" onclick="return IndexarFTP({{ ftp.id }}, '{{ ftp.direccion_ip }}', this)" {% if not ftp.activo or ftp.status == 'Indexando...' %} class="disabled" title="No se puede indexar el ftp. Está desactivado o se está indexando en estos momentos."{% else%} title="Indexar" {% endif %} ><span class="glyphicon glyphicon-play"></span></a>
 							&nbsp;&nbsp;
 							<img style="display: none" src="{{ app.request.basepath }}/img/ajax-loader.gif" alt="">
 						</td>

@@ -141,16 +141,16 @@ $.ajax(
 					{  
 						$(obj).next("img").hide();
 						$(obj).removeClass('disabled');
-
-						if(json.succes== true)				
+						console.log(json);
+						if(json[ip].success == true)				
 							{								
-								Alertar("alert-success","Acción finalizada satisfactorimente","Indexación completada");							
+								Alertar("alert-success","Acción finalizada satisfactoriamente","Indexación para el ftp "+ ip + " completada.");							
 								//$('#indexingajax').hide();
 								//indexing=false;
 							}
 						else
 							{
-								Alertar("alert-warning","Error!","No se ha podido realizar la indexación del ftp seleccionado.<br>El texto del error devuelto es: <br>"+json.message);			
+								Alertar("alert-danger","Error!","No se ha podido realizar la indexación para el ftp" + ip + "<br>El texto del error devuelto es: <br>"+json[ip].message);			
 								//$('#indexingajax').hide();
 								//indexing=false;
 							}
@@ -161,7 +161,7 @@ $.ajax(
 						$(obj).removeClass('disabled');
 						Alertar("alert-danger","Error!","No se ha podido completar la acción solicitada. Los datos técnicos del error son los siguientes:<br>xhr="+xhr.responseText+"<br>status="+status);							
 						//$("#ftptodelete").prop("value", "");
-					},   
+					}  
 
 	});
 return false;
