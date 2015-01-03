@@ -36,6 +36,7 @@
 							<a href='#' onclick='ShowDeleteFTPDialog({{ ftp.id }})' title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
 							&nbsp;&nbsp;
 							<a href="" {% if ftp.activo %} title="Indexar" {% else %} class="disabled" title="El ftp debe estar activo para indexar" {% endif %} ><span class="glyphicon glyphicon-play"></span></a>
+							<img style="display: none" src="{{ app.request.basepath }}/img/ajax-loader.gif" alt="">
 						</td>
 					</tr>
 				{% endfor%}

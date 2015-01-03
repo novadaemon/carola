@@ -156,10 +156,30 @@ $app->post('/get-data', function() use($app){
 
 })->bind('get_data');
 
+/**
+ * Acción para escanear un ftp
+ */
+$backend->get('/ftp/scan/', function() use ($app){
+
+    return $app->json($app['ftpindexer']->scan(1));
+
+
+})->bind('scan');
+
+/**
+ * Acción para escanear todos los ftps activos
+ */
+$backend->get('/ftp/scan/all', function() use ($app){
+
+    return $app->json($app['ftpindexer']->scanAll());
+
+})->bind('scan_all');
+
 //Logout
 $backend->get('/logout', function () use ($app) {
-	//Destruir el token
+
     return $app->redirect($app['url_generator']->generate('homepage'));
+
 })->bind('logout');
 
 

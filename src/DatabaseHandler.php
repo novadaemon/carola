@@ -10,7 +10,7 @@
  * @version Git: $Id$
  * 
  */
-class DatabaseHandler extends PDO {
+class DatabaseHandler extends \PDO {
   
          
         /**
@@ -20,7 +20,7 @@ class DatabaseHandler extends PDO {
          */
          public static function exception_handler($exception) {
              // Output the exception details
-             die('Ha ocurrido un error: '. $exception->getMessage());
+             return array('error'=> false, 'message' => $exception->getMessage());
          }
   
          /**
@@ -39,7 +39,7 @@ class DatabaseHandler extends PDO {
              parent::__construct($dsn, $username, $password, $driver_options);
 
              // Change the exception handler back to whatever it was before
-             restore_exception_handler();
+             // restore_exception_handler();
          }
 
          /**
@@ -77,32 +77,25 @@ class DatabaseHandler extends PDO {
          }
 
          /**
-          * Insertar datos del escaneo
-          * @param array $data
-          * @return string
-          */
-         public function insertScan($data){
-
-            try{
-                
-              $db = $this->prepare("INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, directorio, idftp, path, ext) VALUES(?,?,?,?,?,?,?,?);");
-
-              $db->execute(array_values($data));
-              return $db->errorInfo();   
-
-            }catch(\Exception $e){
-                return $this->exception_handler($e);
-            }
-
-         }
-
-         /**
           * Buscar todos los ftps
           * @return array
           */
          public function getFtps(){
 
             $db = $this->prepare("SELECT * FROM ftps");
+            $db->execute();
+
+            return $db->fetchAll();
+
+         }
+
+         /**
+          * Obtiene los ftps activo
+          * @return array
+          */
+         public function getActivesFtps(){
+
+            $db = $this->prepare("SELECT * FROM ftps WHERE activo = 1");
             $db->execute();
 
             return $db->fetchAll();
@@ -182,6 +175,55 @@ class DatabaseHandler extends PDO {
                 $db->bindParam(1, $id, PDO::PARAM_INT);
                 $db->execute();
                 return $db->errorInfo();   
+
+            }catch(\Exception $e){
+                return $this->exception_handler($e);
+            }
+
+         }
+
+         /**
+          * Insertar datos del escaneo
+          * @param array $data
+          * @return string
+          */
+         public function insertScan($data){
+
+            try{
+                
+              $db = $this->prepare("INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES(?,?,?,?,?,?,?);");
+
+              $db->execute(array_values($data));
+              
+              if($db->errorInfo()[0] == '00000') return true;
+
+              throw new \Exception($db->errorInfo()[2], 1);   
+
+            }catch(\Exception $e){
+                return $this->exception_handler($e);
+            }
+
+         }
+
+         /**
+          * Elimina el escaneo de un ftp
+          * @param integer $ftp_id
+          * @return string
+          */
+         public function deleteScan($ftp_id){
+
+            try{
+                
+                $db = $this->prepare("DELETE from ftptree WHERE idftp = ?");
+                $db->bindParam(1, $ftp_id, PDO::PARAM_INT);
+                $db->execute();
+                
+                if($db->errorInfo() == '00000') return true;
+
+                return $db->errorInfo();
+
+                throw new \Exception($db->errorInfo()[2], 1);
+                    
 
             }catch(\Exception $e){
                 return $this->exception_handler($e);
