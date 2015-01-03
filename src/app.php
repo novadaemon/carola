@@ -42,10 +42,43 @@ $app->register(new TwigServiceProvider(), array(
     'twig.path'    => array(__DIR__.'/../templates'),
     // descomenta esta línea para activar la cache de Twig
     'twig.options' => array('cache' => __DIR__.'/../cache/twig'),
+
 ));
 
 $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
     // add custom globals, filters, tags, ...
+    
+    $twig->addFilter('bytesToHRF', new \Twig_Filter_Function('bytesToHRF'));
+
+    /**
+     * Convierte bytes a la unidad indicada
+     * @param  [type] $bytes [description]
+     * @param  string $unit  [description]
+     * @return [type]        [description]
+     */
+    function bytesToHRF($bytes,$unit=''){
+        
+        $units['TB']=1099511627776;
+        $units['GB']=1073741824;
+        $units['MB']=1048576;
+        $units['KB']=1024;
+        $units['B']=1;
+        
+        reset($units);
+        
+        while(list($key,$value)=each($units)) {
+            if($key==$unit) {
+                $bytes=sprintf('%01.2f',$bytes/$value);
+                return $bytes." ".$key;;
+            }
+            if($bytes>$value && empty($unit)) {
+                $bytes=sprintf('%01.2f',$bytes/$value);
+                return $bytes." ".$key;
+            }
+        }
+
+        return $bytes;
+    }
 
     return $twig;
 }));

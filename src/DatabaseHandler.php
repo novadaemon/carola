@@ -103,7 +103,7 @@ class DatabaseHandler extends \PDO {
          }
 
          /**
-          * Obtiene los datos de un ftp
+          * Obtiene los datos de un ftp a partir del id
           * @param integer $id 
           * @return array
           */
@@ -111,6 +111,21 @@ class DatabaseHandler extends \PDO {
 
             $db = $this->prepare("SELECT * FROM ftps WHERE id = :id");
             $db->bindParam(':id', $id, PDO::PARAM_INT);
+            $db->execute();
+
+            return $db->fetchAll();
+
+         }
+
+         /**
+          * Obtiene los datos de un ftp a partir de la ip
+          * @param string $ip 
+          * @return array
+          */
+         public function getFtpByIp($ip){
+
+            $db = $this->prepare("SELECT * FROM ftps WHERE direccion_ip = :ip");
+            $db->bindParam(':ip', $ip, PDO::PARAM_STR);
             $db->execute();
 
             return $db->fetchAll();

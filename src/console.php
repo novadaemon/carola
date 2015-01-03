@@ -12,7 +12,12 @@ $console->setDispatcher($app['dispatcher']);
 $console
     ->register('ftp:indexer')
     ->setDefinition(array(
-        // new InputOption('some-option', null, InputOption::VALUE_NONE, 'Some help'),
+        new InputArgument(
+			'ip',
+			InputArgument::OPTIONAL,
+			'Ip del ftp que se desea escanear. Si no se especifica ninguno se escanean todos.',
+			'all'
+			),
     ))
     ->setDescription('Indexa el contenido de los ftps')
     ->setHelp(<<<EOT
@@ -20,7 +25,21 @@ El comando <info>ftp:indexer</info> comienza el proceso de indexación del conte
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        
         $output->writeln('Indexando contenido...');
+
+        $ip = $input->getArgument('ip');
+
+        if($ip == 'all'){
+        	
+        	$result = $app['ftpindexer']->scanAll();
+
+        }else{
+        	$ftp = $app['database']->getFtpByIp($ip);
+        	$result = $app['ftpindexer']->scan($ftp[0]['id']);
+        }
+
+        $output->writeln(var_dump($result));
     })
 ;
 

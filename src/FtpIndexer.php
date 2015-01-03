@@ -62,27 +62,39 @@ class FtpIndexer{
 			/**
 			 * Loguearse en el ftp. Devuelve true si es correcto, ecxcepción en caso contrario.
 			 */
-			if($this->login($ftp[0]['direccion_ip'], $ftp[0]['user'], $ftp[0]['pass'])){
+			$login = $this->login($ftp[0]['direccion_ip'], $ftp[0]['user'], $ftp[0]['pass']);
+			if($login){
 
 				$datas = $this->listDetails($this->cnx);
 
-				if(isset($datas) && count($datas) > 0){
+				if(isset($datas) && count($datas) > 0 ){
 
 					//Cambiar el estado del ftp
 					$this->dbHandler->updateFtp(array('status' => 'Indexando...'), $ftp_id);
 
 					//Eliminar los resultados de escaneos previos
 					$result_del = $this->dbHandler->deleteScan($ftp_id);
+					
 					if($result_del){
 
 						foreach ($datas as $data) {
-							//insertar el ftp_id en el array
-							$data['ftp_id'] = $ftp_id;	
 
-							$result_insert = $this->dbHandler->insertScan($data);
-							if(isset($result_insert['error'])){
-								$error[] = $result_insert['message']; 
+							//Verificar si no hay error en los datos
+							if(isset($data['error'])){
+
+								$error[] = $data['message'];
+
+							}else{
+
+								//insertar el ftp_id en el array
+								$data['ftp_id'] = $ftp_id;	
+
+								$result_insert = $this->dbHandler->insertScan($data);
+								if(isset($result_insert['error'])){
+									$error[] = $result_insert['message']; 
+								}
 							}
+							
 						}
 
 						//Comprobar si hay errores en el proceso de insercción en la bd
@@ -100,13 +112,15 @@ class FtpIndexer{
 				}else{
 					$result = array('success' => false, 'message' => 'No hay datos para indexar.');
 				}
+			}else{
+				$result = array('success' => false, 'message' => $login['message']); 
 			}
 
 		}catch(\Exception $e){
 			$result = array('success' => false, 'message' => $e->getMessage());
 		} 
 
-		return $result;
+		return array($ftp[0]['direccion_ip'] => $result);
 	}
 
 	/**
@@ -122,8 +136,11 @@ class FtpIndexer{
 		$ftps = $this->dbHandler->getActivesFtps();
 
 		foreach ($ftps as $ftp) {
-			$this->scan($ftp['id']);
+			$results[$ftp['direccion_ip']] = $this->scan($ftp['id']);
 		}
+
+		return $results;
+
 	}
 
 	/**
@@ -133,13 +150,10 @@ class FtpIndexer{
 	 */
 	private function connect($ftp)
 	{
-		$this->cnx = ftp_connect($ftp);
 
-		if($this->cnx){
-			return $this->cnx;
-		}else{
-			throw new Exception("Error al conectarse al ftp", 1);
-		}
+		if($this->cnx = ftp_connect($ftp,21,20)) return $this->cnx;
+		
+		throw new Exception("Error al conectarse al ftp", 1);
 
 	}
 
@@ -156,7 +170,9 @@ class FtpIndexer{
 
 			$cnx = $this->connect($ftp);
 
-			return @ftp_login($cnx,$user,$pass);
+			if($login = @ftp_login($cnx,$user,$pass)) return $login;
+
+			throw new Exception("No se pudo acceder al ftp con las credenciales suministradas.", 1);
 
 		}catch(\Exception $e){ throw $e; }
 	}
@@ -175,23 +191,25 @@ class FtpIndexer{
 
             foreach ($children as $child) { 
 
-            	$chunks = preg_split("/\s+/", $child);
+            	$array = $chunks = preg_split("/\s+/", $child);
+
+            	//Optener le nombre primero
+            	array_splice($array, 0, 8);
+        		$item['name'] = implode(" ", $array) ;	
 
             	if($chunks[0]{0} === 'd'){
-            		$this->listDetails($cnx, $directory."/".$chunks[8], $profundidad + 1);
+            		$this->listDetails($cnx, $directory."/".$item['name'], $profundidad + 1);
             	}else{
             		
             		list($i['rights'], $i['number'], $i['user'], $i['group'], $i['size'], $i['month'], $i['day'], $i['time']) = $chunks;
             		
-            		$item['name'] = $chunks[8];
             		$fecha = new \DateTime($i['month'].' '.$i['day']. ' '.$i['time']);
             		$item['fecha'] = $fecha->format('Y-m-d');
             		$item['size'] = $i['size'];
             		$item['profundidad'] = $profundidad;
             		$item['path'] = $directory."/".$item['name'];
-            		$item['ext'] = substr($chunks[8],strrpos($chunks[8], '.') + 1);
+            		$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
             		
-                	
                 	$this->items[] = $item;
             	}
 
@@ -199,7 +217,7 @@ class FtpIndexer{
 
          }else{
 
-         	$this->items[] = array('success', 'message' => "Error leyendo el directorio ". $directory);
+         	$this->items[] = array('error' => true, 'message' => "Error leyendo el directorio ". $directory);
          	
          } 
 
