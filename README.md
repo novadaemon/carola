@@ -21,7 +21,7 @@ Para indexar los ftps se puede utilizar el comando de consola `ftp:indexer`.
 
 Este comando acepta un parámetro **ip** mediante el cuál se puede indicar la ip del servidor ftp que se quiere indexar. Si no se pasa ningún parámetro se indexan todos los ftps activos.
 
-Para ejecutar el primero situarse en dl directorio **carola/bin**
+Para ejecutar el comando primero situarse en dl directorio **carola/bin**
 
 Ej.:
 
@@ -44,7 +44,7 @@ Ej.:
 Las credenciasles para acceder a la parte de administración son:
 
 * **usuario:** admin
-* **password:* 1234
+* **password:** 1234
 
 ## Sugerencias para la configuración de los servidores http para Carola ##
 
