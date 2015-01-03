@@ -159,21 +159,13 @@ $app->post('/get-data', function() use($app){
 /**
  * Acción para escanear un ftp
  */
-$backend->get('/ftp/scan/', function() use ($app){
+$backend->post('/ftp/scan/', function() use ($app){
 
-    return $app->json($app['ftpindexer']->scan(1));
+    $id = $app['request']->get('id');
 
-
+    return $app->json($app['ftpindexer']->scan($id));    
+    
 })->bind('scan');
-
-/**
- * Acción para escanear todos los ftps activos
- */
-$backend->get('/ftp/scan/all', function() use ($app){
-
-    return $app->json($app['ftpindexer']->scanAll());
-
-})->bind('scan_all');
 
 //Logout
 $backend->get('/logout', function () use ($app) {

@@ -60,9 +60,10 @@ class FtpIndexer{
 			$ftp = $this->dbHandler->getFtp($ftp_id);
 
 			/**
-			 * Loguearse en el ftp. Devuelve true si es correcto, ecxcepción en caso contrario.
+			 * Loguearse en el ftp. Devuelve true si es correcto.
 			 */
 			$login = $this->login($ftp[0]['direccion_ip'], $ftp[0]['user'], $ftp[0]['pass']);
+			
 			if($login){
 
 				$datas = $this->listDetails($this->cnx);
@@ -97,30 +98,30 @@ class FtpIndexer{
 							
 						}
 
-						//Comprobar si hay errores en el proceso de insercción en la bd
+						//Comprobar si hay errores en el proceso de inserción en la bd
 						$estado = isset($error) ? 'Parcialmente indexado' : 'Indexado';
 
 						//Setear el estado
 						$this->dbHandler->updateFtp(array('status' => $estado), $ftp_id);
 
-						$result = array('success' => true, 'message' => $estado);
+						$result = ['success' => true, 'message' => $estado];
 
 					}else{
-						$result = array('success' => false, 'message' => $result_del );
+						$result = ['success' => false, 'message' => $result_del];
 					}
 
 				}else{
-					$result = array('success' => false, 'message' => 'No hay datos para indexar.');
+					$result = ['success' => false, 'message' => 'No hay datos para indexar.'];
 				}
 			}else{
-				$result = array('success' => false, 'message' => $login['message']); 
+				$result = ['success' => false, 'message' => $login['message']]; 
 			}
 
 		}catch(\Exception $e){
-			$result = array('success' => false, 'message' => $e->getMessage());
+			$result = ['success' => false, 'message' => $e->getMessage()];
 		} 
 
-		return array($ftp[0]['direccion_ip'] => $result);
+		return [$ftp[0]['direccion_ip'] => $result];
 	}
 
 	/**
@@ -193,7 +194,7 @@ class FtpIndexer{
 
             	$array = $chunks = preg_split("/\s+/", $child);
 
-            	//Optener le nombre primero
+            	//Obtener le nombre primero
             	array_splice($array, 0, 8);
         		$item['name'] = implode(" ", $array) ;	
 

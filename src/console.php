@@ -35,8 +35,15 @@ EOT
         	$result = $app['ftpindexer']->scanAll();
 
         }else{
+
         	$ftp = $app['database']->getFtpByIp($ip);
-        	$result = $app['ftpindexer']->scan($ftp[0]['id']);
+            
+            if(count($ftp) == 0) {
+                $result = ['success' => false, 'message' => "El $ip no existe en la base de datos."];
+            }else{
+                $result = $app['ftpindexer']->scan($ftp[0]['id']);   
+            }
+        	
         }
 
         $output->writeln(var_dump($result));
