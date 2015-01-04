@@ -55,7 +55,7 @@ class FtpIndexer{
 
 			// Modificar configuración de php para el proceso de escaneo
 			set_time_limit(0);
-			ini_set("memory_limit","1000M");
+			// ini_set("memory_limit","1000M");
 
 			/**
 			 * Obtener los datos del ftp
