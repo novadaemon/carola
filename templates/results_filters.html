@@ -4,8 +4,8 @@
         <ul class="list-group">
             {% for ip, count in ftps %}
                 <li class="list-group-item">
-                    <input type="checkbox"/>
-                    <label style="font-size: small;font-weight: normal">{{ ip }}</label>
+                    <input id="{{ip}}" type="checkbox"/>
+                    <label for="{{ip}}" style="font-size: small;font-weight: normal">{{ ip }}</label>
                     <span class="badge  alert-info">{{ count }}</span>
                 </li>
             {% endfor %}
