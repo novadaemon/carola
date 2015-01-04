@@ -201,3 +201,10 @@ td#download-explore > a {
 #paginator-containter {
     margin-right: 10px !important;
 }
+.highlight{
+    border: 0 none;
+    border-radius: 0;
+    display: inline;
+    margin-bottom: 0;
+    padding: 0;
+}

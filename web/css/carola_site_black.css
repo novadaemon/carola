@@ -135,3 +135,6 @@ body{
     border-color: #555555;
     border-style: ridge;
 }
+.highlight{
+    background-color: darkgray;
+}

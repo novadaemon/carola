@@ -5,7 +5,7 @@ Indexador del contenido de los ftps realizado con el microframework Silex.
 
 ## Configuración de la base de datos ##
 
-Instalar la base de datos que se distribuye en la carpeta `carola/database`.
+Instalar la base de datos que se distribuye en la carpeta `database`.
 
 Configurar los parámetros de conexión en el archivo `config/prod.php`.
 
