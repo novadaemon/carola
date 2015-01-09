@@ -10,7 +10,7 @@
  * @version Git: $Id$
  * 
  */
-class DatabaseHandler extends \PDO {
+class DatabaseHandler extends PDO {
   
          
         /**
@@ -50,6 +50,20 @@ class DatabaseHandler extends \PDO {
          public function search($key){
 
             $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%'");
+            $db->execute();
+
+            return $db->fetchAll();;
+
+         }
+
+          /**
+          * Método para obtener los resultados filtrados
+          * @param  string $key Palabra clave a buscar
+          * @return array 
+          */
+         public function filter($key, $offset, $limit){
+
+            $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%' LIMIT ".$offset.",".$limit);
             $db->execute();
 
             return $db->fetchAll();;
@@ -206,9 +220,27 @@ class DatabaseHandler extends \PDO {
 
             try{
                 
-              $db = $this->prepare("INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES(?,?,?,?,?,?,?);");
+             $sql = "INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES ";
+              
 
-              $db->execute(array_values($data));
+              $insertQuery = array();
+              $insertData = array();
+
+              foreach($data as $row) {
+                  $insertQuery[] = '(?,?,?,?,?,?,?)';
+                  $insertData[] = $row['name'];
+                  $insertData[] = $row['fecha'];
+                  $insertData[] = $row['size'];
+                  $insertData[] = $row['profundidad'];
+                  $insertData[] = $row['path'];
+                  $insertData[] = $row['ext'];
+                  $insertData[] = $row['ftp_id'];
+              }
+
+             
+              $sql .= implode(', ', $insertQuery);
+              $db = $this->prepare($sql);
+              $db->execute($insertData);
               
               if($db->errorInfo()[0] == '00000') return true;
 

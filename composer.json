@@ -9,5 +9,11 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+
+        "fabpot/silex-skeleton": "*",
+        "neutron/sphinxsearch-api": "dev-master",
+        "verdet/sphinxsearch-bundle": "dev-master",
+        "verdet/silex-sphinxsearch": "dev-master"
+    }
 }
