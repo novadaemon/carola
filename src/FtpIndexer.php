@@ -104,6 +104,10 @@ class FtpIndexer{
 
 					$this->listDetails($this->cnx, "", 0, $ftp_id);
 
+					if(count($this->item) > 0) $this->dbHandler->insertScan($this->item);
+			     	//Limpiar la variable
+			     	$this->item = null;
+
 					//Cerrar la conexión con el ftp
 					ftp_close($this->cnx);
 
@@ -237,19 +241,14 @@ class FtpIndexer{
                 	
             	}
 
-            	//Si se han guardado 200 elementos en el array...
-            	if(count($this->item) == 200 ){
+            	//Si se han guardado 300 elementos en el array...
+            	if(count($this->item) == 300 ){
             		//Insertarlos en la base de datos
             		$this->dbHandler->insertScan($this->item);
             		//Limpiar la variable
             		$this->item = null;
             	}
              } 
-
-             //Guardar los resultados encontrados en la base de datos
-             if(count($this->item) > 0 ) $this->dbHandler->insertScan($this->item);
-             	//Limpiar la variable
-             	$this->item = null;
 
          }else{
 
@@ -258,11 +257,6 @@ class FtpIndexer{
          	
          } 
 
-        //Guardar los resultados encontrados en la base de datos
-        if(count($this->item) > 0 ) $this->dbHandler->insertScan($this->item);
-     	//Limpiar la variable
-     	$this->item = null;
-         
          return true;
 
 	}
