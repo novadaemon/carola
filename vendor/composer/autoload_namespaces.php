@@ -39,4 +39,5 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     '' => array($vendorDir . '/fabpot/silex-skeleton/src'),
+    '' => array($baseDir . '/src'),
 );

@@ -10,7 +10,7 @@
  * @version Git: $Id$
  * 
  */
-class DatabaseHandler extends \PDO {
+class DatabaseHandler extends PDO {
   
          
         /**
@@ -206,9 +206,27 @@ class DatabaseHandler extends \PDO {
 
             try{
                 
-              $db = $this->prepare("INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES(?,?,?,?,?,?,?);");
+             $sql = "INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES ";
+              
 
-              $db->execute(array_values($data));
+              $insertQuery = array();
+              $insertData = array();
+
+              foreach($data as $row) {
+                  $insertQuery[] = '(?,?,?,?,?,?,?)';
+                  $insertData[] = $row['name'];
+                  $insertData[] = $row['fecha'];
+                  $insertData[] = $row['size'];
+                  $insertData[] = $row['profundidad'];
+                  $insertData[] = $row['path'];
+                  $insertData[] = $row['ext'];
+                  $insertData[] = $row['ftp_id'];
+              }
+
+             
+              $sql .= implode(', ', $insertQuery);
+              $db = $this->prepare($sql);
+              $db->execute($insertData);
               
               if($db->errorInfo()[0] == '00000') return true;
 

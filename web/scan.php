@@ -2,7 +2,7 @@
 try{
 
 	include('../src/DatabaseHandler.php');
-include('../src/FtpIndexer.php');
+	include('../src/FtpIndexer.php');
 
 $dbHandler = new DatabaseHandler('mysql:host=localhost;dbname=carola', 'root', 'Cobra3000-');
 

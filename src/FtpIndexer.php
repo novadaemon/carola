@@ -34,6 +34,12 @@ class FtpIndexer{
 	private $error;
 
 	/**
+	 * Variable temporal para almacenar los resultados
+	 * @var array
+	 */
+	private $item;
+
+	/**
 	 * Constructor de la clase. Se inyecta el objeto DatabaseHandler
 	 * @param  DatabaseHandler $database [description]
 	 * @return [type]                    [description]
@@ -66,9 +72,9 @@ class FtpIndexer{
 			/**
 			 * No realizar la acción si el ftp se está indexando
 			 */
-			if($ftp[0]['status'] == 'Indexando...'){
-				return [$ftp[0]['direccion_ip'] => ['success' => false, 'message' => 'El ftp se está indexando en estos momentos.'] ];
-			}
+			// if($ftp[0]['status'] == 'Indexando...'){
+			// 	return [$ftp[0]['direccion_ip'] => ['success' => false, 'message' => 'El ftp se está indexando en estos momentos.'] ];
+			// }
 
 			/**
 			 * No realizar la acción si el ftp está desactivado
@@ -92,10 +98,11 @@ class FtpIndexer{
 
 				//Eliminar los resultados de escaneos previos
 				$result_del = $this->dbHandler->deleteScan($ftp_id);
+				$this->error = null;
 
 				if($result_del){
 
-					return $this->listDetails($this->cnx, "", 0, $ftp_id);
+					$this->listDetails($this->cnx, "", 0, $ftp_id);
 
 					//Cerrar la conexión con el ftp
 					ftp_close($this->cnx);
@@ -226,10 +233,23 @@ class FtpIndexer{
             		$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
             		$item['ftp_id'] = $ftp_id;
 
-                	$this->dbHandler->insertScan($item);
+            		$this->item[] = $item;
+                	
             	}
 
+            	//Si se han guardado 200 elementos en el array...
+            	if(count($this->item) == 200 ){
+            		//Insertarlos en la base de datos
+            		$this->dbHandler->insertScan($this->item);
+            		//Limpiar la variable
+            		$this->item = null;
+            	}
              } 
+
+             //Guardar los resultados encontrados en la base de datos
+             if(count($this->item) > 0 ) $this->dbHandler->insertScan($this->item);
+             	//Limpiar la variable
+             	$this->item = null;
 
          }else{
 
@@ -238,6 +258,11 @@ class FtpIndexer{
          	
          } 
 
+        //Guardar los resultados encontrados en la base de datos
+        if(count($this->item) > 0 ) $this->dbHandler->insertScan($this->item);
+     	//Limpiar la variable
+     	$this->item = null;
+         
          return true;
 
 	}
