@@ -104,7 +104,7 @@ class DatabaseHandler extends PDO {
          }
 
          /**
-          * Obtiene los ftps activo
+          * Obtiene los ftps activos
           * @return array
           */
          public function getActivesFtps(){
@@ -158,6 +158,7 @@ class DatabaseHandler extends PDO {
               $db = $this->prepare("INSERT INTO ftps(descripcion, direccion_ip, activo, user, pass) VALUES(?,?,?,?,?);");
 
               $db->execute(array_values($data));
+              
               return $db->errorInfo();   
 
             }catch(\Exception $e){
@@ -168,7 +169,7 @@ class DatabaseHandler extends PDO {
 
          /**
           * Actualiza un ftp
-          * @param array $data
+          * @param array $data ej. array('Nombre' => 'NetLab')
           * @param integer $id
           * @return string
           */
@@ -183,6 +184,7 @@ class DatabaseHandler extends PDO {
                 $db = $this->prepare("UPDATE ftps SET ". join(",", $fields). " WHERE id =". $id .";");
 
                 $db->execute(array_values($data));
+                
                 return $db->errorInfo();   
 
             }catch(\Exception $e){
@@ -203,6 +205,7 @@ class DatabaseHandler extends PDO {
                 $db = $this->prepare("DELETE from ftps WHERE id = ?");
                 $db->bindParam(1, $id, PDO::PARAM_INT);
                 $db->execute();
+                
                 return $db->errorInfo();   
 
             }catch(\Exception $e){
@@ -266,8 +269,6 @@ class DatabaseHandler extends PDO {
                 $db->execute();
                 
                 if($db->errorInfo() == '00000') return true;
-
-                return $db->errorInfo();
 
                 throw new \Exception($db->errorInfo()[2], 1);
                     

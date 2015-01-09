@@ -72,9 +72,9 @@ class FtpIndexer{
 			/**
 			 * No realizar la acción si el ftp se está indexando
 			 */
-			// if($ftp[0]['status'] == 'Indexando...'){
-			// 	return [$ftp[0]['direccion_ip'] => ['success' => false, 'message' => 'El ftp se está indexando en estos momentos.'] ];
-			// }
+			if($ftp[0]['status'] == 'Indexando...'){
+				return [$ftp[0]['direccion_ip'] => ['success' => false, 'message' => 'El ftp se está indexando en estos momentos.'] ];
+			}
 
 			/**
 			 * No realizar la acción si el ftp está desactivado
