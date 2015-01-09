@@ -61,7 +61,6 @@ class FtpIndexer{
 
 			// Modificar configuración de php para el proceso de escaneo
 			set_time_limit(0);
-			// ini_set("memory_limit","1000M");
 
 			/**
 			 * Obtener los datos del ftp
@@ -168,7 +167,7 @@ class FtpIndexer{
 	private function connect($ftp)
 	{
 
-		if($this->cnx = ftp_connect($ftp,21,20)) return $this->cnx;
+		if($this->cnx = ftp_connect($ftp,21,30)) return $this->cnx;
 		
 		throw new Exception("Error al conectarse al ftp", 1);
 
@@ -214,8 +213,7 @@ class FtpIndexer{
 
 		if (is_array($children = @ftp_rawlist($cnx, $directory))) { 
 
-            
-            foreach ($children as $child) { 
+			foreach ($children as $child) { 
 
             	$array = $chunks = preg_split("/\s+/", $child);
 
@@ -223,9 +221,9 @@ class FtpIndexer{
             	array_splice($array, 0, 8);
         		$item['name'] = implode(" ", $array) ;	
 
-            	if($chunks[0]{0} === 'd'){
+            	if($chunks[0]{0} === 'd' && $item['name'] != "." && $item['name'] != ".." ){
             		$this->listDetails($cnx, $directory."/".$item['name'], $profundidad + 1, $ftp_id);
-            	}else{
+            	}else if($chunks[0]{0} === '-'){
             		
             		list($i['rights'], $i['number'], $i['user'], $i['group'], $i['size'], $i['month'], $i['day'], $i['time']) = $chunks;
             		
@@ -234,7 +232,11 @@ class FtpIndexer{
             		$item['size'] = $i['size'];
             		$item['profundidad'] = $profundidad;
             		$item['path'] = $directory."/".$item['name'];
-            		$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
+            		if(preg_match('.', $item['name'])){
+            			$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
+            		}else{
+            			$item['ext'] = '';	
+            		}
             		$item['ftp_id'] = $ftp_id;
 
             		$this->item[] = $item;
