@@ -232,7 +232,7 @@ class FtpIndexer{
             		$item['size'] = $i['size'];
             		$item['profundidad'] = $profundidad;
             		$item['path'] = $directory."/".$item['name'];
-            		if(preg_match('.', $item['name'])){
+            		if(preg_match('/\./', $item['name'])){
             			$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
             		}else{
             			$item['ext'] = '';	
