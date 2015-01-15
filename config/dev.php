@@ -20,7 +20,7 @@ $app->register(new WebProfilerServiceProvider(), array(
 //configuracion de la conexión a la base de datos
 $app['db.options'] =  array(
 	'dsn' => 'mysql:host=localhost;dbname=carola',
-	'user' => 'root',
-	'pass' => 'Cobra3000-'
+	'user' => 'carola',
+	'pass' => 'carola'
 
 );
