@@ -1,0 +1,19 @@
+{
+    "name": "netlab/carola",
+    "description": "Indexador buscador de contenido de los ftp de la red SNET",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jdamian",
+            "email": "jdamian@tic.copextel.com.cu"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+
+        "fabpot/silex-skeleton": "*",
+        "neutron/sphinxsearch-api": "dev-master",
+        "verdet/sphinxsearch-bundle": "dev-master",
+        "verdet/silex-sphinxsearch": "dev-master"
+    }
+}

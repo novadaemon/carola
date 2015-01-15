@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}{{ 'Se han encontrado ' ~ total ~ ' resultados' }}{% endblock %}
+{% block jscripts %}
+	<script>
+			 
+	    $(document).ready(function(){
+	//        $('#logo').removeProperty('margin-left');
+	       $('#carola-search-box').removeClass('carola-search-box-center');
+	        $('#logo').css('margin-left','0.7em');
+	        $('#grafiti').css('text-align','start');
+
+	        //    $('#subtitle').removeClass('subtitle-center');
+		    $('#carola-search-box').addClass('carola-search-box-left');
+		    $('#subtitle').addClass('subtitle-left');
+
+	        $('.result_text').highlight('{{ app.request.get('searchedtext') }}');
+	    });
+
+	</script>
+{% endblock %}
+{% block content %}
+		{% if app.request.query.get('searchedtext') | length < 3 and not app.request.query.has('style')  %}
+			<div class="alert alert-danger fade in alert-dismissable">
+				<button class="close" aria-hidden="true" data-dismiss="alert" type="button">&times;</button><h4 id="infoalerttitle">Error</h4>
+				<p id="infoalerttext">No se admiten cadenas de menos de 3 caracteres para la búsqueda.</p>
+			</div>
+		{% endif %}
+
+		{% include 'results_filters.html' %}
+		{% include 'results_content.html' %}
+
+{% endblock %}

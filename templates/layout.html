@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title 'Bienvenido a Carola' %}</title>
+        
+        <!-- stylesheets -->
+        <link href="{{ app.request.basepath }}/css/bootstrap.css" rel="stylesheet">
+        <link href="{{ app.request.basepath }}/css/docs.css" rel="stylesheet">
+        <link href="{{ app.request.basepath }}/css/carola_site.css" rel="stylesheet">
+        <link href="{{ app.request.basepath }}/css/carola_site_{{ app.session.get('style') }}.css" rel="stylesheet">
+
+        <!-- jscripts -->
+        <script src="{{ app.request.basepath }}/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/alert.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/mystorage.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/scrollspy.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/highlight.js" type="text/javascript" charset="utf-8"></script>
+        <!-- Guardar en una varible javascript la ruta para el autocompletamiento -->
+        <script>
+         var autocomplete_route = '{{ path('autocompletamiento') }}';
+        </script>
+        <script src="{{ app.request.basepath }}/js/carola_script.js" type="text/javascript" charset="utf-8"></script>
+
+        {% block jscripts %}{% endblock %}
+    </head>
+    <body>
+
+        <!-- barra de navegación -->
+        {% include 'navbar.html' %}
+
+        <!-- bloque de contenido principal -->
+        <div class="container bs-docs-container" id="contenido">
+            <div id="carola-search-box" class="carola-search-box-center">
+                <div id="logo">
+                    <div id="grafiti">
+                        CAROLA
+                    </div>
+                    <div id="subtitle">FTP INDEXER</div>
+                </div>
+                
+                <!-- formulario de búsqueda -->
+                <form id="carola-form" class="form-inline" action="{{ path('search') }}" method="get" >
+                    <div class="form-group">
+                        <input autocomplete="off" class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+                               data-provide="typeahead" data-items="10"
+                               value="{% if(app.request.query.has('searchedtext')) %}{{ app.request.query.get('searchedtext') }}{% endif %}" required>
+                    </div><div class="form-group">
+                        &nbsp;<button type="submit" class="btn btn-primary"><img src="{{ app.request.basepath }}/img/search2.png"> Buscar</button>
+                    </div>
+                </form>
+
+        {% block content %}
+            
+        {% endblock %}
+        
+            </div>
+        </div>
+
+        <footer class="footer" id="colophon" role="contentinfo">
+            <a href="{{ path('admin')}}" id="administrar" class="pull-left" target="_self">Administrar</a>
+            <a href="http://192.168.32.1/netlab/" id="copyright" class="pull-right" target="_blank">Thanks to netlab</a>
+        </footer>
+    </body>
+</html>
