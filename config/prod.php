@@ -10,6 +10,5 @@ $app['db.options'] =  array(
 	'dsn' => 'mysql:host=localhost;dbname=carola',
 	'user' => 'carola',
 	'pass' => 'carola'
-
 );
 
