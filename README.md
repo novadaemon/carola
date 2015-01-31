@@ -130,6 +130,3 @@ Las credenciasles para acceder a la parte de administración son:
 ```
 
 
-
-
-

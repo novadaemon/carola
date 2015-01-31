@@ -160,3 +160,24 @@ $app->error(function (\Exception $e, $code) use ($app) {
 
     return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
 });
+
+
+
+//Para listar los archivos de themes en web/css
+$app['ListThemes'] = function () {
+    $styles = array();
+    $bar = '/'; //windows o linux? \or/
+    $path = __DIR__.$bar."..".$bar.'web'.$bar.'css'.$bar;
+    if ($openeddir = opendir($path)) //Abro directorio
+    {
+        while (($obj = readdir($openeddir)) !== false)  //recorro su interior
+            if(substr_count($obj, 'carola_site_'))
+            {
+                $foo = str_replace('carola_site_', '', $obj);
+                $pos = strrpos(strtolower($foo), '.css');
+                
+                $styles[] = substr($foo, 0, $pos);
+            }                    
+    }
+    return $styles;
+};
