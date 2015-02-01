@@ -241,3 +241,13 @@ $('.typeahead-suggestion').keyup(function(event){
 
 })
 
+/*Para cargar dinamicamente los estilos cuando el usuario lo desee, 
+y así no tener que recorrer el directorio css en cada ejecucion de carola*/
+$( document ).ready(function() {
+if(ajax_styles_route)
+    $('li#styles').click(function(event) {
+        $('#estilos').load(ajax_styles_route);
+        ajax_styles_route = null;
+    });
+});
+

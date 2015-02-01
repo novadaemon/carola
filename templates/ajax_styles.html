@@ -1,0 +1,10 @@
+{% set searchedtext = app.request.query.has('searchedtext') ? app.request.query.get('searchedtext') : null %}
+{% set offset = app.request.query.has('offset') ? app.request.query.get('offset') : 0 %}
+{% set limit = app.request.query.has('limit') ? app.request.query.get('limit') : 30 %}
+
+{% for theme in app.ListThemes %}
+<li role="presentation">
+    <a role="menuitem" tabindex="-1" href="{% if not searchedtext is none %}?{{ 'searchedtext=' ~ searchedtext ~ '&offset=' ~ offset ~ '&limit=' ~ limit ~ '&style={{theme}}' }}{% else %}?style={{theme}}{% endif %}">{{theme}}</a>
+</li>
+{%endfor %}
+         

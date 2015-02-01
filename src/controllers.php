@@ -163,20 +163,28 @@ $app->error(function (\Exception $e, $code) use ($app) {
 
 
 
+/*
+* Ruta para cargar los estilos por ajax, asi se evita leer el directorio css
+* cada vez que se ejecute carola, solo se usara cuando el user quiera cambiar el estilo
+* Usa el servicio ListThemes declarado abajo
+*/
+$app->get('/ajax/styles', function() use ($app) { 
+    return $app['twig']->render('ajax_styles.html');
+})->bind('ajax_styles');;
+
 //Para listar los archivos de themes en web/css
 $app['ListThemes'] = function () {
     $styles = array();
-    $bar = '/'; //windows o linux? \or/
-    $path = __DIR__.$bar."..".$bar.'web'.$bar.'css'.$bar;
+    $path = __DIR__."/../web/css/";
     if ($openeddir = opendir($path)) //Abro directorio
     {
         while (($obj = readdir($openeddir)) !== false)  //recorro su interior
-            if(substr_count($obj, 'carola_site_'))
+            if(substr_count($obj, 'carola_site_'))      //buscando los archivos que contengan 'carola_site_'
             {
-                $foo = str_replace('carola_site_', '', $obj);
+                $foo = str_replace('carola_site_', '', $obj); //elimino esa parte del nombre para obtener  'NOMBRE.css'
                 $pos = strrpos(strtolower($foo), '.css');
                 
-                $styles[] = substr($foo, 0, $pos);
+                $styles[] = substr($foo, 0, $pos);  //añado a la lista el nombre excluyendo '.css'
             }                    
     }
     return $styles;
