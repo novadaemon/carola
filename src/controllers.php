@@ -171,21 +171,3 @@ $app->error(function (\Exception $e, $code) use ($app) {
 $app->get('/ajax/styles', function() use ($app) { 
     return $app['twig']->render('ajax_styles.html');
 })->bind('ajax_styles');;
-
-//Para listar los archivos de themes en web/css
-$app['ListThemes'] = function () {
-    $styles = array();
-    $path = __DIR__."/../web/css/";
-    if ($openeddir = opendir($path)) //Abro directorio
-    {
-        while (($obj = readdir($openeddir)) !== false)  //recorro su interior
-            if(substr_count($obj, 'carola_site_'))      //buscando los archivos que contengan 'carola_site_'
-            {
-                $foo = str_replace('carola_site_', '', $obj); //elimino esa parte del nombre para obtener  'NOMBRE.css'
-                $pos = strrpos(strtolower($foo), '.css');
-                
-                $styles[] = substr($foo, 0, $pos);  //añado a la lista el nombre excluyendo '.css'
-            }                    
-    }
-    return $styles;
-};
