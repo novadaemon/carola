@@ -208,3 +208,7 @@ td#download-explore > a {
     margin-bottom: 0;
     padding: 0;
 }
+
+.dropdown-menu a{
+    overflow: hidden;
+    margin-left: 5px;}
