@@ -55,17 +55,12 @@
                 {% set offset = app.request.query.has('offset') ? app.request.query.get('offset') : 0 %}
                 {% set limit = app.request.query.has('limit') ? app.request.query.get('limit') : 30 %}
 
-
-                <!-- TODO: Aqui lo ideal es tirar un for each en la carpeta css para cargar los temas automaticamente
-                 Para facilitar eso hice que el nombre del tema fuera el mismo que el valor que se le asigna a &style y que el substring del nombre del .css, de esta forma seria tirar los temas en la carpeta y se incluirian solos cuando se haga el for-->
-            {% for theme in app.ListThemes %}
+                {% for theme in app.ListThemes %}
                 <li role="presentation">
                     <a role="menuitem" tabindex="-1" href="{% if not searchedtext is none %}?{{ 'searchedtext=' ~ searchedtext ~ '&offset=' ~ offset ~ '&limit=' ~ limit ~ '&style={{theme}}' }}{% else %}?style={{theme}}{% endif %}">{{theme}}</a>
                 </li>
-            {%endfor %}
+                {%endfor %}
                 
-                
-               
             </ul>
         </li>
     </ul> <!-- /tabs -->
