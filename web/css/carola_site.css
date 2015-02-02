@@ -69,6 +69,7 @@ body{
     /* Set the fixed height of the footer here */
     height: 3em !important;
     background-color: #f5f5f5 !important;
+    z-index: 11;/*Para q los paginadores no lo solapen*/
 }
 
 #carola-nav{
