@@ -12,6 +12,7 @@ use Silex\Provider\SecurityServiceProvider;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use \DatabaseHandler;
 use \FtpIndexer;
+use \Tools;
 
 $app = new Application();
 

@@ -83,12 +83,20 @@ $app->get('/', function () use ($app) {
 $app->get('/search/', function () use ($app) {
 
     $results = array();
+    $results_ = array(); //aqui se almacenaran los diferentes arrays de resultados, tantos como keywords
 
     $key = $app['request']->query->get('searchedtext');
+    
 
     if(strlen($key) > 2){
-      //Obtener el número de registros total de la consulta  
-      $results = $app['database']->search($key);  
+        $key_ = Tools::stemPhrase($key);
+        foreach ($key_ as $stem) {
+            //Obtener el número de registros total de la consulta de la palabra actual
+            $results_[] = $app['database']->search($stem);  
+        }
+
+         
+       $results = array_merge($results_);
     }
 
     $total = count($results);
