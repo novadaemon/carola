@@ -86,26 +86,33 @@ $app->get('/search/', function () use ($app) {
     $results_ = array(); //aqui se almacenaran los diferentes arrays de resultados, tantos como keywords
 
     $key = $app['request']->query->get('searchedtext');
-    
+    $key_ = Tools::stemPhrase($key);
 
     if(strlen($key) > 2){
-        $key_ = Tools::stemPhrase($key);
+        $results = $app['database']->search($key);  
         foreach ($key_ as $stem) {
             //Obtener el número de registros total de la consulta de la palabra actual
-            $results_[] = $app['database']->search($stem);  
+            $results_ = $app['database']->search($stem);  
+           // else
+               // $results = array_merge($app['database']->search($stem));  
         }
 
          
-       $results = array_merge($results_);
+       $results_ = array_merge($results_);
+       //print_r($results_); die();
+       //$results_uniq = array_unique($results_);
+      
+       // $results = $results_[0];
+     
     }
 
-    $total = count($results);
+    $total = count($results_);
     
     /**
      * Optener los ftps y las extensiones
      */
     $ftps = $exts = array();
-    foreach ($results as $value) {
+    foreach ($results_ as $value) {
         //ftps
         if(!array_key_exists($value['ip'], $ftps)){
             $ftps[$value['ip']] = 1;
@@ -126,12 +133,16 @@ $app->get('/search/', function () use ($app) {
     //Paginar el resultado
     $offset = $app['request']->query->has('offset') ? $app['request']->query->get('offset') : 0;
     $limit = $app['request']->query->has('limit') ? $app['request']->query->get('limit') : 30;
+ /*   
     //Filtrar los resultados
     $results = $app['database']->filter($key, $offset, $limit);
+*/
+    $results_slice = array_slice($results_, $offset, $limit);
 
     return $app['twig']->render('results.html', array( 
         'total' => $total,
-        'results' => $results,
+   //     'results' => $results,
+        'results' => $results_slice,
         'ftps' => $ftps,
         'exts'  => $exts
 
