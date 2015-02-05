@@ -44,11 +44,14 @@ class DatabaseHandler extends PDO {
 
          /**
           * Método para la búsqueda principal
-          * @param  string $key Palabra clave a buscar
+          * @param  mixed $key string Palabra clave a buscar o array con palabras claves
           * @return array 
           */
          public function search($key){
-
+            if(count($key)>1)
+              $key = implode("%' AND nombre LIKE '%", $key);
+            else $key = implode($key);
+            
             $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%'");
             $db->execute();
 
@@ -56,6 +59,7 @@ class DatabaseHandler extends PDO {
 
          }
 
+        
           /**
           * Método para obtener los resultados filtrados
           * @param  string $key Palabra clave a buscar

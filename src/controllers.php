@@ -83,36 +83,22 @@ $app->get('/', function () use ($app) {
 $app->get('/search/', function () use ($app) {
 
     $results = array();
-    $results_ = array(); //aqui se almacenaran los diferentes arrays de resultados, tantos como keywords
-
+    
     $key = $app['request']->query->get('searchedtext');
     $key_ = Tools::stemPhrase($key);
 
     if(strlen($key) > 2){
-        $results = $app['database']->search($key);  
-        foreach ($key_ as $stem) {
-            //Obtener el número de registros total de la consulta de la palabra actual
-            $results_ = $app['database']->search($stem);  
-           // else
-               // $results = array_merge($app['database']->search($stem));  
-        }
-
-         
-       $results_ = array_merge($results_);
-       //print_r($results_); die();
-       //$results_uniq = array_unique($results_);
-      
-       // $results = $results_[0];
-     
+        //Obtener el número de registros total de la consulta de la palabra actual
+        $results = $app['database']->search($key_);  
     }
 
-    $total = count($results_);
+    $total = count($results);
     
     /**
      * Optener los ftps y las extensiones
      */
     $ftps = $exts = array();
-    foreach ($results_ as $value) {
+    foreach ($results as $value) {
         //ftps
         if(!array_key_exists($value['ip'], $ftps)){
             $ftps[$value['ip']] = 1;
@@ -137,7 +123,7 @@ $app->get('/search/', function () use ($app) {
     //Filtrar los resultados
     $results = $app['database']->filter($key, $offset, $limit);
 */
-    $results_slice = array_slice($results_, $offset, $limit);
+    $results_slice = array_slice($results, $offset, $limit);
 
     return $app['twig']->render('results.html', array( 
         'total' => $total,
