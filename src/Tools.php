@@ -29,13 +29,6 @@ class Tools
 	return $clean;
     }
 
-    public static function fromSlug($str){
-        setlocale(LC_ALL, 'en_US.UTF8');
-        $str = preg_replace("/[\/_| -]+/", ' ', $str);
-        
-        return $str;
-    }
-
     public static function removeStopWordsFromArray($words)
     {
         
@@ -262,7 +255,7 @@ class Tools
     $words = str_word_count(strtolower($phrase), 1);
 
     // ignore stop words
-    $words = Tools::removeStopWordsFromArray($words);
+    //$words = Tools::removeStopWordsFromArray($words);
 
     // stem words
     $stemmed_words = array();
@@ -280,46 +273,5 @@ class Tools
     return $stemmed_words;
   }
   
-  /**
-     * get Words
-     *
-     * @param string $title, string $body, string $tags
-     * @return array $words
-     * 
-     * Array of stem words
-     */
-     public static function getWords($title, $body, $tags = null)
-    {
-      // body
-      $raw_text =  str_repeat(' '.strip_tags(html_entity_decode($body)), 1);
-
-      // title
-      $raw_text .= str_repeat(' '.$title, 3);
-
-      // title and body stemming
-      $stemmed_words = Tools::stemPhrase($raw_text);
-
-      // unique words with weight
-      $words = array_count_values($stemmed_words);
-
-      // add tags
-//      $max = 0;
-//      foreach ($tags as $tag => $count)
-//      {
-//        if (!$max)
-//        {
-//          $max = $count;
-//        }
-//
-//        $stemmed_tag = Tools::stemm($tag);
-//
-//        if (!isset($words[$stemmed_tag]))
-//        {
-//          $words[$stemmed_tag] = 0;
-//        }
-//        $words[$stemmed_tag] += ceil(($count / $max) * 3);
-//      }
-
-      return $words;
-    }
+ 
 }

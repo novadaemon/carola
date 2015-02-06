@@ -241,13 +241,38 @@ $('.typeahead-suggestion').keyup(function(event){
 
 })
 
+//Para ocultar resultados
+function changeResultsStatus(selector, value){
+    $('tr.result['+selector+'="'+value+'"]').show();
+}
+
 /*Para cargar dinamicamente los estilos cuando el usuario lo desee, 
 y así no tener que recorrer el directorio css en cada ejecucion de carola*/
 $( document ).ready(function() {
-if(ajax_styles_route)
-    $('li#styles').click(function(event) {
-        $('#estilos').load(ajax_styles_route);
-        ajax_styles_route = null;
+    if(ajax_styles_route)
+        $('li#styles').click(function(event) {
+            $('#estilos').load(ajax_styles_route);
+            ajax_styles_route = null;
+        });
+    $("ul.filters > li > input").change(function(){
+        var filters = $('input[type="checkbox"]:checked');
+        
+        
+        if(filters.length > 0){
+            $("tr.result").hide();
+        }
+        else
+        {
+             $("tr.result").show();
+        }
+
+        for (var i = 0; i < filters.length; i++) {
+            var selector = filters[i].dataset.selector;
+            var value = filters[i].id;
+            changeResultsStatus(selector, value);
+        };
+        
+        //changeResultsStatus($(this).attr('data-ftp'), $( this ).attr('id'))
     });
 });
 

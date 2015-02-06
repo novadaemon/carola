@@ -1,10 +1,10 @@
 <div onchange="filterchanged()" class="panel panel-default" style="float: right;">
     <div class="panel-heading"><h4>FTPs</h4></div>
     <div class="panel-body">
-        <ul class="list-group">
+        <ul class="list-group filters" id="ftp-list">
             {% for ip, count in ftps %}
                 <li class="list-group-item">
-                    <input id="{{ip}}" type="checkbox"/>
+                    <input id="{{ip}}" type="checkbox" data-selector="data-ftp" />
                     <label for="{{ip}}" style="font-size: small;font-weight: normal">{{ ip }}</label>
                     <span class="badge  alert-info">{{ count }}</span>
                 </li>
@@ -13,11 +13,11 @@
     </div>
     <div class="panel-heading"><h4>Extensiones</h4></div>
     <div class="panel-body">
-        <ul class="list-group">
+        <ul class="list-group filters" id="ext-list">
             {% for ext, count in exts %}
                 <li class="list-group-item">
-                    <input type="checkbox"/>
-                    <label style="font-size: small;font-weight: normal">{{ ext }}</label>
+                    <input id="{{ ext }}" type="checkbox" data-selector="data-ext"/>
+                    <label for="{{ ext }}" style="font-size: small;font-weight: normal">{{ ext }}</label>
                     <span class="badge  alert-info">{{ count }}</span>
                 </li>
             {% endfor %}
