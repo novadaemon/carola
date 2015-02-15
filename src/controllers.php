@@ -85,11 +85,25 @@ $app->get('/search/', function () use ($app) {
     $results = array();
     
     $key = $app['request']->query->get('searchedtext');
-    $key_ = Tools::stemPhrase($key);
+    $ftps_ = $app['request']->query->get('ftps');
+    $exts_ = $app['request']->query->get('exts');
+    if (!strstr($key, '"')) {
+        //busqueda por keywords, sin comillas
+        $key_ = Tools::stemPhrase($key);
+        # code...
+    }
+    else 
+    {//busqueda exacta, con comillas
+        $key_[] = trim($key, '"');//le quito las comillas a lo que puso el usuario
+    }
+    
 
     if(strlen($key) > 2){
         //Obtener el número de registros total de la consulta de la palabra actual
-        $results = $app['database']->search($key_);  
+        if(strlen($ftps_)>0 or strlen($exts_)>0 )//en caso de haber algun filtro seeccionado
+            $results = $app['database']->searchWithFilters($key_,$ftps_, $exts_);  
+        else//en caso de que solo sean las keywords
+            $results = $app['database']->search($key_);  
     }
 
     $total = count($results);

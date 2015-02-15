@@ -59,6 +59,41 @@ class DatabaseHandler extends PDO {
 
          }
 
+         /**
+          * Método para la búsqueda aplicando filtros, ftps ó exts
+          * @param  mixed $key string Palabra clave a buscar o array con palabras claves
+          * @param  string $ftps string ftps to search
+          * @param  string $exts string 
+          * @return array 
+          */
+         public function searchWithFilters($key, $ftps, $exts){
+            if(count($key)>1) //Preparar por si es mas de una keyword usando el operador AND
+              $key = implode("%' AND nombre LIKE '%", $key);
+            else $key = implode($key);
+
+            $ftp = '';
+            if(strlen($ftps)>0)
+            {
+              $ftps = trim($ftps);//prepara el string para la consulta sustituyendo los espacios usando el operador OR
+              $ftps = str_replace(" ", "%' OR ftps.direccion_ip LIKE '%", $ftps);
+              $ftp = "AND (ftps.direccion_ip LIKE '%".$ftps."%') ";
+            }
+
+            $ext = '';
+            if(strlen($exts)>0)
+            {
+              $exts = trim($exts);
+              $exts = str_replace(" ", "%' OR ext LIKE '%", $exts);
+              $ext = "AND (ext LIKE '%".$exts."%')";
+            }
+ 
+            
+            $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where (nombre LIKE '%".$key."%') ".$ftp.$ext);
+            $db->execute();
+
+            return $db->fetchAll();;
+
+         }
         
           /**
           * Método para obtener los resultados filtrados

@@ -13,7 +13,10 @@
 		    $('#carola-search-box').addClass('carola-search-box-left');
 		    $('#subtitle').addClass('subtitle-left');
 
-	        $('.result_text').highlight('{{ app.request.get('searchedtext') }}');
+		    //para resaltar los resultados eliminando las comillas
+		    var searchedtext = "{{ app.request.get('searchedtext') }}".replace('&quot;', '', 'gi');
+		    	//console.log(searchedtext)
+	        $('.result_text').highlight(searchedtext);
 	    });
 
 	</script>

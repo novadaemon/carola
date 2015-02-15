@@ -4,7 +4,7 @@
         <ul class="list-group filters" id="ftp-list">
             {% for ip, count in ftps %}
                 <li class="list-group-item">
-                    <input id="{{ip}}" type="checkbox" data-selector="data-ftp" />
+                    <input id="{{ip}}" type="checkbox" data-selector="ftp" />
                     <label for="{{ip}}" style="font-size: small;font-weight: normal">{{ ip }}</label>
                     <span class="badge  alert-info">{{ count }}</span>
                 </li>
@@ -16,7 +16,7 @@
         <ul class="list-group filters" id="ext-list">
             {% for ext, count in exts %}
                 <li class="list-group-item">
-                    <input id="{{ ext }}" type="checkbox" data-selector="data-ext"/>
+                    <input id="{{ ext }}" type="checkbox" data-selector="ext"/>
                     <label for="{{ ext }}" style="font-size: small;font-weight: normal">{{ ext }}</label>
                     <span class="badge  alert-info">{{ count }}</span>
                 </li>

@@ -241,19 +241,19 @@ $('.typeahead-suggestion').keyup(function(event){
 
 })
 
-//Para ocultar resultados
-function changeResultsStatus(selector, value){
-    $('tr.result['+selector+'="'+value+'"]').show();
-}
 
 /*Para cargar dinamicamente los estilos cuando el usuario lo desee, 
 y así no tener que recorrer el directorio css en cada ejecucion de carola*/
 $( document ).ready(function() {
+    var ftp = "";
+    var ext = "";
+
     if(ajax_styles_route)
         $('li#styles').click(function(event) {
             $('#estilos').load(ajax_styles_route);
             ajax_styles_route = null;
         });
+
     $("ul.filters > li > input").change(function(){
         var filters = $('input[type="checkbox"]:checked');
         
@@ -264,15 +264,34 @@ $( document ).ready(function() {
         else
         {
              $("tr.result").show();
+             
         }
-
+        ftp = "";
+        ext = "";
         for (var i = 0; i < filters.length; i++) {
             var selector = filters[i].dataset.selector;
             var value = filters[i].id;
             changeResultsStatus(selector, value);
         };
+        //console.log("FTPs:"+ftp)
+        //console.log("EXTs:"+ext)
         
+        //Setear en los campos hidden del form los diferentes filtros para la siguente busqueda
+        $('input.filteredSearch[name="ftps"]').attr('value', ftp);
+        $('input.filteredSearch[name="exts"]').attr('value', ext);
         //changeResultsStatus($(this).attr('data-ftp'), $( this ).attr('id'))
     });
+
+    //Para mostrar solo resultados coincidentes con los filtros marcados
+    function changeResultsStatus(selector, value){
+        $('tr.result[data-'+selector+'="'+value+'"]').show();
+
+        //agrega el filto actual a una lista para ser seteada en el form posteriormente
+        if((selector == "ftp") && (ftp.search(value)==-1)) //en caso de que no está ya en la lista
+            ftp = ftp+" "+value;
+        if((selector == "ext") && (ext.search(value)==-1)) 
+            ext = ext+" "+value;
+    }
+
 });
 

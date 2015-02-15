@@ -50,6 +50,8 @@
                                data-provide="typeahead" data-items="10"
                                value="{% if(app.request.query.has('searchedtext')) %}{{ app.request.query.get('searchedtext') }}{% endif %}" required>
                     </div><div class="form-group">
+                    <input type="hidden" name="ftps" class="filteredSearch" value=""></hidden>
+                    <input type="hidden" name="exts" class="filteredSearch" value=""></hidden>
                         &nbsp;
                         <button type="submit" class="btn btn-primary"><img src="{{ app.request.basepath }}/img/search2.png"><spam>  CAROLA</spam>
                         </button>
