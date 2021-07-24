@@ -10,7 +10,7 @@
  * @version Git: $Id$
  * 
  */
-class DatabaseHandler extends \PDO {
+class DatabaseHandler extends PDO {
   
          
         /**
@@ -44,12 +44,65 @@ class DatabaseHandler extends \PDO {
 
          /**
           * Método para la búsqueda principal
-          * @param  string $key Palabra clave a buscar
+          * @param  mixed $key string Palabra clave a buscar o array con palabras claves
           * @return array 
           */
          public function search($key){
-
+            if(count($key)>1)
+              $key = implode("%' AND nombre LIKE '%", $key);
+            else $key = implode($key);
+            
             $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%'");
+            $db->execute();
+
+            return $db->fetchAll();
+
+         }
+
+         /**
+          * Método para la búsqueda aplicando filtros, ftps ó exts
+          * @param  mixed $key string Palabra clave a buscar o array con palabras claves
+          * @param  string $ftps string ftps to search
+          * @param  string $exts string 
+          * @return array 
+          */
+         public function searchWithFilters($key, $ftps, $exts){
+            if(count($key)>1) //Preparar por si es mas de una keyword usando el operador AND
+              $key = implode("%' AND nombre LIKE '%", $key);
+            else $key = implode($key);
+
+            $ftp = '';
+            if(strlen($ftps)>0)
+            {
+              $ftps = trim($ftps);//prepara el string para la consulta sustituyendo los espacios usando el operador OR
+              $ftps = str_replace(" ", "%' OR ftps.direccion_ip LIKE '%", $ftps);
+              $ftp = "AND (ftps.direccion_ip LIKE '%".$ftps."%') ";
+            }
+
+            $ext = '';
+            if(strlen($exts)>0)
+            {
+              $exts = trim($exts);
+              $exts = str_replace(" ", "%' OR ext LIKE '%", $exts);
+              $ext = "AND (ext LIKE '%".$exts."%')";
+            }
+ 
+            
+            $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where (nombre LIKE '%".$key."%') ".$ftp.$ext);
+            $db->execute();
+
+            return $db->fetchAll();;
+
+         }
+        
+          /**
+          * Método para obtener los resultados filtrados
+          * @param  string $key Palabra clave a buscar
+          * @return array 
+          */
+         public function filter($key, $offset, $limit){
+
+            $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%' LIMIT ".$offset.",".$limit);
             $db->execute();
 
             return $db->fetchAll();;
@@ -90,7 +143,7 @@ class DatabaseHandler extends \PDO {
          }
 
          /**
-          * Obtiene los ftps activo
+          * Obtiene los ftps activos
           * @return array
           */
          public function getActivesFtps(){
@@ -144,6 +197,7 @@ class DatabaseHandler extends \PDO {
               $db = $this->prepare("INSERT INTO ftps(descripcion, direccion_ip, activo, user, pass) VALUES(?,?,?,?,?);");
 
               $db->execute(array_values($data));
+              
               return $db->errorInfo();   
 
             }catch(\Exception $e){
@@ -154,7 +208,7 @@ class DatabaseHandler extends \PDO {
 
          /**
           * Actualiza un ftp
-          * @param array $data
+          * @param array $data ej. array('Nombre' => 'NetLab')
           * @param integer $id
           * @return string
           */
@@ -169,6 +223,7 @@ class DatabaseHandler extends \PDO {
                 $db = $this->prepare("UPDATE ftps SET ". join(",", $fields). " WHERE id =". $id .";");
 
                 $db->execute(array_values($data));
+                
                 return $db->errorInfo();   
 
             }catch(\Exception $e){
@@ -189,6 +244,7 @@ class DatabaseHandler extends \PDO {
                 $db = $this->prepare("DELETE from ftps WHERE id = ?");
                 $db->bindParam(1, $id, PDO::PARAM_INT);
                 $db->execute();
+                
                 return $db->errorInfo();   
 
             }catch(\Exception $e){
@@ -206,9 +262,27 @@ class DatabaseHandler extends \PDO {
 
             try{
                 
-              $db = $this->prepare("INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES(?,?,?,?,?,?,?);");
+             $sql = "INSERT INTO ftptree(Nombre, Fecha, Tamanho, profundidad, path, ext, idftp) VALUES ";
+              
 
-              $db->execute(array_values($data));
+              $insertQuery = array();
+              $insertData = array();
+
+              foreach($data as $row) {
+                  $insertQuery[] = '(?,?,?,?,?,?,?)';
+                  $insertData[] = $row['name'];
+                  $insertData[] = $row['fecha'];
+                  $insertData[] = $row['size'];
+                  $insertData[] = $row['profundidad'];
+                  $insertData[] = $row['path'];
+                  $insertData[] = $row['ext'];
+                  $insertData[] = $row['ftp_id'];
+              }
+
+             
+              $sql .= implode(', ', $insertQuery);
+              $db = $this->prepare($sql);
+              $db->execute($insertData);
               
               if($db->errorInfo()[0] == '00000') return true;
 
@@ -234,8 +308,6 @@ class DatabaseHandler extends \PDO {
                 $db->execute();
                 
                 if($db->errorInfo() == '00000') return true;
-
-                return $db->errorInfo();
 
                 throw new \Exception($db->errorInfo()[2], 1);
                     

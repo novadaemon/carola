@@ -73,8 +73,6 @@ $backend->post('/update/{id}', function ($id) use ($app) {
               $fields[] = $key . '= ?';
             };
 
-        // return new Response(var_dump(join(",",$fields)));    
-
         //Insertar los valores
         $result = $app['database']->updateFtp($form->getData(), $id);
         if($result[0] == '00000'){
@@ -173,7 +171,6 @@ $backend->get('/logout', function () use ($app) {
     return $app->redirect($app['url_generator']->generate('homepage'));
 
 })->bind('logout');
-
 
 /**
  * Función para crear el formulario de los ftps

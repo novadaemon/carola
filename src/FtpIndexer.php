@@ -28,10 +28,16 @@ class FtpIndexer{
 	private $cnx;
 
 	/**
-	 * Variable para almacenar los archivos del ftp
+	 * Almacena los errores al leer un directorio
 	 * @var array
 	 */
-	private $items;
+	private $error;
+
+	/**
+	 * Variable temporal para almacenar los resultados
+	 * @var array
+	 */
+	private $item;
 
 	/**
 	 * Constructor de la clase. Se inyecta el objeto DatabaseHandler
@@ -55,7 +61,6 @@ class FtpIndexer{
 
 			// Modificar configuración de php para el proceso de escaneo
 			set_time_limit(0);
-			ini_set("memory_limit","1000M");
 
 			/**
 			 * Obtener los datos del ftp
@@ -81,56 +86,41 @@ class FtpIndexer{
 			 * Loguearse en el ftp. Devuelve true si es correcto.
 			 */
 			$login = $this->login($ftp[0]['direccion_ip'], $ftp[0]['user'], $ftp[0]['pass']);
-			
+
 			if($login){
 
-				$datas = $this->listDetails($this->cnx);
+				//Cambiar el estado del ftp y setear hora de inicio de escaneo
+				$this->dbHandler->updateFtp(array(
+					'status'		=> 'Indexando...',
+					'hora_inicio'	=> date('g:i:s')
+					), $ftp_id);
 
-				if(isset($datas) && count($datas) > 0 ){
+				//Eliminar los resultados de escaneos previos
+				$result_del = $this->dbHandler->deleteScan($ftp_id);
+				$this->error = null;
 
-					//Cambiar el estado del ftp
-					$this->dbHandler->updateFtp(array('status' => 'Indexando...'), $ftp_id);
+				if($result_del){
 
-					//Eliminar los resultados de escaneos previos
-					$result_del = $this->dbHandler->deleteScan($ftp_id);
-					
-					if($result_del){
+					$this->listDetails($this->cnx, "", 0, $ftp_id);
 
-						foreach ($datas as $data) {
+					if(count($this->item) > 0) $this->dbHandler->insertScan($this->item);
+			     	//Limpiar la variable
+			     	$this->item = null;
 
-							//Verificar si no hay error en los datos
-							if(isset($data['error'])){
+					//Cerrar la conexión con el ftp
+					ftp_close($this->cnx);
 
-								$error[] = $data['message'];
+					$estado = count($this->error) == 0 ? 'Indexado' : 'Parcialmente indexado';
 
-							}else{
+					//Setear el estado en el ftp
+					$this->dbHandler->updateFtp(array('status' => $estado), $ftp_id);
 
-								//insertar el ftp_id en el array
-								$data['ftp_id'] = $ftp_id;	
-
-								$result_insert = $this->dbHandler->insertScan($data);
-								if(isset($result_insert['error'])){
-									$error[] = $result_insert['message']; 
-								}
-							}
-							
-						}
-
-						//Comprobar si hay errores en el proceso de insercción en la bd
-						$estado = isset($error) ? 'Parcialmente indexado' : 'Indexado';
-
-						//Setear el estado
-						$this->dbHandler->updateFtp(array('status' => $estado), $ftp_id);
-
-						$result = ['success' => true, 'message' => $estado];
-
-					}else{
-						$result = ['success' => false, 'message' => $result_del];
-					}
+					$result = ['success' => true, 'message' => $estado];
 
 				}else{
-					$result = ['success' => false, 'message' => 'No hay datos para indexar.'];
+					$result = ['success' => false, 'message' => $result_del];
 				}
+
 			}else{
 				$result = ['success' => false, 'message' => $login['message']]; 
 			}
@@ -139,10 +129,11 @@ class FtpIndexer{
 			$result = ['success' => false, 'message' => $e->getMessage()];
 		} 
 
-		//Actualizar fecha y mensaje del último escaneo
+		//Actualizar fecha, hora y mensaje del último escaneo
 		$this->dbHandler->updateFtp(array(
-			'date_last_scan' => date('Y-m-d'),
-			'message' => $result['message']
+			'date_last_scan' 	=> date('Y-m-d'),
+			'hora_fin'			=> date('g:i:s'),   
+			'message' 			=> $result['message']
 			 ), $ftp_id);
 
 		return [$ftp[0]['direccion_ip'] => $result];
@@ -176,10 +167,18 @@ class FtpIndexer{
 	private function connect($ftp)
 	{
 
-		if($this->cnx = ftp_connect($ftp,21,20)) return $this->cnx;
+		if($this->cnx = ftp_connect($ftp,21,30)) return $this->cnx;
 		
 		throw new Exception("Error al conectarse al ftp", 1);
 
+	}
+
+	/**
+	 * Cierra la conexión al ftp
+	 * @return [type] [description]
+	 */
+	public function close(){
+		ftp_close($this->cnx);
 	}
 
 
@@ -203,18 +202,18 @@ class FtpIndexer{
 	}
 
 	/**
-	 * Obtiene la lista de objetos de un ftp
+	 * Obtiene la lista de objectos del ftp y los inserta en la base de datos
 	 * @param  [type] $cnx   Conexión ftp
 	 * @param  string $dir   Directorio
 	 * @param  integer $level Nivel de profundidad
 	 * @param  integer 
 	 * @return array 
 	 */
-	private function listDetails($cnx, $directory = "", $profundidad = 0){
+	private function listDetails($cnx, $directory = "", $profundidad = 0, $ftp_id){
 
-		if (is_array($children = @ftp_rawlist($cnx, $directory, true))) { 
+		if (is_array($children = @ftp_rawlist($cnx, $directory))) { 
 
-            foreach ($children as $child) { 
+			foreach ($children as $child) { 
 
             	$array = $chunks = preg_split("/\s+/", $child);
 
@@ -222,9 +221,9 @@ class FtpIndexer{
             	array_splice($array, 0, 8);
         		$item['name'] = implode(" ", $array) ;	
 
-            	if($chunks[0]{0} === 'd'){
-            		$this->listDetails($cnx, $directory."/".$item['name'], $profundidad + 1);
-            	}else{
+            	if($chunks[0]{0} === 'd' && $item['name'] != "." && $item['name'] != ".." ){
+            		$this->listDetails($cnx, $directory."/".$item['name'], $profundidad + 1, $ftp_id);
+            	}else if($chunks[0]{0} === '-'){
             		
             		list($i['rights'], $i['number'], $i['user'], $i['group'], $i['size'], $i['month'], $i['day'], $i['time']) = $chunks;
             		
@@ -233,20 +232,34 @@ class FtpIndexer{
             		$item['size'] = $i['size'];
             		$item['profundidad'] = $profundidad;
             		$item['path'] = $directory."/".$item['name'];
-            		$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
-            		
-                	$this->items[] = $item;
+            		if(preg_match('/\./', $item['name'])){
+            			$item['ext'] = substr($item['name'],strrpos($item['name'], '.') + 1);
+            		}else{
+            			$item['ext'] = '';	
+            		}
+            		$item['ftp_id'] = $ftp_id;
+
+            		$this->item[] = $item;
+                	
             	}
 
+            	//Si se han guardado 300 elementos en el array...
+            	if(count($this->item) == 300 ){
+            		//Insertarlos en la base de datos
+            		$this->dbHandler->insertScan($this->item);
+            		//Limpiar la variable
+            		$this->item = null;
+            	}
              } 
 
          }else{
 
-         	$this->items[] = array('error' => true, 'message' => "Error leyendo el directorio ". $directory);
+         	$this->error[] = "Error leyendo el directorio ". $directory;
+         	return false;
          	
          } 
 
-         return $this->items;
+         return true;
 
 	}
 

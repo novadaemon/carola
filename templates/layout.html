@@ -17,9 +17,12 @@
         <script src="{{ app.request.basepath }}/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ app.request.basepath }}/js/mystorage.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ app.request.basepath }}/js/scrollspy.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ app.request.basepath }}/js/highlight.js" type="text/javascript" charset="utf-8"></script>
         <!-- Guardar en una varible javascript la ruta para el autocompletamiento -->
-        <script>
-         var autocomplete_route = '{{ path('autocompletamiento') }}';
+        <!-- Ruta para cargar con ajax los estilos, solo una vez -->
+        <script type="text/javascript">
+            var autocomplete_route = '{{ path('autocompletamiento') }}';
+            var ajax_styles_route = '{{ path('ajax_styles') }}';
         </script>
         <script src="{{ app.request.basepath }}/js/carola_script.js" type="text/javascript" charset="utf-8"></script>
 
@@ -43,11 +46,15 @@
                 <!-- formulario de búsqueda -->
                 <form id="carola-form" class="form-inline" action="{{ path('search') }}" method="get" >
                     <div class="form-group">
-                        <input class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
+                        <input autocomplete="off" class="typeahead-suggestion typeahead form-control" type="search" name="searchedtext" placeholder="Escriba aqui el texto que desea buscar"
                                data-provide="typeahead" data-items="10"
                                value="{% if(app.request.query.has('searchedtext')) %}{{ app.request.query.get('searchedtext') }}{% endif %}" required>
                     </div><div class="form-group">
-                        &nbsp;<button type="submit" class="btn btn-primary"><img src="{{ app.request.basepath }}/img/search2.png"> Buscar</button>
+                    <input type="hidden" name="ftps" class="filteredSearch" value=""></hidden>
+                    <input type="hidden" name="exts" class="filteredSearch" value=""></hidden>
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary"><img src="{{ app.request.basepath }}/img/search2.png"><spam>CAROLA</spam>
+                        </button>
                     </div>
                 </form>
 

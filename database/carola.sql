@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-01-2015 a las 19:28:03
+-- Tiempo de generación: 09-01-2015 a las 23:47:49
 -- Versión del servidor: 5.6.12-log
 -- Versión de PHP: 5.4.12
 
@@ -37,29 +37,13 @@ CREATE TABLE IF NOT EXISTS `ftps` (
   `pass` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'No indexado',
   `date_last_scan` date NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL,
   `message` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_unique` (`direccion_ip`) COMMENT 'no duplicar los ftps',
   KEY `i1` (`id`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Tabla que almacena los ftp que deben escanearse' AUTO_INCREMENT=108 ;
-
---
--- Volcado de datos para la tabla `ftps`
---
-
-INSERT INTO `ftps` (`id`, `descripcion`, `direccion_ip`, `activo`, `user`, `pass`, `status`, `date_last_scan`, `message`) VALUES
-(1, 'gntk', '127.0.0.1', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Parcialmente indexado', '2015-01-03', 'Parcialmente indexado'),
-(67, 'Partagas', '192.168.128.2', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Indizado', '2015-01-03', 'Error al conectarse al ftp'),
-(69, 'Alamar', '192.168.176.2', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Indizado', '2015-01-03', 'Error al conectarse al ftp'),
-(70, 'WifiNet', '192.168.160.1', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Indizado', '2015-01-03', 'Error al conectarse al ftp'),
-(71, 'PowerNet', '192.168.154.1', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Parcialmente indexado', '2015-01-03', 'Parcialmente indexado'),
-(72, 'Alamar II', '192.168.176.3', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Indizado', '2015-01-03', 'Error al conectarse al ftp'),
-(73, '96.2', '192.168.96.2', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Parcialmente indexado', '2015-01-03', 'Parcialmente indexado'),
-(74, '136.1', '192.168.136.1', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Indizado', '2015-01-03', 'Error al conectarse al ftp'),
-(75, '140.1', '192.168.140.1', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'No indizado', '2015-01-03', 'Error al conectarse al ftp'),
-(76, '152.1', '192.168.152.1', b'1', 'anonymous', 'anonymous@ftpindexer.cu', 'Indizado', '2015-01-03', 'Error al conectarse al ftp');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Tabla que almacena los ftp que deben escanearse' AUTO_INCREMENT=113 ;
 
 --
 -- Estructura de tabla para la tabla `ftptree`
@@ -72,13 +56,19 @@ CREATE TABLE IF NOT EXISTS `ftptree` (
   `Tamanho` bigint(20) NOT NULL,
   `profundidad` int(2) NOT NULL,
   `idftp` int(8) NOT NULL,
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ext` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `path` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `ext` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idi` (`id`) USING BTREE,
   KEY `myfk` (`idftp`),
   FULLTEXT KEY `text` (`Nombre`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1747470 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Disparadores `ftptree`
+--
+-- Restricciones para tablas volcadas
+--
 
 --
 -- Filtros para la tabla `ftptree`

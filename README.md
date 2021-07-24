@@ -1,17 +1,17 @@
 Indexador de ftps Carola 
 ========================
 
-Indexador del contenido de los ftps realizado con el microframework Silex.
+Indexador del contenido de los ftps realizado con el microframework Silex para la red SNET.
 
 ## Configuración de la base de datos ##
 
-Instalar la base de datos que se distribuye en la carpeta `carola/database`.
+Instalar la base de datos que se distribuye en la carpeta `database`.
 
 Configurar los parámetros de conexión en el archivo `config/prod.php`.
 
 ## Instalación ##
 
-Configurar un virtual host o alias apuntando a la carpeta `carola/web`.
+Configurar un virtual host o alias apuntando a la carpeta `web`.
 
 Para poder usar urls limpias debe activarse `mod_rewrite`.
 
@@ -21,7 +21,7 @@ Para indexar los ftps se puede utilizar el comando de consola `ftp:indexer`.
 
 Este comando acepta un parámetro **ip** mediante el cuál se puede indicar la ip del servidor ftp que se quiere indexar. Si no se pasa ningún parámetro se indexan todos los ftps activos.
 
-Para ejecutar el comando primero situarse en dl directorio **carola/bin**
+Para ejecutar el comando primero situarse en el directorio **bin**
 
 Ej.:
 
@@ -128,8 +128,5 @@ Las credenciasles para acceder a la parte de administración son:
 	    "^(/[^\?]*)(\?.*)?" => "/index.php$1$2"
 	)
 ```
-
-
-
 
 

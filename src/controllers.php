@@ -27,7 +27,7 @@ $app->before(function(Request $request) use($app){
              * Si no existe setear el estilo white por defecto y crear la cookie
              * @var string
              */
-            $style = 'white';
+            $style = 'Flatly';
             $cookie = new Cookie('carola_style', $style, new \DateTime('now + 364 days'));
 
         }else{
@@ -83,11 +83,27 @@ $app->get('/', function () use ($app) {
 $app->get('/search/', function () use ($app) {
 
     $results = array();
-
+    
     $key = $app['request']->query->get('searchedtext');
+    $ftps_ = $app['request']->query->get('ftps');
+    $exts_ = $app['request']->query->get('exts');
+    if (!strstr($key, '"')) {
+        //busqueda por keywords, sin comillas
+        $key_ = Tools::stemPhrase($key);
+        # code...
+    }
+    else 
+    {//busqueda exacta, con comillas
+        $key_[] = trim($key, '"');//le quito las comillas a lo que puso el usuario
+    }
+    
 
     if(strlen($key) > 2){
-      $results = $app['database']->search($key);  
+        //Obtener el número de registros total de la consulta de la palabra actual
+        if(strlen($ftps_)>0 or strlen($exts_)>0 )//en caso de haber algun filtro seeccionado
+            $results = $app['database']->searchWithFilters($key_,$ftps_, $exts_);  
+        else//en caso de que solo sean las keywords
+            $results = $app['database']->search($key_);  
     }
 
     $total = count($results);
@@ -117,11 +133,16 @@ $app->get('/search/', function () use ($app) {
     //Paginar el resultado
     $offset = $app['request']->query->has('offset') ? $app['request']->query->get('offset') : 0;
     $limit = $app['request']->query->has('limit') ? $app['request']->query->get('limit') : 30;
-    $results = array_slice($results, $offset,  $limit);
+ /*   
+    //Filtrar los resultados
+    $results = $app['database']->filter($key, $offset, $limit);
+*/
+    $results_slice = array_slice($results, $offset, $limit);
 
     return $app['twig']->render('results.html', array( 
         'total' => $total,
-        'results' => $results,
+   //     'results' => $results,
+        'results' => $results_slice,
         'ftps' => $ftps,
         'exts'  => $exts
 
@@ -158,3 +179,14 @@ $app->error(function (\Exception $e, $code) use ($app) {
 
     return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
 });
+
+
+
+/*
+* Ruta para cargar los estilos por ajax, asi se evita leer el directorio css
+* cada vez que se ejecute carola, solo se usara cuando el user quiera cambiar el estilo
+* Usa el servicio ListThemes declarado abajo
+*/
+$app->get('/ajax/styles', function() use ($app) { 
+    return $app['twig']->render('ajax_styles.html');
+})->bind('ajax_styles');;

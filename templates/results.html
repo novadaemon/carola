@@ -8,12 +8,16 @@
 	       $('#carola-search-box').removeClass('carola-search-box-center');
 	        $('#logo').css('margin-left','0.7em');
 	        $('#grafiti').css('text-align','start');
+
+	        //    $('#subtitle').removeClass('subtitle-center');
+		    $('#carola-search-box').addClass('carola-search-box-left');
+		    $('#subtitle').addClass('subtitle-left');
+
+		    //para resaltar los resultados eliminando las comillas
+		    var searchedtext = "{{ app.request.get('searchedtext') }}".replace('&quot;', '', 'gi');
+		    	//console.log(searchedtext)
+	        $('.result_text').highlight(searchedtext);
 	    });
-
-
-	    //    $('#subtitle').removeClass('subtitle-center');
-	    $('#carola-search-box').addClass('carola-search-box-left');
-	    $('#subtitle').addClass('subtitle-left');
 
 	</script>
 {% endblock %}

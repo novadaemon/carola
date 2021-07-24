@@ -1,3 +1,6 @@
-var/cache/
+var/cache/*
+var/logs/*
 carola.sublime-workspace
 carola.sublime-project
+recursos/
+.idea/

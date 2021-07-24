@@ -6,20 +6,24 @@
     </thead>
     <tbody>
         {% for result in results %}
-         <tr>
-            <td>
-                <div><strong>{{ result['Nombre']}}</strong></div>
-                <div style='font-size:smaller'>{{ 'ftp://' ~ result['ip'] ~ result['path'] }} | {{ result['Tamanho'] | bytesToHRF }}
+         <tr class="result" data-ext="{{ result.ext}}" data-ftp="{{ result.ip }}">
+            <td class="result_text">
+                <div><strong>{{ result.Nombre | striptags}}</strong></div>
+                <div style='font-size:smaller'>
+                    <a role="link" href="ftp://{{ result.ip ~ result.path  }}">
+	                {{ 'ftp://' ~ result.ip ~ result.path }} 
+                    </a>
+                | {{ result.Tamanho | bytesToHRF }}
                 </div>
             </td>
             <td id="download-explore">
                 <a id="btndw" class="btn" role="link"
-                   href="ftp://{{ result['ip'] ~ result['path'] }}">
+                   href="ftp://{{ result.ip ~ result.path }}">
                     <span class="glyphicon glyphicon-download-alt"></span>
                 </a>
-                <a class="btn" href='#' onclick="explore('ftp://{{ result['ip'] ~ result['path'] ~ '/' ~ result['Nombre'] }}')">
+                <!--<a class="btn" href='ftp://{{ result.ip ~ result.path}}')">
                     <span class="glyphicon glyphicon-folder-open">
-                </a>
+                </a>-->
             </td>
         </tr>
         {% endfor %}
