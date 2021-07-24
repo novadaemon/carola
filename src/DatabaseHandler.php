@@ -55,7 +55,7 @@ class DatabaseHandler extends PDO {
             $db = $this->prepare("select Nombre, Tamanho, ftps.direccion_ip as ip, SUBSTRING_INDEX(Nombre, '.', -1) AS ext, path from ftptree INNER JOIN ftps ON ftptree.idftp = ftps.id where nombre LIKE '%".$key."%'");
             $db->execute();
 
-            return $db->fetchAll();;
+            return $db->fetchAll();
 
          }
 

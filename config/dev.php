@@ -17,10 +17,3 @@ $app->register(new WebProfilerServiceProvider(), array(
     'profiler.cache_dir' => __DIR__.'/../var/cache/profiler',
 ));
 
-//configuracion de la conexión a la base de datos
-$app['db.options'] =  array(
-	'dsn' => 'mysql:host=localhost;dbname=carola',
-	'user' => 'carola',
-	'pass' => 'carola'
-
-);

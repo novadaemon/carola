@@ -27,7 +27,7 @@ $app->before(function(Request $request) use($app){
              * Si no existe setear el estilo white por defecto y crear la cookie
              * @var string
              */
-            $style = 'white';
+            $style = 'Flatly';
             $cookie = new Cookie('carola_style', $style, new \DateTime('now + 364 days'));
 
         }else{
