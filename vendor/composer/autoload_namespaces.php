@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Verdet\\SphinxSearchBundle' => array($vendorDir . '/verdet/sphinxsearch-bundle'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Symfony\\Component\\Validator\\' => array($vendorDir . '/symfony/validator'),
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
@@ -34,10 +33,8 @@ return array(
     'Symfony\\Bridge\\Twig\\' => array($vendorDir . '/symfony/twig-bridge'),
     'Symfony\\Bridge\\Monolog\\' => array($vendorDir . '/symfony/monolog-bridge'),
     'Silex\\Provider\\' => array($vendorDir . '/silex/web-profiler'),
-    'SilexSphinxSearch' => array($vendorDir . '/verdet/silex-sphinxsearch/src'),
     'Silex' => array($vendorDir . '/silex/silex/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     '' => array($vendorDir . '/fabpot/silex-skeleton/src'),
-    '' => array($baseDir . '/src'),
 );

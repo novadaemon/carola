@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Collator' => $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/Collator.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'IntlDateFormatter' => $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/IntlDateFormatter.php',
     'Locale' => $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/Locale.php',
     'NumberFormatter' => $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/NumberFormatter.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
-    'SphinxClient' => $vendorDir . '/neutron/sphinxsearch-api/sphinxapi.php',
 );

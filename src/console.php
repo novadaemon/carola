@@ -25,13 +25,13 @@ El comando <info>ftp:indexer</info> comienza el proceso de indexación del conte
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        
+
         $output->writeln('Indexando contenido...');
 
         $ip = $input->getArgument('ip');
 
         if($ip == 'all'){
-        	
+
         	$result = $app['ftpindexer']->scanAll();
 
         }else{

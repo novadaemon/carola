@@ -10,9 +10,9 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use \DatabaseHandler;
-use \FtpIndexer;
-use \Tools;
+use App\DatabaseHandler;
+use App\FtpIndexer;
+use App\Tools;
 
 $app = new Application();
 

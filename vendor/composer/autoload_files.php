@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/functions.php',
+    '185c4e929cdca231b7544ab54e07fde3' => $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/functions.php',
 );

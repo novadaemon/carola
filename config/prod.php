@@ -9,6 +9,6 @@ $app['twig.options'] = array('cache' => __DIR__.'/../var/cache/twig');
 $app['db.options'] =  array(
 	'dsn' => 'mysql:host=localhost;dbname=carola',
 	'user' => 'root',
-	'pass' => 'Cobra3000-'
+	'pass' => ''
 );
 

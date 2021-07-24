@@ -1,6 +1,6 @@
 <?php
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // Controladores relacionados con la parte de administración del sitio web

@@ -1,4 +1,6 @@
 <?php
+
+namespace App;
 /**
  * DatabaseHandler
  *  
@@ -10,7 +12,7 @@
  * @version Git: $Id$
  * 
  */
-class DatabaseHandler extends PDO {
+class DatabaseHandler extends \PDO {
   
          
         /**
@@ -163,7 +165,7 @@ class DatabaseHandler extends PDO {
          public function getFtp($id){
 
             $db = $this->prepare("SELECT * FROM ftps WHERE id = :id");
-            $db->bindParam(':id', $id, PDO::PARAM_INT);
+            $db->bindParam(':id', $id, \PDO::PARAM_INT);
             $db->execute();
 
             return $db->fetchAll();
@@ -178,7 +180,7 @@ class DatabaseHandler extends PDO {
          public function getFtpByIp($ip){
 
             $db = $this->prepare("SELECT * FROM ftps WHERE direccion_ip = :ip");
-            $db->bindParam(':ip', $ip, PDO::PARAM_STR);
+            $db->bindParam(':ip', $ip, \PDO::PARAM_STR);
             $db->execute();
 
             return $db->fetchAll();
@@ -242,7 +244,7 @@ class DatabaseHandler extends PDO {
             try{
                 
                 $db = $this->prepare("DELETE from ftps WHERE id = ?");
-                $db->bindParam(1, $id, PDO::PARAM_INT);
+                $db->bindParam(1, $id, \PDO::PARAM_INT);
                 $db->execute();
                 
                 return $db->errorInfo();   
@@ -304,7 +306,7 @@ class DatabaseHandler extends PDO {
             try{
                 
                 $db = $this->prepare("DELETE from ftptree WHERE idftp = ?");
-                $db->bindParam(1, $ftp_id, PDO::PARAM_INT);
+                $db->bindParam(1, $ftp_id, \PDO::PARAM_INT);
                 $db->execute();
                 
                 if($db->errorInfo() == '00000') return true;

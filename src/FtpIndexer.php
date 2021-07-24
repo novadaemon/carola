@@ -1,4 +1,7 @@
 <?php
+
+namespace App;
+
 /**
  * FtpIndexer
  *  
@@ -11,7 +14,7 @@
  * 
  */
 
-use \DatabaseHandler;
+use App\DatabaseHandler;
 
 class FtpIndexer{
 
@@ -68,6 +71,7 @@ class FtpIndexer{
 			 */
 			$ftp = $this->dbHandler->getFtp($ftp_id);
 
+
 			/**
 			 * No realizar la acción si el ftp se está indexando
 			 */
@@ -110,7 +114,7 @@ class FtpIndexer{
 					//Cerrar la conexión con el ftp
 					ftp_close($this->cnx);
 
-					$estado = count($this->error) == 0 ? 'Indexado' : 'Parcialmente indexado';
+					$estado = $this->error == null ? 'Indexado' : 'Parcialmente indexado';
 
 					//Setear el estado en el ftp
 					$this->dbHandler->updateFtp(array('status' => $estado), $ftp_id);
@@ -166,10 +170,9 @@ class FtpIndexer{
 	 */
 	private function connect($ftp)
 	{
-
 		if($this->cnx = ftp_connect($ftp,21,30)) return $this->cnx;
-		
-		throw new Exception("Error al conectarse al ftp", 1);
+
+		throw new \Exception("Error al conectarse al ftp", 1);
 
 	}
 
@@ -185,18 +188,18 @@ class FtpIndexer{
 	/**
 	 * Loguearse en el ftp
 	 * @param  [type] $ftp  [description]
-	 * @param  [type] $user [description]
-	 * @param  [type] $pass [description]
-	 * @return [type]       [description]
+	 * @param  string $user [description]
+	 * @param  string $pass [description]
+	 * @return string [description]
 	 */
 	private function login($ftp, $user, $pass){
 		try{
 
 			$cnx = $this->connect($ftp);
 
-			if($login = @ftp_login($cnx,$user,$pass)) return $login;
+			if($login = ftp_login($cnx,$user,$pass)) return $login;
 
-			throw new Exception("No se pudo acceder al ftp con las credenciales suministradas.", 1);
+			throw new \Exception("No se pudo acceder al ftp con las credenciales suministradas.", 1);
 
 		}catch(\Exception $e){ throw $e; }
 	}
@@ -221,9 +224,9 @@ class FtpIndexer{
             	array_splice($array, 0, 8);
         		$item['name'] = implode(" ", $array) ;	
 
-            	if($chunks[0]{0} === 'd' && $item['name'] != "." && $item['name'] != ".." ){
+            	if($chunks[0][0] === 'd' && $item['name'] != "." && $item['name'] != ".." ){
             		$this->listDetails($cnx, $directory."/".$item['name'], $profundidad + 1, $ftp_id);
-            	}else if($chunks[0]{0} === '-'){
+            	}else if($chunks[0][0] === '-'){
             		
             		list($i['rights'], $i['number'], $i['user'], $i['group'], $i['size'], $i['month'], $i['day'], $i['time']) = $chunks;
             		

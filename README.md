@@ -11,6 +11,8 @@ Configurar los parámetros de conexión en el archivo `config/prod.php`.
 
 ## Instalación ##
 
+*Debes tener instalada la extension ftp en tu php*
+
 Configurar un virtual host o alias apuntando a la carpeta `web`.
 
 Para poder usar urls limpias debe activarse `mod_rewrite`.
@@ -129,4 +131,6 @@ Las credenciales para acceder a la parte de administración son:
 	)
 ```
 
+## Screenshot
 
+![screenshot](screenshot.png)
