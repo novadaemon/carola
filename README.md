@@ -1,7 +1,7 @@
 Indexador de ftps Carola 
 ========================
 
-Indexador del contenido de los ftps realizado con el microframework Silex.
+Indexador del contenido de los ftps realizado con el microframework Silex para la red SNET.
 
 ## Configuración de la base de datos ##
 
