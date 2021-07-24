@@ -41,7 +41,7 @@ Ej.:
 
 ## Backend o parte de administración ##
 
-Las credenciasles para acceder a la parte de administración son:
+Las credenciales para acceder a la parte de administración son:
 
 * **usuario:** admin
 * **password:** 1234
