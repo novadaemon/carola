@@ -131,6 +131,8 @@ Las credenciales para acceder a la parte de administración son:
 	)
 ```
 
-## Screenshot
+## Screenshots
 
-![screenshot](screenshot.png)
+![screenshot1](screenshot_1.png)
+
+![screenshot2](screenshot_2.png)
